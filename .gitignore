@@ -2,12 +2,6 @@
 /captures
 /.idea
 
-#built application files
-*.apk
-
-# files for the dex VM
-*.dex
-
 # generated files
 bin/
 gen/
