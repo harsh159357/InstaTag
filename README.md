@@ -1,4 +1,4 @@
-# InstagramTagView
+# InstaTag
 
 License
 -------
