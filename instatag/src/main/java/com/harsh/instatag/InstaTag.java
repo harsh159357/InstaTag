@@ -41,7 +41,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    public void initViewWithId(Context context) {
+    private void initViewWithId(Context context) {
         instaContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.insta_tag_root, this);
@@ -50,7 +50,7 @@ public class InstaTag extends RelativeLayout {
         instaRoot.setOnTouchListener(instaTagOnTouchListener);
     }
 
-    public void initView(AttributeSet attrs, Context context) {
+    private void initView(AttributeSet attrs, Context context) {
         instaContext = context;
         TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs,
                 R.styleable.InstaTag, 0, 0);
@@ -78,7 +78,7 @@ public class InstaTag extends RelativeLayout {
         }
     };
 
-    Runnable setInstaRootHeightWidth = new Runnable() {
+    private Runnable setInstaRootHeightWidth = new Runnable() {
         @Override
         public void run() {
             instaRootWidth = instaRoot.getWidth();

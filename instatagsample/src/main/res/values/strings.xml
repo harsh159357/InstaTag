@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">InstaTag</string>
+    <string name="tag_a_photo">Tag a photo</string>
+    <string name="see_tagged_photos">See tagged photos</string>
+    <string name="tag_photo">TAG PHOTO</string>
+    <string name="select_someone_to_be_tagged">Select someone to be tagged</string>
+    <string name="tap_photo_to_tag_someone">Tap photo to tag someone</string>
+    <string name="harsh_sharma">Harsh Sharma</string>
+    <string name="hsharma">hsharma</string>
 </resources>
