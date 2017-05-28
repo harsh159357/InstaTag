@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,7 +11,7 @@
         android:background="#DFDFE1"
         android:orientation="horizontal">
 
-        <com.harsh.instatag.SquareImageView
+        <com.harsh.instatag.InstaTagImageView
             android:id="@+id/get_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,7 +30,7 @@
             android:textColor="@android:color/black"
             android:textSize="22sp" />
 
-        <com.harsh.instatag.SquareImageView
+        <com.harsh.instatag.InstaTagImageView
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -70,7 +69,7 @@
             android:layout_weight="3"
             android:background="@null"
             android:gravity="center"
-            android:text="CANCEL"
+            android:text="@string/cancel"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -85,17 +84,16 @@
             android:layout_height="match_parent">
 
 
-            <com.harsh.instatag.SquareImageView
-                android:id="@+id/photo_to_be_tagged"
+            <com.harsh.instatag.InstaTag
+                android:id="@+id/insta_tag"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tap_photo_to_tag_someone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/photo_to_be_tagged"
+                android:layout_below="@id/insta_tag"
                 android:layout_gravity="bottom"
                 android:background="#DFDFE1"
                 android:gravity="center"
@@ -103,12 +101,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="normal" />
-
-            <RelativeLayout
-                android:id="@+id/rootLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/tap_photo_to_tag_someone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_some_one_to_be_tagged"

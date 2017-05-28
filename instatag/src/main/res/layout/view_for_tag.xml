@@ -45,7 +45,7 @@
                 android:textColor="#FFF"
                 android:textSize="@dimen/sp14" />
 
-            <com.harsh.instatag.SquareImageView
+            <com.harsh.instatag.InstaTagImageView
                 android:id="@+id/remove_tag_image_view"
                 android:layout_width="@dimen/dp15"
                 android:layout_height="@dimen/dp15"

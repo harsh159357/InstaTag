@@ -19,6 +19,7 @@ public class InstaTag extends RelativeLayout {
     private boolean isInstaRootIsInTouch = true;
     private ViewGroup instaRoot;
     private Context instaContext;
+    private InstaTagImageView instaTagImageView;
 
     interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
@@ -46,6 +47,7 @@ public class InstaTag extends RelativeLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.insta_tag_root, this);
         instaRoot = (ViewGroup) findViewById(R.id.insta_tag_root);
+        instaTagImageView = (InstaTagImageView) findViewById(R.id.insta_tag_image_view);
         instaRoot.post(setInstaRootHeightWidth);
         instaRoot.setOnTouchListener(instaTagOnTouchListener);
     }
@@ -250,5 +252,8 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
+    public InstaTagImageView getInstaTagImageView() {
+        return instaTagImageView;
+    }
 }
 
