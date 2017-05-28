@@ -3,6 +3,8 @@ package com.harsh.instatag;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,6 +50,7 @@ public class InstaTag extends RelativeLayout {
         inflater.inflate(R.layout.insta_tag_root, this);
         instaRoot = (ViewGroup) findViewById(R.id.insta_tag_root);
         instaTagImageView = (InstaTagImageView) findViewById(R.id.insta_tag_image_view);
+        setLayoutParamsToBeSetForRootLayout(context);
         instaRoot.post(setInstaRootHeightWidth);
         instaRoot.setOnTouchListener(instaTagOnTouchListener);
     }
@@ -254,6 +257,17 @@ public class InstaTag extends RelativeLayout {
 
     public InstaTagImageView getInstaTagImageView() {
         return instaTagImageView;
+    }
+
+    private void setLayoutParamsToBeSetForRootLayout(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+//        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int rootLayoutHeightWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpWidth, getResources().getDisplayMetrics());
+        ViewGroup.LayoutParams params = instaRoot.getLayoutParams();
+        params.height = rootLayoutHeightWidth;
+        params.width = rootLayoutHeightWidth;
+        instaRoot.setLayoutParams(params);
     }
 }
 
