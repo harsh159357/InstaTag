@@ -1,78 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="horizontal">
-
-    <LinearLayout
-        android:id="@+id/carrot_left"
-        android:layout_width="@dimen/dp22"
-        android:layout_height="@dimen/dp20"
-        android:background="@drawable/insta_tag_shape_carrot_left"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="invisible" />
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/carrot_top"
+            android:id="@+id/carrot_left"
             android:layout_width="@dimen/dp22"
             android:layout_height="@dimen/dp20"
-            android:layout_gravity="center"
-            android:background="@drawable/insta_tag_shape_carrot_top"
+            android:background="@drawable/insta_tag_shape_carrot_left"
             android:gravity="center"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/insta_tag_shape_tag_text"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:orientation="vertical">
 
-            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/tag_text_view"
+            <LinearLayout
+                android:id="@+id/carrot_top"
+                android:layout_width="@dimen/dp22"
+                android:layout_height="@dimen/dp20"
+                android:layout_gravity="center"
+                android:background="@drawable/insta_tag_shape_carrot_top"
+                android:gravity="center"
+                android:orientation="horizontal" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/insta_tag_shape_tag_text"
                 android:gravity="center"
-                android:text="@string/tagging_is_my_life"
-                android:textColor="#FFF"
-                android:textSize="@dimen/sp14" />
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-            <com.harsh.instatag.InstaTagImageView
-                android:id="@+id/remove_tag_image_view"
-                android:layout_width="@dimen/dp15"
-                android:layout_height="@dimen/dp15"
-                android:layout_marginLeft="@dimen/dp5"
-                android:background="@drawable/insta_tag_ic_remove_tag"
-                android:visibility="gone" />
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tag_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/tagging_is_my_life"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/sp14" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/carrot_bottom"
+                android:layout_width="@dimen/dp22"
+                android:layout_height="@dimen/dp20"
+                android:layout_gravity="center"
+                android:background="@drawable/insta_tag_shape_carrot_bottom"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="invisible" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/carrot_bottom"
+            android:id="@+id/carrot_right"
             android:layout_width="@dimen/dp22"
             android:layout_height="@dimen/dp20"
-            android:layout_gravity="center"
-            android:background="@drawable/insta_tag_shape_carrot_bottom"
+            android:background="@drawable/insta_tag_shape_carrot_right"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="invisible" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/carrot_right"
-        android:layout_width="@dimen/dp22"
-        android:layout_height="@dimen/dp20"
-        android:background="@drawable/insta_tag_shape_carrot_right"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="invisible" />
-
-</LinearLayout>
+    <com.harsh.instatag.InstaTagImageView
+        android:id="@+id/remove_tag_image_view"
+        android:layout_width="@dimen/dp18"
+        android:layout_height="@dimen/dp18"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginBottom="@dimen/dp15"
+        android:layout_marginRight="@dimen/dp12"
+        android:background="@drawable/insta_tag_ic_remove_tag"
+        android:visibility="gone" />
+</FrameLayout>
