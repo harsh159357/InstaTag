@@ -97,7 +97,7 @@
                 android:layout_gravity="bottom"
                 android:background="#DFDFE1"
                 android:gravity="center"
-                android:text="@string/tap_photo_to_tag_someone"
+                android:text="@string/tap_photo_tag_someone_drag_to_move_or_tap_to_delete"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="normal" />
