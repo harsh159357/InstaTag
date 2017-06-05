@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ public class InstaTag extends RelativeLayout {
     private ViewGroup instaRoot;
     private Context instaContext;
     private InstaTagImageView instaTagImageView;
+    private GestureDetector gestureDetector;
 
     interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
@@ -53,6 +55,7 @@ public class InstaTag extends RelativeLayout {
         setLayoutParamsToBeSetForRootLayout(context);
         instaRoot.post(setInstaRootHeightWidth);
         instaRoot.setOnTouchListener(instaTagOnTouchListener);
+        gestureDetector = new GestureDetector(instaRoot.getContext(), gestureDetectionForPhotoTaggingListener);
     }
 
     private void initView(AttributeSet attrs, Context context) {
@@ -66,20 +69,7 @@ public class InstaTag extends RelativeLayout {
     private OnTouchListener instaTagOnTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (isInstaRootIsInTouch) {
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                    case MotionEvent.ACTION_MOVE:
-                    case MotionEvent.ACTION_UP:
-                }
-                addTagView(x, y);
-            } else {
-                hideRemoveButtonFromAllTagView();
-                isInstaRootIsInTouch = true;
-            }
-            return false;
+            return gestureDetector.onTouchEvent(event);
         }
     };
 
@@ -269,5 +259,116 @@ public class InstaTag extends RelativeLayout {
         params.width = rootLayoutHeightWidth;
         instaRoot.setLayoutParams(params);
     }
+
+    GestureDetectionForPhotoTaggingListener gestureDetectionForPhotoTaggingListener = new GestureDetectionForPhotoTaggingListener() {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+/*
+            Log.d("Gesture ", " onDown");
+*/
+            return true;
+        }
+
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+/*
+            Log.d("Gesture ", " onSingleTapConfirmed");
+*/
+            if (isInstaRootIsInTouch) {
+                int x = (int) e.getX();
+                int y = (int) e.getY();
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_MOVE:
+                    case MotionEvent.ACTION_UP:
+                }
+                addTagView(x, y);
+            } else {
+                hideRemoveButtonFromAllTagView();
+                isInstaRootIsInTouch = true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+/*
+            Log.d("Gesture ", " onSingleTapUp");
+*/
+            return true;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+/*
+            Log.d("Gesture ", " onShowPress");
+*/
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+/*
+            Log.d("Gesture ", " onDoubleTap");
+*/
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e) {
+/*
+            Log.d("Gesture ", " onDoubleTapEvent");
+*/
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+/*
+            Log.d("Gesture ", " onLongPress");
+*/
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+
+/*
+            Log.d("Gesture ", " onScroll");
+            if (e1.getY() < e2.getY()) {
+                Log.d("Gesture ", " Scroll Down");
+            }
+            if (e1.getY() > e2.getY()) {
+                Log.d("Gesture ", " Scroll Up");
+            }
+*/
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+/*
+            if (e1.getX() < e2.getX()) {
+                Log.d("Gesture ", "Left to Right swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
+            }
+            if (e1.getX() > e2.getX()) {
+                Log.d("Gesture ", "Right to Left swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
+            }
+            if (e1.getY() < e2.getY()) {
+                Log.d("Gesture ", "Up to Down swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityY) + " pixels/second");
+            }
+            if (e1.getY() > e2.getY()) {
+                Log.d("Gesture ", "Down to Up swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityY) + " pixels/second");
+            }
+*/
+            return true;
+
+        }
+    };
+
 }
 
