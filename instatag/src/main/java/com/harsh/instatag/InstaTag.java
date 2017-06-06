@@ -24,12 +24,17 @@ public class InstaTag extends RelativeLayout {
     private Context instaContext;
     private InstaTagImageView instaTagImageView;
     private GestureDetector gestureDetector;
+    private ImageToBeTaggedEvent imageToBeTaggedEvent;
 
-    interface InstaConstants {
+    public interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
         String CARROT_LEFT = "CARROT_LEFT";
         String CARROT_RIGHT = "CARROT_RIGHT";
         String CARROT_BOTTOM = "CARROT_BOTTOM";
+    }
+
+    public interface ImageToBeTaggedEvent {
+        void singleTapConfirmedAndInstaRootIsInTouch();
     }
 
     public InstaTag(Context context) {
@@ -277,6 +282,9 @@ public class InstaTag extends RelativeLayout {
             Log.d("Gesture ", " onSingleTapConfirmed");
 */
             if (isInstaRootIsInTouch) {
+                if (imageToBeTaggedEvent != null) {
+                    imageToBeTaggedEvent.singleTapConfirmedAndInstaRootIsInTouch();
+                }
                 int x = (int) e.getX();
                 int y = (int) e.getY();
                 switch (e.getAction()) {
@@ -370,5 +378,10 @@ public class InstaTag extends RelativeLayout {
         }
     };
 
+    public void setImageToBeTaggedEvent(ImageToBeTaggedEvent imageToBeTaggedEvent) {
+        if (this.imageToBeTaggedEvent == null) {
+            this.imageToBeTaggedEvent = imageToBeTaggedEvent;
+        }
+    }
 }
 
