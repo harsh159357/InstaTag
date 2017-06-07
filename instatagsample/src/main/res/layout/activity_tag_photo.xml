@@ -55,11 +55,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:enabled="false"
             android:gravity="left|center_vertical"
             android:hint="@string/select_someone_to_be_tagged"
             android:padding="10dp"
-            android:textColor="#DFDFE1"
+            android:textColor="@android:color/black"
             android:textSize="18sp" />
 
         <TextView

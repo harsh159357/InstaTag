@@ -34,7 +34,7 @@ public class InstaTag extends RelativeLayout {
     }
 
     public interface ImageToBeTaggedEvent {
-        void singleTapConfirmedAndInstaRootIsInTouch();
+        void singleTapConfirmedAndInstaRootIsInTouch(int x, int y);
     }
 
     public InstaTag(Context context) {
@@ -86,11 +86,12 @@ public class InstaTag extends RelativeLayout {
         }
     };
 
-    private void addTagView(int x, int y) {
+    public void addTagView(int x, int y, String someStringForTagName) {
         LayoutInflater layoutInflater = LayoutInflater.from(instaContext);
         final View tagView = layoutInflater.inflate(R.layout.view_for_tag, instaRoot, false);
         final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
         final ImageView removeTagImageView = (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
+        tagTextView.setText(someStringForTagName);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(x - tagTextView.length() * 8, y - tagTextView.length() * 2, 0, 0);
         tagView.setLayoutParams(layoutParams);
@@ -282,9 +283,6 @@ public class InstaTag extends RelativeLayout {
             Log.d("Gesture ", " onSingleTapConfirmed");
 */
             if (isInstaRootIsInTouch) {
-                if (imageToBeTaggedEvent != null) {
-                    imageToBeTaggedEvent.singleTapConfirmedAndInstaRootIsInTouch();
-                }
                 int x = (int) e.getX();
                 int y = (int) e.getY();
                 switch (e.getAction()) {
@@ -292,7 +290,10 @@ public class InstaTag extends RelativeLayout {
                     case MotionEvent.ACTION_MOVE:
                     case MotionEvent.ACTION_UP:
                 }
-                addTagView(x, y);
+//                addTagView(x, y, null);
+                if (imageToBeTaggedEvent != null) {
+                    imageToBeTaggedEvent.singleTapConfirmedAndInstaRootIsInTouch(x, y);
+                }
             } else {
                 hideRemoveButtonFromAllTagView();
                 isInstaRootIsInTouch = true;

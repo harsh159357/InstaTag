@@ -21,6 +21,7 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTa
     private RecyclerView recyclerViewSomeOneToBeTagged;
     private LinearLayout headerSomeOneToBeTagged, headerSearchSomeOne;
     private TextView tapPhotoToTagSomeOneTextView;
+    private int addTagInX, addTagInY;
 
 
     @Override
@@ -57,10 +58,11 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTa
     }
 
     @Override
-    public void onSomeOneToBeTaggedClick(SomeOne someOne, int position) {
+    public void onSomeOneToBeTaggedClick(final SomeOne someOne, int position) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                instaTag.addTagView(addTagInX, addTagInY, someOne.getUserName());
                 recyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
                 tapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
                 headerSearchSomeOne.setVisibility(View.GONE);
@@ -88,10 +90,12 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTa
 
     InstaTag.ImageToBeTaggedEvent imageToBeTaggedEvent = new InstaTag.ImageToBeTaggedEvent() {
         @Override
-        public void singleTapConfirmedAndInstaRootIsInTouch() {
+        public void singleTapConfirmedAndInstaRootIsInTouch(final int x, final int y) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    addTagInX = x;
+                    addTagInY = y;
                     recyclerViewSomeOneToBeTagged.setVisibility(View.VISIBLE);
                     headerSomeOneToBeTagged.setVisibility(View.GONE);
                     tapPhotoToTagSomeOneTextView.setVisibility(View.GONE);
