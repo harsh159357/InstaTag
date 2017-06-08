@@ -81,6 +81,6 @@
         android:layout_gravity="center_vertical|end"
         android:layout_marginBottom="@dimen/dp15"
         android:layout_marginRight="@dimen/dp12"
-        android:background="@drawable/insta_tag_ic_remove_tag"
+        android:background="@drawable/ic_remove_tag"
         android:visibility="gone" />
 </FrameLayout>
