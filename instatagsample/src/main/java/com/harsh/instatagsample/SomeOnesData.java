@@ -56,4 +56,17 @@ public class SomeOnesData {
         return someOne;
     }
 
+    public static ArrayList<SomeOne> getFilteredUser(String searchString) {
+        ArrayList<SomeOne> filteredUser = new ArrayList<>();
+        for (SomeOne someOne : someOneArrayList) {
+            if (someOne.getFullName().contains(searchString) ||
+                    someOne.getUserName().contains(searchString)) {
+                filteredUser.add(someOne);
+            }
+        }
+        if (filteredUser.isEmpty()) {
+            filteredUser.add(new SomeOne("No Result Found", "No Result Found", "No Result Found"));
+        }
+        return filteredUser;
+    }
 }

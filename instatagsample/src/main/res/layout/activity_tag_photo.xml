@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="left|center_vertical"
-            android:hint="@string/select_someone_to_be_tagged"
+            android:hint="@string/search_for_some_one"
             android:padding="10dp"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
@@ -105,6 +105,7 @@
                 android:id="@+id/rv_some_one_to_be_tagged"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#EEFFFFFF"
                 android:visibility="gone" />
 
         </RelativeLayout>
