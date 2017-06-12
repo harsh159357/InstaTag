@@ -1,4 +1,4 @@
-package com.harsh.instatagsample;
+package com.harsh.instatag;
 
 import java.io.Serializable;
 

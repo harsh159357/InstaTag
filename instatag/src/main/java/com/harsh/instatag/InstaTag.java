@@ -404,5 +404,14 @@ public class InstaTag extends RelativeLayout {
         return userFound;
     }
 
+    private int getX(Double x) {
+        return (int) ((instaRootWidth * x) / 100);
+    }
+
+    private int getY(Double x) {
+        return (int) ((instaRootHeight * x) / 100);
+    }
+
+
 }
 

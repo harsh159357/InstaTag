@@ -69,4 +69,16 @@ public class SomeOnesData {
         }
         return filteredUser;
     }
+
+    public static SomeOne giveSomeOne(String someOneUserName) {
+        SomeOne someOne = null;
+        for (int i = 0; i < someOneArrayList.size(); i++) {
+            if (someOneUserName.equals(someOneArrayList.get(i).getUserName())) {
+                someOne = someOneArrayList.get(i);
+                break;
+            }
+        }
+        return someOne;
+    }
+
 }
