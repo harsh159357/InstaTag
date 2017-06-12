@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -87,74 +88,78 @@ public class InstaTag extends RelativeLayout {
     };
 
     public void addTagView(int x, int y, String someStringForTagName) {
-        LayoutInflater layoutInflater = LayoutInflater.from(instaContext);
-        final View tagView = layoutInflater.inflate(R.layout.view_for_tag, instaRoot, false);
-        final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
-        final ImageView removeTagImageView = (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
-        tagTextView.setText(someStringForTagName);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(x - tagTextView.length() * 8, y - tagTextView.length() * 2, 0, 0);
-        tagView.setLayoutParams(layoutParams);
-        instaTagList.add(tagView);
-        instaRoot.addView(tagView);
-        removeTagImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                instaTagList.remove(tagView);
-                instaRoot.removeView(tagView);
-            }
-        });
-        tagView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(final View view, MotionEvent event) {
-                isInstaRootIsInTouch = false;
-                final int X = (int) event.getRawX();
-                final int Y = (int) event.getRawY();
-                int pointerCount = event.getPointerCount();
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_DOWN:
-                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                        Position_X = X - layoutParams.leftMargin;
-                        Position_Y = Y - layoutParams.topMargin;
-                        removeTagImageView.setVisibility(View.VISIBLE);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                    case MotionEvent.ACTION_POINTER_DOWN:
-                        break;
-                    case MotionEvent.ACTION_POINTER_UP:
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        int width = tagView.getWidth();
-                        int height = tagView.getHeight();
-                        int xCoordinateOfTagView = (int) tagView.getX();
-                        int yCoordinateOfTagView = (int) tagView.getY();
-
-                        if (xCoordinateOfTagView <= width && yCoordinateOfTagView <= height) {
-                            carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
-                            carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else if (xCoordinateOfTagView - width <= 0 && yCoordinateOfTagView + height >= instaRootHeight) {
-                            carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView <= height / 2) {
-                            carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else if (xCoordinateOfTagView <= 0 && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
-                            carrotType(InstaConstants.CARROT_LEFT, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView - height <= 0) {
-                            carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
-                            carrotType(InstaConstants.CARROT_RIGHT, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
-                            carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        } else {
-                            carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                        }
-                        break;
+        if (userNotTaggedYet(someStringForTagName)) {
+            LayoutInflater layoutInflater = LayoutInflater.from(instaContext);
+            final View tagView = layoutInflater.inflate(R.layout.view_for_tag, instaRoot, false);
+            final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
+            final ImageView removeTagImageView = (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
+            tagTextView.setText(someStringForTagName);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(x - tagTextView.length() * 8, y - tagTextView.length() * 2, 0, 0);
+            tagView.setLayoutParams(layoutParams);
+            instaTagList.add(tagView);
+            instaRoot.addView(tagView);
+            removeTagImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    instaTagList.remove(tagView);
+                    instaRoot.removeView(tagView);
                 }
-                instaRoot.invalidate();
-                return true;
-            }
-        });
+            });
+            tagView.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(final View view, MotionEvent event) {
+                    isInstaRootIsInTouch = false;
+                    final int X = (int) event.getRawX();
+                    final int Y = (int) event.getRawY();
+                    int pointerCount = event.getPointerCount();
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_DOWN:
+                            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                            Position_X = X - layoutParams.leftMargin;
+                            Position_Y = Y - layoutParams.topMargin;
+                            removeTagImageView.setVisibility(View.VISIBLE);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            break;
+                        case MotionEvent.ACTION_POINTER_DOWN:
+                            break;
+                        case MotionEvent.ACTION_POINTER_UP:
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            int width = tagView.getWidth();
+                            int height = tagView.getHeight();
+                            int xCoordinateOfTagView = (int) tagView.getX();
+                            int yCoordinateOfTagView = (int) tagView.getY();
+
+                            if (xCoordinateOfTagView <= width && yCoordinateOfTagView <= height) {
+                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
+                                carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else if (xCoordinateOfTagView - width <= 0 && yCoordinateOfTagView + height >= instaRootHeight) {
+                                carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView <= height / 2) {
+                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else if (xCoordinateOfTagView <= 0 && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
+                                carrotType(InstaConstants.CARROT_LEFT, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView - height <= 0) {
+                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
+                                carrotType(InstaConstants.CARROT_RIGHT, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
+                                carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            } else {
+                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                            }
+                            break;
+                    }
+                    instaRoot.invalidate();
+                    return true;
+                }
+            });
+        } else {
+            Toast.makeText(instaContext, "This user is already tagged", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private static void setCarrotVisibility(View view, String carrotType) {
@@ -384,5 +389,20 @@ public class InstaTag extends RelativeLayout {
             this.imageToBeTaggedEvent = imageToBeTaggedEvent;
         }
     }
+
+    private boolean userNotTaggedYet(String userName) {
+        boolean userFound = true;
+        if (!instaTagList.isEmpty()) {
+            for (View user : instaTagList) {
+                if (((TextView) user.findViewById(R.id.tag_text_view)).getText().toString().equals(userName)) {
+                    userFound = false;
+                }
+            }
+        } else {
+            userFound = true;
+        }
+        return userFound;
+    }
+
 }
 
