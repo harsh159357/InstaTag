@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 public class InstaActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +27,7 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(photoToBeTaggedIntent, CHOOSE_A_PHOTO_TO_BE_TAGGED);
                 break;
             case R.id.see_tagged_photos:
+                Toast.makeText(this, "This feature not implemented yet but you have tagged " + InstaTagSampleApplication.getInstance().getTaggedPhotos().size() + " photos right now", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

@@ -412,6 +412,44 @@ public class InstaTag extends RelativeLayout {
         return (int) ((instaRootHeight * x) / 100);
     }
 
+    public ArrayList<UserToBeTagged> getListOfUserToBeTagged() {
+        ArrayList<UserToBeTagged> userToBeTaggedArrayList = new ArrayList<>();
+        if (!instaTagList.isEmpty()) {
+            for (int i = 0; i < instaTagList.size(); i++) {
+                View view = instaTagList.get(i);
+                double x = view.getX();
+                x = (x / instaRootWidth) * 100;
+                double y = view.getY();
+                y = (y / instaRootHeight) * 100;
+                userToBeTaggedArrayList.add(new UserToBeTagged(((TextView) view.findViewById(R.id.tag_text_view)).getText().toString(), x, y));
+            }
+        }
+        return userToBeTaggedArrayList;
+    }
+
+    public void addTagViewFromUserToBeTaggedList(ArrayList<UserToBeTagged> userToBeTaggedArrayList) {
+        for (UserToBeTagged userToBeTagged : userToBeTaggedArrayList) {
+            addTagView(getX(userToBeTagged.getX_co_ord()),
+                    getY(userToBeTagged.getY_co_ord()),
+                    userToBeTagged.getUser_unique_id());
+        }
+    }
+
+    public void showTags() {
+        if (!instaTagList.isEmpty()) {
+            for (View view : instaTagList) {
+                view.setVisibility(VISIBLE);
+            }
+        }
+    }
+
+    public void hideTags() {
+        if (!instaTagList.isEmpty()) {
+            for (View view : instaTagList) {
+                view.setVisibility(GONE);
+            }
+        }
+    }
 
 }
 

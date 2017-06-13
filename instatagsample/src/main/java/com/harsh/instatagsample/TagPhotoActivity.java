@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -18,6 +19,7 @@ import com.harsh.instatag.InstaTag;
 import com.harsh.instatag.InstaTagImageView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTaggedAdapterClickListener, View.OnClickListener {
 
@@ -100,6 +102,19 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTa
                 headerSomeOneToBeTagged.setVisibility(View.VISIBLE);
                 break;
             case R.id.done:
+                if (instaTag.getListOfUserToBeTagged().isEmpty()) {
+                    Toast.makeText(this, "Please tag at least one user", Toast.LENGTH_SHORT).show();
+                } else {
+                    ArrayList<TaggedPhoto> taggedPhotoArrayList = InstaTagSampleApplication.getInstance().getTaggedPhotos();
+                    taggedPhotoArrayList.add(
+                            new TaggedPhoto(
+                                    Calendar.getInstance().getTimeInMillis() + "",
+                                    photoToBeTaggedUri.toString(),
+                                    instaTag.getListOfUserToBeTagged()));
+                    InstaTagSampleApplication.getInstance().setTaggedPhotos(taggedPhotoArrayList);
+                    Toast.makeText(this, "Photo tagged successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
                 break;
             case R.id.get_back:
                 finish();
