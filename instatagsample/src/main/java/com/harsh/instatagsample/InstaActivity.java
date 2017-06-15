@@ -33,6 +33,7 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_insta);
         findViewById(R.id.tag_a_photo).setOnClickListener(this);
         findViewById(R.id.see_tagged_photos).setOnClickListener(this);
+        findViewById(R.id.see_some_ones).setOnClickListener(this);
     }
 
     @Override
@@ -44,6 +45,11 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.see_tagged_photos:
                 Toast.makeText(this, "This feature not implemented yet but you have tagged " + InstaTagSampleApplication.getInstance().getTaggedPhotos().size() + " photos right now", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.see_some_ones:
+                Intent intent = new Intent();
+                intent.setClass(InstaActivity.this,SomeOnesActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
