@@ -44,12 +44,18 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(photoToBeTaggedIntent, CHOOSE_A_PHOTO_TO_BE_TAGGED);
                 break;
             case R.id.see_tagged_photos:
-                Toast.makeText(this, "This feature not implemented yet but you have tagged " + InstaTagSampleApplication.getInstance().getTaggedPhotos().size() + " photos right now", Toast.LENGTH_SHORT).show();
+                if (!InstaTagSampleApplication.getInstance().getTaggedPhotos().isEmpty()) {
+                    Intent TaggedPhotoIntent = new Intent();
+                    TaggedPhotoIntent.setClass(InstaActivity.this, TaggedPhotoActivity.class);
+                    startActivity(TaggedPhotoIntent);
+                } else {
+                    Toast.makeText(this, "You have not tagged any photo yet", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.see_some_ones:
-                Intent intent = new Intent();
-                intent.setClass(InstaActivity.this,SomeOnesActivity.class);
-                startActivity(intent);
+                Intent someOnesIntent = new Intent();
+                someOnesIntent.setClass(InstaActivity.this, SomeOnesActivity.class);
+                startActivity(someOnesIntent);
                 break;
             default:
                 break;

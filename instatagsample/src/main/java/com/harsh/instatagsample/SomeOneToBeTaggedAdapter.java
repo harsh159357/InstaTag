@@ -46,7 +46,7 @@ public class SomeOneToBeTaggedAdapter extends RecyclerView.Adapter<SomeOneToBeTa
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.some_one_to_be_tagged_item_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_some_one_to_be_tagged, parent, false);
         return new ViewHolder(view, someOneToBeTaggedAdapterClickListener);
     }
 
