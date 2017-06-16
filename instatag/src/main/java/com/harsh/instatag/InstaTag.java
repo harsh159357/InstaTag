@@ -287,7 +287,7 @@ public class InstaTag extends RelativeLayout {
         instaRoot.setLayoutParams(params);
     }
 
-    GestureDetectionForPhotoTaggingListener gestureDetectionForPhotoTaggingListener = new GestureDetectionForPhotoTaggingListener() {
+    private GestureDetectionForPhotoTaggingListener gestureDetectionForPhotoTaggingListener = new GestureDetectionForPhotoTaggingListener() {
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -420,14 +420,6 @@ public class InstaTag extends RelativeLayout {
         return userFound;
     }
 
-    private int getX(Double x) {
-        return (int) ((instaRootWidth * x) / 100);
-    }
-
-    private int getY(Double x) {
-        return (int) ((instaRootHeight * x) / 100);
-    }
-
     public ArrayList<UserToBeTagged> getListOfUserToBeTagged() {
         ArrayList<UserToBeTagged> userToBeTaggedArrayList = new ArrayList<>();
         if (!instaTagList.isEmpty()) {
@@ -445,8 +437,8 @@ public class InstaTag extends RelativeLayout {
 
     public void addTagViewFromUserToBeTaggedList(ArrayList<UserToBeTagged> userToBeTaggedArrayList) {
         for (UserToBeTagged userToBeTagged : userToBeTaggedArrayList) {
-            addTagView(getX(userToBeTagged.getX_co_ord()),
-                    getY(userToBeTagged.getY_co_ord()),
+            addTagView(getXWhileAddingTag(userToBeTagged.getX_co_ord()),
+                    getYWhileAddingTag(userToBeTagged.getY_co_ord()),
                     userToBeTagged.getUser_unique_id());
         }
     }
@@ -467,5 +459,28 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
+    private int getXWhileAddingTag(Double x) {
+        return (int) ((instaRootWidth * x.intValue()) / 100);
+    }
+
+    private int getYWhileAddingTag(Double y) {
+        return (int) ((instaRootHeight * y.intValue()) / 100);
+    }
+
+    public int getInstaRootWidth() {
+        return instaRootWidth;
+    }
+
+    public void setInstaRootWidth(int instaRootWidth) {
+        this.instaRootWidth = instaRootWidth;
+    }
+
+    public int getInstaRootHeight() {
+        return instaRootHeight;
+    }
+
+    public void setInstaRootHeight(int instaRootHeight) {
+        this.instaRootHeight = instaRootHeight;
+    }
 }
 

@@ -73,10 +73,16 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (viewHolder.getItemViewType()) {
             case VIEW_ITEM_DATA_TYPE_1:
                 TaggedPhotoViewHolder taggedPhotoViewHolder = (TaggedPhotoViewHolder) viewHolder;
+                taggedPhotoViewHolder.instaTagTaggedPhoto.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootWidth(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
+                taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootHeight(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
                 configureTaggedPhotoViewHolder(taggedPhotoViewHolder, position);
                 break;
             default:
                 TaggedPhotoViewHolder defaultViewHolder = (TaggedPhotoViewHolder) viewHolder;
+                defaultViewHolder.instaTagTaggedPhoto.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                defaultViewHolder.instaTagTaggedPhoto.setInstaRootWidth(defaultViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
+                defaultViewHolder.instaTagTaggedPhoto.setInstaRootHeight(defaultViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
                 configureTaggedPhotoViewHolder(defaultViewHolder, position);
                 break;
         }
@@ -91,6 +97,7 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(taggedPhotoViewHolder.instaTagTaggedPhoto.getInstaTagImageView());
+        taggedPhotoViewHolder.instaTagTaggedPhoto.addTagViewFromUserToBeTaggedList(taggedPhoto.getUserToBeTaggeds());
     }
 
     @Override
@@ -106,6 +113,8 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(view);
             this.taggedPhotoAdapterClickListener = taggedPhotoAdapterClickListener;
             instaTagTaggedPhoto = (InstaTag) view.findViewById(R.id.insta_tag_tagged_photo);
+            instaTagTaggedPhoto.setInstaRootWidth(view.getWidth());
+            instaTagTaggedPhoto.setInstaRootHeight(view.getHeight());
         }
 
         @Override
