@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:layout_weight="20"
             android:padding="5dp"
-            android:src="@drawable/go_back" />
+            android:src="@drawable/ic_go_back" />
 
         <TextView
             android:id="@+id/tag_photo"
@@ -53,7 +53,7 @@
             android:layout_gravity="center"
             android:layout_weight="20"
             android:padding="5dp"
-            android:src="@drawable/done" />
+            android:src="@drawable/ic_done" />
 
     </LinearLayout>
 

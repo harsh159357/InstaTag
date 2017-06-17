@@ -65,7 +65,7 @@ public class SomeOneToBeTaggedAdapter extends RecyclerView.Adapter<SomeOneToBeTa
                 .centerCrop()
                 .bitmapTransform(new CropCircleTransformation(context))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.default_avatar_24dp)
+                .placeholder(R.drawable.ic_default_avatar)
                 .into(holder.imgProfile);
 
     }
