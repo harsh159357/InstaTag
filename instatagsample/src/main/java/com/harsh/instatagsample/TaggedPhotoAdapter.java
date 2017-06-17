@@ -36,11 +36,13 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private ArrayList<Object> objectArrayList;
     private Context context;
     private TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener;
+    private ArrayList<String> taggedPhotoTagsVisibilityStatusHelper;
 
     public TaggedPhotoAdapter(ArrayList<Object> objectArrayList, Context context, TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener) {
         this.objectArrayList = objectArrayList;
         this.context = context;
         this.taggedPhotoAdapterClickListener = taggedPhotoAdapterClickListener;
+        this.taggedPhotoTagsVisibilityStatusHelper = new ArrayList<>();
     }
 
     @Override
@@ -78,6 +80,12 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootWidth(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
                 taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootHeight(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
                 configureTaggedPhotoViewHolder(taggedPhotoViewHolder, position);
+                if (taggedPhotoTagsVisibilityStatusHelper.contains(((TaggedPhoto)
+                        objectArrayList.get(taggedPhotoViewHolder.getAdapterPosition())).getId())) {
+                    taggedPhotoViewHolder.instaTagTaggedPhoto.showTags();
+                } else {
+                    taggedPhotoViewHolder.instaTagTaggedPhoto.hideTags();
+                }
                 break;
             default:
                 TaggedPhotoViewHolder defaultViewHolder = (TaggedPhotoViewHolder) viewHolder;
@@ -127,8 +135,14 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     taggedPhotoAdapterClickListener.onTaggedPhotoClick(taggedPhoto, getAdapterPosition());
                     break;
                 case R.id.tag_indicator:
+                    if (!taggedPhotoTagsVisibilityStatusHelper.contains(taggedPhoto.getId())) {
+                        instaTagTaggedPhoto.showTags();
+                        taggedPhotoTagsVisibilityStatusHelper.add(taggedPhoto.getId());
+                    } else {
+                        instaTagTaggedPhoto.hideTags();
+                        taggedPhotoTagsVisibilityStatusHelper.remove(taggedPhoto.getId());
+                    }
                     break;
-
             }
         }
     }
