@@ -14,7 +14,26 @@
   ~ limitations under the License.
   -->
 
-<com.harsh.instatag.InstaTag xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/insta_tag_tagged_photo"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout_tagged_photo"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content">
+
+    <com.harsh.instatag.InstaTag xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/insta_tag_tagged_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:canWeAddTags="false" />
+
+    <ImageView
+        android:id="@+id/tag_indicator"
+        android:layout_width="@dimen/dp40"
+        android:layout_height="@dimen/dp40"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="@dimen/dp25"
+        android:background="@drawable/tag_indicator"
+        tools:ignore="ContentDescription" />
+
+</FrameLayout>

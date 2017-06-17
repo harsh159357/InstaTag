@@ -16,4 +16,6 @@
   -->
 
 <resources>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp25">25dp</dimen>
 </resources>

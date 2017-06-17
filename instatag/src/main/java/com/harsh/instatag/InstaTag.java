@@ -42,6 +42,7 @@ public class InstaTag extends RelativeLayout {
     private InstaTagImageView instaTagImageView;
     private GestureDetector gestureDetector;
     private ImageToBeTaggedEvent imageToBeTaggedEvent;
+    private boolean canWeAddTags;
 
     public interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
@@ -84,6 +85,7 @@ public class InstaTag extends RelativeLayout {
         instaContext = context;
         TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs,
                 R.styleable.InstaTag, 0, 0);
+        canWeAddTags = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_canWeAddTags, false);
         initViewWithId(context);
         obtainStyledAttributes.recycle();
     }
@@ -124,52 +126,54 @@ public class InstaTag extends RelativeLayout {
             });
             tagView.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(final View view, MotionEvent event) {
-                    isInstaRootIsInTouch = false;
-                    final int X = (int) event.getRawX();
-                    final int Y = (int) event.getRawY();
-                    int pointerCount = event.getPointerCount();
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_DOWN:
-                            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                            Position_X = X - layoutParams.leftMargin;
-                            Position_Y = Y - layoutParams.topMargin;
-                            removeTagImageView.setVisibility(View.VISIBLE);
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            break;
-                        case MotionEvent.ACTION_POINTER_DOWN:
-                            break;
-                        case MotionEvent.ACTION_POINTER_UP:
-                            break;
+                    if (canWeAddTags) {
+                        isInstaRootIsInTouch = false;
+                        final int X = (int) event.getRawX();
+                        final int Y = (int) event.getRawY();
+                        int pointerCount = event.getPointerCount();
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_DOWN:
+                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                                Position_X = X - layoutParams.leftMargin;
+                                Position_Y = Y - layoutParams.topMargin;
+                                removeTagImageView.setVisibility(View.VISIBLE);
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                break;
+                            case MotionEvent.ACTION_POINTER_DOWN:
+                                break;
+                            case MotionEvent.ACTION_POINTER_UP:
+                                break;
 
-                        case MotionEvent.ACTION_MOVE:
-                            int width = tagView.getWidth();
-                            int height = tagView.getHeight();
-                            int xCoordinateOfTagView = (int) tagView.getX();
-                            int yCoordinateOfTagView = (int) tagView.getY();
+                            case MotionEvent.ACTION_MOVE:
+                                int width = tagView.getWidth();
+                                int height = tagView.getHeight();
+                                int xCoordinateOfTagView = (int) tagView.getX();
+                                int yCoordinateOfTagView = (int) tagView.getY();
 
-                            if (xCoordinateOfTagView <= width && yCoordinateOfTagView <= height) {
-                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
-                                carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else if (xCoordinateOfTagView - width <= 0 && yCoordinateOfTagView + height >= instaRootHeight) {
-                                carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView <= height / 2) {
-                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else if (xCoordinateOfTagView <= 0 && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
-                                carrotType(InstaConstants.CARROT_LEFT, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView - height <= 0) {
-                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
-                                carrotType(InstaConstants.CARROT_RIGHT, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
-                                carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            } else {
-                                carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
-                            }
-                            break;
+                                if (xCoordinateOfTagView <= width && yCoordinateOfTagView <= height) {
+                                    carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
+                                    carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else if (xCoordinateOfTagView - width <= 0 && yCoordinateOfTagView + height >= instaRootHeight) {
+                                    carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView <= height / 2) {
+                                    carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else if (xCoordinateOfTagView <= 0 && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
+                                    carrotType(InstaConstants.CARROT_LEFT, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView - height <= 0) {
+                                    carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else if (xCoordinateOfTagView + width >= instaRootWidth && yCoordinateOfTagView > height && yCoordinateOfTagView + height < instaRootHeight) {
+                                    carrotType(InstaConstants.CARROT_RIGHT, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else if (xCoordinateOfTagView > width && xCoordinateOfTagView + width < instaRootWidth && yCoordinateOfTagView + height >= instaRootHeight) {
+                                    carrotType(InstaConstants.CARROT_BOTTOM, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                } else {
+                                    carrotType(InstaConstants.CARROT_TOP, tagView, pointerCount, X, Position_X, Y, Position_Y);
+                                }
+                                break;
+                        }
+                        instaRoot.invalidate();
                     }
-                    instaRoot.invalidate();
                     return true;
                 }
             });
@@ -178,7 +182,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private static void setCarrotVisibility(View view, String carrotType) {
+    private void setCarrotVisibility(View view, String carrotType) {
         switch (carrotType) {
             case InstaConstants.CARROT_LEFT:
                 view.findViewById(R.id.carrot_left).setVisibility(View.VISIBLE);
@@ -207,7 +211,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private static void setLayoutParamsForTagView(String carrotType, int pointerCount, int X, int Position_X, int Y, int Position_Y, View view) {
+    private void setLayoutParamsForTagView(String carrotType, int pointerCount, int X, int Position_X, int Y, int Position_Y, View view) {
         RelativeLayout.LayoutParams Params = (RelativeLayout.LayoutParams) view.getLayoutParams();
         if (pointerCount == 1) {
             switch (carrotType) {
@@ -243,7 +247,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private static void carrotType(String carrotType, View tagView, int pointerCount, int X, int Position_X, int Y, int Position_Y) {
+    private void carrotType(String carrotType, View tagView, int pointerCount, int X, int Position_X, int Y, int Position_Y) {
         switch (carrotType) {
             case InstaConstants.CARROT_LEFT:
                 setCarrotVisibility(tagView, InstaConstants.CARROT_LEFT);
@@ -264,7 +268,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private void hideRemoveButtonFromAllTagView() {
+    public void hideRemoveButtonFromAllTagView() {
         if (!instaTagList.isEmpty()) {
             for (View view : instaTagList) {
                 view.findViewById(R.id.remove_tag_image_view).setVisibility(View.GONE);
@@ -303,21 +307,23 @@ public class InstaTag extends RelativeLayout {
 /*
             Log.d("Gesture ", " onSingleTapConfirmed");
 */
-            if (isInstaRootIsInTouch) {
-                int x = (int) e.getX();
-                int y = (int) e.getY();
-                switch (e.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                    case MotionEvent.ACTION_MOVE:
-                    case MotionEvent.ACTION_UP:
-                }
+            if (canWeAddTags) {
+                if (isInstaRootIsInTouch) {
+                    int x = (int) e.getX();
+                    int y = (int) e.getY();
+                    switch (e.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                        case MotionEvent.ACTION_MOVE:
+                        case MotionEvent.ACTION_UP:
+                    }
 //                addTagView(x, y, null);
-                if (imageToBeTaggedEvent != null) {
-                    imageToBeTaggedEvent.singleTapConfirmedAndInstaRootIsInTouch(x, y);
+                    if (imageToBeTaggedEvent != null) {
+                        imageToBeTaggedEvent.singleTapConfirmedAndInstaRootIsInTouch(x, y);
+                    }
+                } else {
+                    hideRemoveButtonFromAllTagView();
+                    isInstaRootIsInTouch = true;
                 }
-            } else {
-                hideRemoveButtonFromAllTagView();
-                isInstaRootIsInTouch = true;
             }
             return false;
         }
@@ -481,6 +487,14 @@ public class InstaTag extends RelativeLayout {
 
     public void setInstaRootHeight(int instaRootHeight) {
         this.instaRootHeight = instaRootHeight;
+    }
+
+    public boolean isCanWeAddTags() {
+        return canWeAddTags;
+    }
+
+    public void setCanWeAddTags(boolean canWeAddTags) {
+        this.canWeAddTags = canWeAddTags;
     }
 }
 

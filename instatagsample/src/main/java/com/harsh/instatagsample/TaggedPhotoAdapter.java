@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -107,14 +108,15 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private class TaggedPhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         InstaTag instaTagTaggedPhoto;
+        ImageView tagIndicator;
         TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener;
 
         TaggedPhotoViewHolder(View view, TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener) {
             super(view);
             this.taggedPhotoAdapterClickListener = taggedPhotoAdapterClickListener;
             instaTagTaggedPhoto = (InstaTag) view.findViewById(R.id.insta_tag_tagged_photo);
-            instaTagTaggedPhoto.setInstaRootWidth(view.getWidth());
-            instaTagTaggedPhoto.setInstaRootHeight(view.getHeight());
+            tagIndicator = (ImageView) view.findViewById(R.id.tag_indicator);
+            tagIndicator.setOnClickListener(this);
         }
 
         @Override
@@ -124,6 +126,9 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 case R.id.insta_tag_tagged_photo:
                     taggedPhotoAdapterClickListener.onTaggedPhotoClick(taggedPhoto, getAdapterPosition());
                     break;
+                case R.id.tag_indicator:
+                    break;
+
             }
         }
     }

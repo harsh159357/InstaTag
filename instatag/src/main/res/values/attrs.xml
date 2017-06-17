@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2017 Harsh Sharma
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,5 +15,7 @@
   -->
 
 <resources>
-    <declare-styleable name="InstaTag"></declare-styleable>
+    <declare-styleable name="InstaTag">
+        <attr name="canWeAddTags" format="boolean" />
+    </declare-styleable>
 </resources>
