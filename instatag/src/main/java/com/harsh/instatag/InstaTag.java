@@ -466,11 +466,11 @@ public class InstaTag extends RelativeLayout {
     }
 
     private int getXWhileAddingTag(Double x) {
-        return (int) ((instaRootWidth * x.intValue()) / 100);
+        return (instaRootWidth * x.intValue()) / 100;
     }
 
     private int getYWhileAddingTag(Double y) {
-        return (int) ((instaRootHeight * y.intValue()) / 100);
+        return (instaRootHeight * y.intValue()) / 100;
     }
 
     public int getInstaRootWidth() {

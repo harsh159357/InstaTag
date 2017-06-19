@@ -37,6 +37,6 @@
         android:id="@+id/see_some_ones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SomOnes" />
+        android:text="@string/somones" />
 
 </LinearLayout>
