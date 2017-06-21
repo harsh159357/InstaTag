@@ -18,6 +18,13 @@ package com.harsh.instatag;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RotateDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -43,12 +50,20 @@ public class InstaTag extends RelativeLayout {
     private GestureDetector gestureDetector;
     private ImageToBeTaggedEvent imageToBeTaggedEvent;
     private boolean canWeAddTags;
+    private int tagTextColor,
+            tagBackgroundColor,
+            carrotTopBackGroundColor,
+            carrotLeftBackGroundColor,
+            carrotRightBackGroundColor,
+            carrotBottomBackGroundColor;
 
     public interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
         String CARROT_LEFT = "CARROT_LEFT";
         String CARROT_RIGHT = "CARROT_RIGHT";
         String CARROT_BOTTOM = "CARROT_BOTTOM";
+        int TAG_COLOR_BACKGROUND_PLUS_CARROTS = 0xFF303F9F;
+        int TAG_TEXT_COLOR = Color.WHITE;
     }
 
     public interface ImageToBeTaggedEvent {
@@ -86,6 +101,12 @@ public class InstaTag extends RelativeLayout {
         TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs,
                 R.styleable.InstaTag, 0, 0);
         canWeAddTags = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_canWeAddTags, false);
+        tagTextColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaTextColor, InstaConstants.TAG_TEXT_COLOR);
+        tagBackgroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaBackgroundColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        carrotTopBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotTopColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        carrotLeftBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotLeftColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        carrotRightBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotRightColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        carrotBottomBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotBottomColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
         initViewWithId(context);
         obtainStyledAttributes.recycle();
     }
@@ -112,6 +133,7 @@ public class InstaTag extends RelativeLayout {
             final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
             final ImageView removeTagImageView = (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
             tagTextView.setText(someStringForTagName);
+            setColorForInstaTag(tagView);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(x - tagTextView.length() * 8, y - tagTextView.length() * 2, 0, 0);
             tagView.setLayoutParams(layoutParams);
@@ -495,6 +517,80 @@ public class InstaTag extends RelativeLayout {
 
     public void setCanWeAddTags(boolean canWeAddTags) {
         this.canWeAddTags = canWeAddTags;
+    }
+
+    public int getTagTextColor() {
+        return tagTextColor;
+    }
+
+    public void setTagTextColor(int tagTextColor) {
+        this.tagTextColor = tagTextColor;
+    }
+
+    public int getTagBackgroundColor() {
+        return tagBackgroundColor;
+    }
+
+    public void setTagBackgroundColor(int tagBackgroundColor) {
+        this.tagBackgroundColor = tagBackgroundColor;
+    }
+
+    public int getCarrotTopBackGroundColor() {
+        return carrotTopBackGroundColor;
+    }
+
+    public void setCarrotTopBackGroundColor(int carrotTopBackGroundColor) {
+        this.carrotTopBackGroundColor = carrotTopBackGroundColor;
+    }
+
+    public int getCarrotLeftBackGroundColor() {
+        return carrotLeftBackGroundColor;
+    }
+
+    public void setCarrotLeftBackGroundColor(int carrotLeftBackGroundColor) {
+        this.carrotLeftBackGroundColor = carrotLeftBackGroundColor;
+    }
+
+    public int getCarrotRightBackGroundColor() {
+        return carrotRightBackGroundColor;
+    }
+
+    public void setCarrotRightBackGroundColor(int carrotRightBackGroundColor) {
+        this.carrotRightBackGroundColor = carrotRightBackGroundColor;
+    }
+
+    public int getCarrotBottomBackGroundColor() {
+        return carrotBottomBackGroundColor;
+    }
+
+    public void setCarrotBottomBackGroundColor(int carrotBottomBackGroundColor) {
+        this.carrotBottomBackGroundColor = carrotBottomBackGroundColor;
+    }
+
+    private void setColorForInstaTag(View tagView) {
+        ((TextView) tagView.findViewById(R.id.tag_text_view)).setTextColor(tagTextColor);
+        setColor((tagView.findViewById(R.id.insta_tag_text_container)).getBackground(), tagBackgroundColor);
+        setColor((tagView.findViewById(R.id.carrot_top)).getBackground(), carrotTopBackGroundColor);
+        setColor((tagView.findViewById(R.id.carrot_left)).getBackground(), carrotLeftBackGroundColor);
+        setColor((tagView.findViewById(R.id.carrot_right)).getBackground(), carrotRightBackGroundColor);
+        setColor((tagView.findViewById(R.id.carrot_bottom)).getBackground(), carrotBottomBackGroundColor);
+    }
+
+    private void setColor(Drawable drawable, int color) {
+
+        if (drawable instanceof ShapeDrawable) {
+            ((ShapeDrawable) drawable).getPaint().setColor(color);
+        } else if (drawable instanceof GradientDrawable) {
+            ((GradientDrawable) drawable).setColor(color);
+        } else if (drawable instanceof ColorDrawable) {
+            ((ColorDrawable) drawable).setColor(color);
+        } else if (drawable instanceof LayerDrawable) {
+            LayerDrawable layerDrawable = (LayerDrawable) drawable;
+            RotateDrawable rotate = (RotateDrawable) layerDrawable.findDrawableByLayerId(R.id.carrot_shape_top);
+            setColor(rotate.getDrawable(), color);
+        } else if (drawable instanceof RotateDrawable) {
+            setColor(((RotateDrawable) drawable).getDrawable(), color);
+        }
     }
 }
 

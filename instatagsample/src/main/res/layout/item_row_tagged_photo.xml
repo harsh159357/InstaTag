@@ -25,7 +25,13 @@
         android:id="@+id/insta_tag_tagged_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:canWeAddTags="false" />
+        app:canWeAddTags="false"
+        app:carrotBottomColor="@color/vermilion"
+        app:carrotLeftColor="@color/yellow"
+        app:carrotRightColor="@color/vanilla"
+        app:carrotTopColor="@color/blue"
+        app:instaBackgroundColor="@color/gray"
+        app:instaTextColor="@android:color/white" />
 
     <ImageView
         android:id="@+id/tag_indicator"

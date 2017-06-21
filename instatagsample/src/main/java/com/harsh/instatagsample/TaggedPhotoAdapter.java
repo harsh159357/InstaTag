@@ -39,7 +39,6 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Context context;
     private TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener;
     private ArrayList<String> taggedPhotoTagsVisibilityStatusHelper;
-    private int lastPosition = -1;
 
     public TaggedPhotoAdapter(ArrayList<Object> objectArrayList, Context context, TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener) {
         this.objectArrayList = objectArrayList;
@@ -97,13 +96,6 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 defaultViewHolder.instaTagTaggedPhoto.setInstaRootHeight(defaultViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
                 configureTaggedPhotoViewHolder(defaultViewHolder, position);
                 break;
-        }
-        if (position > lastPosition) {
-
-            Animation animation = AnimationUtils.loadAnimation(context,
-                    R.anim.sample_recycler_view_anim);
-            viewHolder.itemView.startAnimation(animation);
-            lastPosition = position;
         }
     }
 

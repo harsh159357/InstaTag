@@ -17,5 +17,11 @@
 <resources>
     <declare-styleable name="InstaTag">
         <attr name="canWeAddTags" format="boolean" />
+        <attr name="instaTextColor" format="color" />
+        <attr name="instaBackgroundColor" format="color" />
+        <attr name="carrotTopColor" format="color" />
+        <attr name="carrotLeftColor" format="color" />
+        <attr name="carrotRightColor" format="color" />
+        <attr name="carrotBottomColor" format="color" />
     </declare-styleable>
 </resources>
