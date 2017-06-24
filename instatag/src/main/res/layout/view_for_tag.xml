@@ -31,7 +31,7 @@
             android:background="@drawable/insta_tag_shape_carrot_left"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                 android:background="@drawable/insta_tag_shape_carrot_bottom"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -86,7 +86,7 @@
             android:background="@drawable/insta_tag_shape_carrot_right"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
     </LinearLayout>
 

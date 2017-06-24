@@ -31,7 +31,8 @@
         app:carrotRightColor="@color/vanilla"
         app:carrotTopColor="@color/blue"
         app:instaBackgroundColor="@color/gray"
-        app:instaTextColor="@android:color/white" />
+        app:instaTextColor="@android:color/white"
+        app:showAllCarrots="true" />
 
     <ImageView
         android:id="@+id/tag_indicator"

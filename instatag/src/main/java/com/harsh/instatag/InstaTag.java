@@ -56,6 +56,7 @@ public class InstaTag extends RelativeLayout {
             carrotLeftBackGroundColor,
             carrotRightBackGroundColor,
             carrotBottomBackGroundColor;
+    private boolean showAllCarrots;
 
     public interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
@@ -100,6 +101,7 @@ public class InstaTag extends RelativeLayout {
         instaContext = context;
         TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs,
                 R.styleable.InstaTag, 0, 0);
+        showAllCarrots = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_showAllCarrots, false);
         canWeAddTags = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_canWeAddTags, false);
         tagTextColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaTextColor, InstaConstants.TAG_TEXT_COLOR);
         tagBackgroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaBackgroundColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
@@ -132,6 +134,12 @@ public class InstaTag extends RelativeLayout {
             final View tagView = layoutInflater.inflate(R.layout.view_for_tag, instaRoot, false);
             final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
             final ImageView removeTagImageView = (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
+            if (showAllCarrots) {
+                tagView.findViewById(R.id.carrot_left).setVisibility(View.VISIBLE);
+                tagView.findViewById(R.id.carrot_right).setVisibility(View.VISIBLE);
+                tagView.findViewById(R.id.carrot_top).setVisibility(View.VISIBLE);
+                tagView.findViewById(R.id.carrot_bottom).setVisibility(View.VISIBLE);
+            }
             tagTextView.setText(someStringForTagName);
             setColorForInstaTag(tagView);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -205,31 +213,33 @@ public class InstaTag extends RelativeLayout {
     }
 
     private void setCarrotVisibility(View view, String carrotType) {
-        switch (carrotType) {
-            case InstaConstants.CARROT_LEFT:
-                view.findViewById(R.id.carrot_left).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.carrot_right).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_top).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_bottom).setVisibility(View.INVISIBLE);
-                break;
-            case InstaConstants.CARROT_RIGHT:
-                view.findViewById(R.id.carrot_left).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_right).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.carrot_top).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_bottom).setVisibility(View.INVISIBLE);
-                break;
-            case InstaConstants.CARROT_TOP:
-                view.findViewById(R.id.carrot_left).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_right).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_top).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.carrot_bottom).setVisibility(View.INVISIBLE);
-                break;
-            case InstaConstants.CARROT_BOTTOM:
-                view.findViewById(R.id.carrot_left).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_right).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_top).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.carrot_bottom).setVisibility(View.VISIBLE);
-                break;
+        if (!showAllCarrots) {
+            switch (carrotType) {
+                case InstaConstants.CARROT_LEFT:
+                    view.findViewById(R.id.carrot_left).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.carrot_right).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_top).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_bottom).setVisibility(View.INVISIBLE);
+                    break;
+                case InstaConstants.CARROT_RIGHT:
+                    view.findViewById(R.id.carrot_left).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_right).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.carrot_top).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_bottom).setVisibility(View.INVISIBLE);
+                    break;
+                case InstaConstants.CARROT_TOP:
+                    view.findViewById(R.id.carrot_left).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_right).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_top).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.carrot_bottom).setVisibility(View.INVISIBLE);
+                    break;
+                case InstaConstants.CARROT_BOTTOM:
+                    view.findViewById(R.id.carrot_left).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_right).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_top).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.carrot_bottom).setVisibility(View.VISIBLE);
+                    break;
+            }
         }
     }
 

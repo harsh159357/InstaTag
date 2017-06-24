@@ -23,5 +23,6 @@
         <attr name="carrotLeftColor" format="color" />
         <attr name="carrotRightColor" format="color" />
         <attr name="carrotBottomColor" format="color" />
+        <attr name="showAllCarrots" format="boolean" />
     </declare-styleable>
 </resources>
