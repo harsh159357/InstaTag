@@ -110,6 +110,7 @@
                 app:carrotTopColor="@color/blue"
                 app:instaBackgroundColor="@color/gray"
                 app:instaTextColor="@android:color/white"
+                app:overrideDefaultColor="@color/blue"
                 app:showAllCarrots="false" />
 
             <TextView

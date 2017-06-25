@@ -17,6 +17,7 @@
 <resources>
     <declare-styleable name="InstaTag">
         <attr name="canWeAddTags" format="boolean" />
+        <attr name="overrideDefaultColor" format="color"/>
         <attr name="instaTextColor" format="color" />
         <attr name="instaBackgroundColor" format="color" />
         <attr name="carrotTopColor" format="color" />

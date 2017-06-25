@@ -56,6 +56,7 @@ public class InstaTag extends RelativeLayout {
             carrotLeftBackGroundColor,
             carrotRightBackGroundColor,
             carrotBottomBackGroundColor;
+    private int overrideDefaultColor;
     private boolean showAllCarrots;
 
     public interface InstaConstants {
@@ -104,11 +105,20 @@ public class InstaTag extends RelativeLayout {
         showAllCarrots = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_showAllCarrots, false);
         canWeAddTags = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_canWeAddTags, false);
         tagTextColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaTextColor, InstaConstants.TAG_TEXT_COLOR);
-        tagBackgroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaBackgroundColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
-        carrotTopBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotTopColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
-        carrotLeftBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotLeftColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
-        carrotRightBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotRightColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
-        carrotBottomBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotBottomColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        overrideDefaultColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_overrideDefaultColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        if (overrideDefaultColor == InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS) {
+            tagBackgroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaBackgroundColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+            carrotTopBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotTopColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+            carrotLeftBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotLeftColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+            carrotRightBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotRightColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+            carrotBottomBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotBottomColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        } else {
+            tagBackgroundColor = overrideDefaultColor;
+            carrotTopBackGroundColor = overrideDefaultColor;
+            carrotLeftBackGroundColor = overrideDefaultColor;
+            carrotRightBackGroundColor = overrideDefaultColor;
+            carrotBottomBackGroundColor = overrideDefaultColor;
+        }
         initViewWithId(context);
         obtainStyledAttributes.recycle();
     }
