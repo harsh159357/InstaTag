@@ -25,6 +25,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -34,6 +35,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +60,7 @@ public class InstaTag extends RelativeLayout {
             carrotBottomBackGroundColor;
     private int overrideDefaultColor;
     private boolean showAllCarrots;
+    private Drawable drawable;
 
     public interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
@@ -106,6 +109,7 @@ public class InstaTag extends RelativeLayout {
         canWeAddTags = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_canWeAddTags, false);
         tagTextColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaTextColor, InstaConstants.TAG_TEXT_COLOR);
         overrideDefaultColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_overrideDefaultColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        drawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_tagTextBackground);
         if (overrideDefaultColor == InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS) {
             tagBackgroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaBackgroundColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
             carrotTopBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotTopColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
@@ -144,6 +148,10 @@ public class InstaTag extends RelativeLayout {
             final View tagView = layoutInflater.inflate(R.layout.view_for_tag, instaRoot, false);
             final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
             final ImageView removeTagImageView = (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
+            final LinearLayout textContainer = (LinearLayout) tagView.findViewById(R.id.insta_tag_text_container);
+            if (drawable != null) {
+                ViewCompat.setBackground(textContainer, drawable);
+            }
             if (showAllCarrots) {
                 tagView.findViewById(R.id.carrot_left).setVisibility(View.VISIBLE);
                 tagView.findViewById(R.id.carrot_right).setVisibility(View.VISIBLE);

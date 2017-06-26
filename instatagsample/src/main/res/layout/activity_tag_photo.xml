@@ -111,7 +111,8 @@
                 app:instaBackgroundColor="@color/gray"
                 app:instaTextColor="@android:color/white"
                 app:overrideDefaultColor="@color/blue"
-                app:showAllCarrots="false" />
+                app:showAllCarrots="false"
+                app:tagTextBackground="@drawable/ic_news_blue_gray" />
 
             <TextView
                 android:id="@+id/tap_photo_to_tag_someone"
