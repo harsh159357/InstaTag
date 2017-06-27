@@ -60,7 +60,11 @@ public class InstaTag extends RelativeLayout {
             carrotBottomBackGroundColor;
     private int overrideDefaultColor;
     private boolean showAllCarrots;
-    private Drawable drawable;
+    private Drawable tagTextDrawable,
+            carrotLeftDrawable,
+            carrotRightDrawable,
+            carrotTopDrawable,
+            carrotBottomDrawable;
 
     public interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
@@ -109,7 +113,11 @@ public class InstaTag extends RelativeLayout {
         canWeAddTags = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_canWeAddTags, false);
         tagTextColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaTextColor, InstaConstants.TAG_TEXT_COLOR);
         overrideDefaultColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_overrideDefaultColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
-        drawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_tagTextBackground);
+        tagTextDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_tagTextBackground);
+        carrotLeftDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_carrotLeftBackground);
+        carrotRightDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_carrotRightBackground);
+        carrotTopDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_carrotTopBackground);
+        carrotBottomDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_carrotBottomBackground);
         if (overrideDefaultColor == InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS) {
             tagBackgroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaBackgroundColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
             carrotTopBackGroundColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_carrotTopColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
@@ -149,9 +157,26 @@ public class InstaTag extends RelativeLayout {
             final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
             final ImageView removeTagImageView = (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
             final LinearLayout textContainer = (LinearLayout) tagView.findViewById(R.id.insta_tag_text_container);
-            if (drawable != null) {
-                ViewCompat.setBackground(textContainer, drawable);
+            final LinearLayout carrotLeftContainer = (LinearLayout) tagView.findViewById(R.id.carrot_left);
+            final LinearLayout carrotRightContainer = (LinearLayout) tagView.findViewById(R.id.carrot_right);
+            final LinearLayout carrotTopContainer = (LinearLayout) tagView.findViewById(R.id.carrot_top);
+            final LinearLayout carrotBottomContainer = (LinearLayout) tagView.findViewById(R.id.carrot_bottom);
+            if (tagTextDrawable != null) {
+                ViewCompat.setBackground(textContainer, tagTextDrawable);
             }
+            if (carrotLeftDrawable != null) {
+                ViewCompat.setBackground(carrotLeftContainer, carrotLeftDrawable);
+            }
+            if (carrotRightDrawable != null) {
+                ViewCompat.setBackground(carrotRightContainer, carrotRightDrawable);
+            }
+            if (carrotTopDrawable != null) {
+                ViewCompat.setBackground(carrotTopContainer, carrotTopDrawable);
+            }
+            if (carrotBottomDrawable != null) {
+                ViewCompat.setBackground(carrotBottomContainer, carrotBottomDrawable);
+            }
+
             if (showAllCarrots) {
                 tagView.findViewById(R.id.carrot_left).setVisibility(View.VISIBLE);
                 tagView.findViewById(R.id.carrot_right).setVisibility(View.VISIBLE);
@@ -597,11 +622,21 @@ public class InstaTag extends RelativeLayout {
 
     private void setColorForInstaTag(View tagView) {
         ((TextView) tagView.findViewById(R.id.tag_text_view)).setTextColor(tagTextColor);
-        setColor((tagView.findViewById(R.id.insta_tag_text_container)).getBackground(), tagBackgroundColor);
-        setColor((tagView.findViewById(R.id.carrot_top)).getBackground(), carrotTopBackGroundColor);
-        setColor((tagView.findViewById(R.id.carrot_left)).getBackground(), carrotLeftBackGroundColor);
-        setColor((tagView.findViewById(R.id.carrot_right)).getBackground(), carrotRightBackGroundColor);
-        setColor((tagView.findViewById(R.id.carrot_bottom)).getBackground(), carrotBottomBackGroundColor);
+        if (tagTextDrawable == null) {
+            setColor((tagView.findViewById(R.id.insta_tag_text_container)).getBackground(), tagBackgroundColor);
+        }
+        if (carrotTopDrawable == null) {
+            setColor((tagView.findViewById(R.id.carrot_top)).getBackground(), carrotTopBackGroundColor);
+        }
+        if (carrotLeftDrawable == null) {
+            setColor((tagView.findViewById(R.id.carrot_left)).getBackground(), carrotLeftBackGroundColor);
+        }
+        if (carrotRightDrawable == null) {
+            setColor((tagView.findViewById(R.id.carrot_right)).getBackground(), carrotRightBackGroundColor);
+        }
+        if (carrotBottomDrawable == null) {
+            setColor((tagView.findViewById(R.id.carrot_bottom)).getBackground(), carrotBottomBackGroundColor);
+        }
     }
 
     private void setColor(Drawable drawable, int color) {
