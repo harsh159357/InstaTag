@@ -32,7 +32,7 @@
         app:carrotTopColor="@color/blue"
         app:instaBackgroundColor="@color/gray"
         app:instaTextColor="@android:color/white"
-        app:showAllCarrots="true" />
+        app:showAllCarrots="false" />
 
     <ImageView
         android:id="@+id/tag_indicator"

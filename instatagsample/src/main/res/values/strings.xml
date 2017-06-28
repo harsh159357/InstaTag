@@ -19,8 +19,6 @@
     <string name="tag_a_photo">Tag a photo</string>
     <string name="see_tagged_photos">See tagged photos</string>
     <string name="tag_photo">TAG PHOTO</string>
-    <string name="select_someone_to_be_tagged">Select someone to be tagged</string>
-    <string name="tap_photo_to_tag_someone">Tap photo to tag someone</string>
     <string name="tap_photo_tag_someone_drag_to_move_or_tap_to_delete">Tap photo to tag someone.\nDrag to move, or tap to delete.</string>
     <string name="harsh_sharma">Harsh Sharma</string>
     <string name="hsharma">hsharma</string>

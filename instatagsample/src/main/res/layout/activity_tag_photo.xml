@@ -114,7 +114,7 @@
                 app:carrotTopColor="@color/blue"
                 app:instaBackgroundColor="@color/gray"
                 app:instaTextColor="@android:color/white"
-                app:showAllCarrots="false"
+                app:showAllCarrots="true"
                 app:tagTextBackground="@drawable/ic_news_blue_gray" />
 
             <TextView

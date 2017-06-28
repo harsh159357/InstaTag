@@ -58,7 +58,6 @@ public class InstaTag extends RelativeLayout {
             carrotLeftBackGroundColor,
             carrotRightBackGroundColor,
             carrotBottomBackGroundColor;
-    private int overrideDefaultColor;
     private boolean showAllCarrots;
     private Drawable tagTextDrawable,
             carrotLeftDrawable,
@@ -112,7 +111,7 @@ public class InstaTag extends RelativeLayout {
         showAllCarrots = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_showAllCarrots, false);
         canWeAddTags = obtainStyledAttributes.getBoolean(R.styleable.InstaTag_canWeAddTags, false);
         tagTextColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_instaTextColor, InstaConstants.TAG_TEXT_COLOR);
-        overrideDefaultColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_overrideDefaultColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
+        int overrideDefaultColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_overrideDefaultColor, InstaConstants.TAG_COLOR_BACKGROUND_PLUS_CARROTS);
         tagTextDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_tagTextBackground);
         carrotLeftDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_carrotLeftBackground);
         carrotRightDrawable = obtainStyledAttributes.getDrawable(R.styleable.InstaTag_carrotRightBackground);
