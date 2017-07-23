@@ -19,7 +19,7 @@ package com.harsh.instatag;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-public interface GestureDetectionForPhotoTaggingListener extends GestureDetector.OnGestureListener,
+public interface InstaTagGestureListener extends GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
 
     boolean onDown(MotionEvent e);

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2017 Harsh Sharma
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,5 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/somones" />
+
+    <Button
+        android:id="@+id/drag_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/drag_test" />
 
 </LinearLayout>

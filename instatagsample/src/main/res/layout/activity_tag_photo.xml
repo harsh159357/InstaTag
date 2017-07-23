@@ -104,18 +104,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:canWeAddTags="true"
-                app:carrotBottomBackground="@drawable/arrow_bottom"
                 app:carrotBottomColor="@color/vermilion"
-                app:carrotLeftBackground="@drawable/arrow_left"
                 app:carrotLeftColor="@color/yellow"
-                app:carrotRightBackground="@drawable/arrow_right"
                 app:carrotRightColor="@color/vanilla"
-                app:carrotTopBackground="@drawable/arrow_top"
                 app:carrotTopColor="@color/blue"
-                app:instaBackgroundColor="@color/gray"
-                app:instaTextColor="@android:color/white"
-                app:showAllCarrots="true"
-                app:tagTextBackground="@drawable/ic_news_blue_gray" />
+                app:instaTextColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/tap_photo_to_tag_someone"

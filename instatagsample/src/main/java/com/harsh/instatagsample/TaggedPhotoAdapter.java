@@ -80,12 +80,6 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootWidth(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
                 taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootHeight(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
                 configureTaggedPhotoViewHolder(taggedPhotoViewHolder, position);
-                if (taggedPhotoTagsVisibilityStatusHelper.contains(((TaggedPhoto)
-                        objectArrayList.get(taggedPhotoViewHolder.getAdapterPosition())).getId())) {
-                    taggedPhotoViewHolder.instaTagTaggedPhoto.showTags();
-                } else {
-                    taggedPhotoViewHolder.instaTagTaggedPhoto.hideTags();
-                }
                 break;
             default:
                 TaggedPhotoViewHolder defaultViewHolder = (TaggedPhotoViewHolder) viewHolder;
@@ -107,6 +101,12 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(taggedPhotoViewHolder.instaTagTaggedPhoto.getInstaTagImageView());
         taggedPhotoViewHolder.instaTagTaggedPhoto.addTagViewFromUserToBeTaggedList(taggedPhoto.getUserToBeTaggeds());
+        if (taggedPhotoTagsVisibilityStatusHelper.contains(((TaggedPhoto)
+                objectArrayList.get(taggedPhotoViewHolder.getAdapterPosition())).getId())) {
+            taggedPhotoViewHolder.instaTagTaggedPhoto.showTags();
+        } else {
+            taggedPhotoViewHolder.instaTagTaggedPhoto.hideTags();
+        }
     }
 
     @Override

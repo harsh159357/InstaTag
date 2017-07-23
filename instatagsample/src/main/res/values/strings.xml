@@ -25,4 +25,5 @@
     <string name="cancel">@android:string/cancel</string>
     <string name="search_for_some_one">Search for someone</string>
     <string name="somones">SomOnes</string>
+    <string name="drag_test">Drag Test</string>
 </resources>

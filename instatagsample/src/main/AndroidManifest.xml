@@ -48,6 +48,9 @@
         <activity
             android:name=".TaggedPhotoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".DragTestActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

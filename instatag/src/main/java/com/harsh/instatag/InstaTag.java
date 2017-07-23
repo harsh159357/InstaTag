@@ -101,7 +101,7 @@ public class InstaTag extends RelativeLayout {
         setLayoutParamsToBeSetForRootLayout(context);
         instaRoot.post(setInstaRootHeightWidth);
         instaRoot.setOnTouchListener(instaTagOnTouchListener);
-        gestureDetector = new GestureDetector(instaRoot.getContext(), gestureDetectionForPhotoTaggingListener);
+        gestureDetector = new GestureDetector(instaRoot.getContext(), instaTagGestureListener);
     }
 
     private void initView(AttributeSet attrs, Context context) {
@@ -196,6 +196,7 @@ public class InstaTag extends RelativeLayout {
                     instaRoot.removeView(tagView);
                 }
             });
+//            tagView.setOnTouchListener(new InstaTagOnTouchListener(tagView));
             tagView.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(final View view, MotionEvent event) {
                     if (canWeAddTags) {
@@ -290,31 +291,10 @@ public class InstaTag extends RelativeLayout {
         if (pointerCount == 1) {
             switch (carrotType) {
                 case InstaConstants.CARROT_LEFT:
-                    Params.leftMargin = X - Position_X;
-                    Params.topMargin = Y - Position_Y;
-                    Params.rightMargin = 0;
-                    Params.bottomMargin = 0;
-                    view.setLayoutParams(Params);
-                    break;
                 case InstaConstants.CARROT_RIGHT:
-                    Params.leftMargin = X - Position_X;
-                    Params.topMargin = Y - Position_Y;
-                    Params.rightMargin = 0;
-                    Params.bottomMargin = 0;
-                    view.setLayoutParams(Params);
-                    break;
                 case InstaConstants.CARROT_TOP:
-                    Params.leftMargin = X - Position_X;
-                    Params.topMargin = Y - Position_Y;
-                    Params.rightMargin = 0;
-                    Params.bottomMargin = 0;
-                    view.setLayoutParams(Params);
-                    break;
                 case InstaConstants.CARROT_BOTTOM:
-                    Params.leftMargin = X - Position_X;
-                    Params.topMargin = Y - Position_Y;
-                    Params.rightMargin = 0;
-                    Params.bottomMargin = 0;
+                    Params.setMargins(X - Position_X, Y - Position_Y, 0, 0);
                     view.setLayoutParams(Params);
                     break;
             }
@@ -365,7 +345,7 @@ public class InstaTag extends RelativeLayout {
         instaRoot.setLayoutParams(params);
     }
 
-    private GestureDetectionForPhotoTaggingListener gestureDetectionForPhotoTaggingListener = new GestureDetectionForPhotoTaggingListener() {
+    private InstaTagGestureListener instaTagGestureListener = new InstaTagGestureListener() {
 
         @Override
         public boolean onDown(MotionEvent e) {

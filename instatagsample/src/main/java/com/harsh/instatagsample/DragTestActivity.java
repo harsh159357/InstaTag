@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
+package com.harsh.instatagsample;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ImageView;
 
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+import com.harsh.instatag.InstaTagOnTouchListener;
+
+public class DragTestActivity extends Activity {
+
+    private ImageView image;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_drag_test);
+        image = (ImageView) findViewById(R.id.image);
+
+        image.setOnTouchListener(new InstaTagOnTouchListener(image));
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.1'
 }

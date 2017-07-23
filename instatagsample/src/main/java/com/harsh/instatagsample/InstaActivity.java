@@ -34,6 +34,7 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.tag_a_photo).setOnClickListener(this);
         findViewById(R.id.see_tagged_photos).setOnClickListener(this);
         findViewById(R.id.see_some_ones).setOnClickListener(this);
+        findViewById(R.id.drag_test).setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +57,11 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
                 Intent someOnesIntent = new Intent();
                 someOnesIntent.setClass(InstaActivity.this, SomeOnesActivity.class);
                 startActivity(someOnesIntent);
+                break;
+            case R.id.drag_test:
+                Intent dragTestIntent = new Intent();
+                dragTestIntent.setClass(InstaActivity.this, DragTestActivity.class);
+                startActivity(dragTestIntent);
                 break;
             default:
                 break;
