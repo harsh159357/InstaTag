@@ -196,7 +196,6 @@ public class InstaTag extends RelativeLayout {
                     instaRoot.removeView(tagView);
                 }
             });
-//            tagView.setOnTouchListener(new InstaTagOnTouchListener(tagView));
             tagView.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(final View view, MotionEvent event) {
                     if (canWeAddTags) {
@@ -287,6 +286,24 @@ public class InstaTag extends RelativeLayout {
     }
 
     private void setLayoutParamsForTagView(String carrotType, int pointerCount, int X, int Position_X, int Y, int Position_Y, View view) {
+
+        int left = X - Position_X;
+        int top = Y - Position_Y;
+
+        if (left < 0) {
+            left = 0;
+        } else if (left + view.getWidth() > instaRootWidth) {
+            left = instaRootWidth - view.getWidth();
+        }
+
+
+        if (top < 0) {
+            top = 0;
+        } else if (top + view.getHeight() > instaRootHeight) {
+            top = instaRootHeight - view.getHeight();
+        }
+
+
         RelativeLayout.LayoutParams Params = (RelativeLayout.LayoutParams) view.getLayoutParams();
         if (pointerCount == 1) {
             switch (carrotType) {
@@ -294,7 +311,7 @@ public class InstaTag extends RelativeLayout {
                 case InstaConstants.CARROT_RIGHT:
                 case InstaConstants.CARROT_TOP:
                 case InstaConstants.CARROT_BOTTOM:
-                    Params.setMargins(X - Position_X, Y - Position_Y, 0, 0);
+                    Params.setMargins(left, top, 0, 0);
                     view.setLayoutParams(Params);
                     break;
             }
