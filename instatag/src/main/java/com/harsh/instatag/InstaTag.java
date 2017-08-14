@@ -64,6 +64,7 @@ public class InstaTag extends RelativeLayout {
             carrotRightDrawable,
             carrotTopDrawable,
             carrotBottomDrawable;
+    private boolean areTagsAdded = false;
 
     public interface InstaConstants {
         String CARROT_TOP = "CARROT_TOP";
@@ -489,6 +490,7 @@ public class InstaTag extends RelativeLayout {
             for (View user : instaTagList) {
                 if (((TextView) user.findViewById(R.id.tag_text_view)).getText().toString().equals(userName)) {
                     userFound = false;
+                    break;
                 }
             }
         } else {
@@ -513,10 +515,13 @@ public class InstaTag extends RelativeLayout {
     }
 
     public void addTagViewFromUserToBeTaggedList(ArrayList<UserToBeTagged> userToBeTaggedArrayList) {
-        for (UserToBeTagged userToBeTagged : userToBeTaggedArrayList) {
-            addTagView(getXWhileAddingTag(userToBeTagged.getX_co_ord()),
-                    getYWhileAddingTag(userToBeTagged.getY_co_ord()),
-                    userToBeTagged.getUser_unique_id());
+        if (!areTagsAdded) {
+            for (UserToBeTagged userToBeTagged : userToBeTaggedArrayList) {
+                addTagView(getXWhileAddingTag(userToBeTagged.getX_co_ord()),
+                        getYWhileAddingTag(userToBeTagged.getY_co_ord()),
+                        userToBeTagged.getUser_unique_id());
+            }
+            areTagsAdded = true;
         }
     }
 
