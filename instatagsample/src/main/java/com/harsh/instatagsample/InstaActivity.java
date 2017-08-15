@@ -25,15 +25,16 @@ import android.widget.Toast;
 
 public class InstaActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final int CHOOSE_A_PHOTO_TO_BE_TAGGED = 5000;
+    private static final int CHOOSE_A_PHOTO_TO_BE_TAGGED = 5000;
+    private static final String NO_PHOTO_TAGGED = "You have not tagged any photo yet";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insta);
-        findViewById(R.id.tag_a_photo).setOnClickListener(this);
         findViewById(R.id.see_tagged_photos).setOnClickListener(this);
         findViewById(R.id.see_some_ones).setOnClickListener(this);
+        findViewById(R.id.tag_a_photo).setOnClickListener(this);
         findViewById(R.id.drag_test).setOnClickListener(this);
     }
 
@@ -41,27 +42,28 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tag_a_photo:
-                Intent photoToBeTaggedIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(photoToBeTaggedIntent, CHOOSE_A_PHOTO_TO_BE_TAGGED);
+                Intent photoToBeTagged = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(photoToBeTagged, CHOOSE_A_PHOTO_TO_BE_TAGGED);
                 break;
             case R.id.see_tagged_photos:
                 if (!InstaTagSampleApplication.getInstance().getTaggedPhotos().isEmpty()) {
-                    Intent TaggedPhotoIntent = new Intent();
-                    TaggedPhotoIntent.setClass(InstaActivity.this, TaggedPhotoActivity.class);
-                    startActivity(TaggedPhotoIntent);
+                    Intent taggedPhotos = new Intent();
+                    taggedPhotos.setClass(InstaActivity.this, TaggedPhotoActivity.class);
+                    startActivity(taggedPhotos);
                 } else {
-                    Toast.makeText(this, "You have not tagged any photo yet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, NO_PHOTO_TAGGED, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.see_some_ones:
-                Intent someOnesIntent = new Intent();
-                someOnesIntent.setClass(InstaActivity.this, SomeOnesActivity.class);
-                startActivity(someOnesIntent);
+                Intent someOnes = new Intent();
+                someOnes.setClass(InstaActivity.this, SomeOneActivity.class);
+                startActivity(someOnes);
                 break;
             case R.id.drag_test:
-                Intent dragTestIntent = new Intent();
-                dragTestIntent.setClass(InstaActivity.this, DragTestActivity.class);
-                startActivity(dragTestIntent);
+                Intent dragTest = new Intent();
+                dragTest.setClass(InstaActivity.this, DragTestActivity.class);
+                startActivity(dragTest);
                 break;
             default:
                 break;
@@ -72,10 +74,10 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CHOOSE_A_PHOTO_TO_BE_TAGGED && resultCode == RESULT_OK && data != null) {
-            Uri photoToBeTagged = data.getData();
+            Uri photoUri = data.getData();
             Intent tagPhotoIntent = new Intent();
             tagPhotoIntent.setClass(this, TagPhotoActivity.class);
-            tagPhotoIntent.setData(photoToBeTagged);
+            tagPhotoIntent.setData(photoUri);
             startActivity(tagPhotoIntent);
         }
     }

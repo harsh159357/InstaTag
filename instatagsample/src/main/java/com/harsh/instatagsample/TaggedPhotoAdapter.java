@@ -33,16 +33,18 @@ import java.util.ArrayList;
 public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_ITEM_DATA_TYPE_1 = 1;
-    private ArrayList<Object> objectArrayList;
-    private Context context;
-    private TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener;
-    private ArrayList<String> taggedPhotoTagsVisibilityStatusHelper;
+    private final ArrayList<Object> mObjectArrayList;
+    private final Context mContext;
+    private final TaggedPhotoClickListener mTaggedPhotoClickListener;
+    private final ArrayList<String> mTaggedPhotoTagsVisibilityStatusHelper;
 
-    public TaggedPhotoAdapter(ArrayList<Object> objectArrayList, Context context, TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener) {
-        this.objectArrayList = objectArrayList;
-        this.context = context;
-        this.taggedPhotoAdapterClickListener = taggedPhotoAdapterClickListener;
-        this.taggedPhotoTagsVisibilityStatusHelper = new ArrayList<>();
+    public TaggedPhotoAdapter(ArrayList<Object> mObjectArrayList,
+                              Context mContext,
+                              TaggedPhotoClickListener mTaggedPhotoClickListener) {
+        this.mObjectArrayList = mObjectArrayList;
+        this.mContext = mContext;
+        this.mTaggedPhotoClickListener = mTaggedPhotoClickListener;
+        this.mTaggedPhotoTagsVisibilityStatusHelper = new ArrayList<>();
     }
 
     @Override
@@ -53,11 +55,11 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (viewType) {
             case VIEW_ITEM_DATA_TYPE_1:
                 View dataView1 = inflater.inflate(R.layout.item_row_tagged_photo, viewGroup, false);
-                viewHolder = new TaggedPhotoViewHolder(dataView1, taggedPhotoAdapterClickListener);
+                viewHolder = new TaggedPhotoViewHolder(dataView1, mTaggedPhotoClickListener);
                 break;
             default:
                 View defaultView = inflater.inflate(R.layout.item_row_tagged_photo, viewGroup, false);
-                viewHolder = new TaggedPhotoViewHolder(defaultView, taggedPhotoAdapterClickListener);
+                viewHolder = new TaggedPhotoViewHolder(defaultView, mTaggedPhotoClickListener);
                 break;
         }
         return viewHolder;
@@ -65,7 +67,7 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (objectArrayList.get(position) instanceof TaggedPhoto) {
+        if (mObjectArrayList.get(position) instanceof TaggedPhoto) {
             return VIEW_ITEM_DATA_TYPE_1;
         }
         return -1;
@@ -76,33 +78,42 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (viewHolder.getItemViewType()) {
             case VIEW_ITEM_DATA_TYPE_1:
                 TaggedPhotoViewHolder taggedPhotoViewHolder = (TaggedPhotoViewHolder) viewHolder;
-                taggedPhotoViewHolder.instaTagTaggedPhoto.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootWidth(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
-                taggedPhotoViewHolder.instaTagTaggedPhoto.setInstaRootHeight(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
+                taggedPhotoViewHolder.instaTagTaggedPhoto.
+                        measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                taggedPhotoViewHolder.instaTagTaggedPhoto.
+                        setRootWidth(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
+                taggedPhotoViewHolder.instaTagTaggedPhoto.
+                        setRootHeight(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
                 configureTaggedPhotoViewHolder(taggedPhotoViewHolder, position);
                 break;
+
             default:
                 TaggedPhotoViewHolder defaultViewHolder = (TaggedPhotoViewHolder) viewHolder;
-                defaultViewHolder.instaTagTaggedPhoto.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                defaultViewHolder.instaTagTaggedPhoto.setInstaRootWidth(defaultViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
-                defaultViewHolder.instaTagTaggedPhoto.setInstaRootHeight(defaultViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
+                defaultViewHolder.instaTagTaggedPhoto.
+                        measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                defaultViewHolder.instaTagTaggedPhoto.
+                        setRootWidth(defaultViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
+                defaultViewHolder.instaTagTaggedPhoto.
+                        setRootHeight(defaultViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
                 configureTaggedPhotoViewHolder(defaultViewHolder, position);
                 break;
         }
     }
 
-    private void configureTaggedPhotoViewHolder(TaggedPhotoViewHolder taggedPhotoViewHolder, int position) {
-        TaggedPhoto taggedPhoto = (TaggedPhoto) objectArrayList.get(position);
-        Glide.with(context).load(Uri.parse(taggedPhoto.getImageURI()))
+    private void configureTaggedPhotoViewHolder(TaggedPhotoViewHolder taggedPhotoViewHolder,
+                                                int position) {
+        TaggedPhoto taggedPhoto = (TaggedPhoto) mObjectArrayList.get(position);
+        Glide.with(mContext).load(Uri.parse(taggedPhoto.getImageUri()))
                 .centerCrop()
                 .placeholder(0)
                 .fallback(0)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(taggedPhotoViewHolder.instaTagTaggedPhoto.getInstaTagImageView());
-        taggedPhotoViewHolder.instaTagTaggedPhoto.addTagViewFromUserToBeTaggedList(taggedPhoto.getUserToBeTaggeds());
-        if (taggedPhotoTagsVisibilityStatusHelper.contains(((TaggedPhoto)
-                objectArrayList.get(taggedPhotoViewHolder.getAdapterPosition())).getId())) {
+                .into(taggedPhotoViewHolder.instaTagTaggedPhoto.getTagImageView());
+        taggedPhotoViewHolder.instaTagTaggedPhoto.
+                addTagViewFromTagsToBeTagged(taggedPhoto.getTagToBeTaggeds());
+        if (mTaggedPhotoTagsVisibilityStatusHelper.contains(((TaggedPhoto)
+                mObjectArrayList.get(taggedPhotoViewHolder.getAdapterPosition())).getId())) {
             taggedPhotoViewHolder.instaTagTaggedPhoto.showTags();
         } else {
             taggedPhotoViewHolder.instaTagTaggedPhoto.hideTags();
@@ -111,17 +122,17 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return objectArrayList.size();
+        return mObjectArrayList.size();
     }
 
     private class TaggedPhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        InstaTag instaTagTaggedPhoto;
-        ImageView tagIndicator;
-        TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener;
+        final InstaTag instaTagTaggedPhoto;
+        final ImageView tagIndicator;
+        final TaggedPhotoClickListener taggedPhotoClickListener;
 
-        TaggedPhotoViewHolder(View view, TaggedPhotoAdapterClickListener taggedPhotoAdapterClickListener) {
+        TaggedPhotoViewHolder(View view, TaggedPhotoClickListener taggedPhotoClickListener) {
             super(view);
-            this.taggedPhotoAdapterClickListener = taggedPhotoAdapterClickListener;
+            this.taggedPhotoClickListener = taggedPhotoClickListener;
             instaTagTaggedPhoto = (InstaTag) view.findViewById(R.id.insta_tag_tagged_photo);
             tagIndicator = (ImageView) view.findViewById(R.id.tag_indicator);
             tagIndicator.setOnClickListener(this);
@@ -129,18 +140,18 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void onClick(View view) {
-            TaggedPhoto taggedPhoto = (TaggedPhoto) objectArrayList.get(getAdapterPosition());
+            TaggedPhoto taggedPhoto = (TaggedPhoto) mObjectArrayList.get(getAdapterPosition());
             switch (view.getId()) {
                 case R.id.insta_tag_tagged_photo:
-                    taggedPhotoAdapterClickListener.onTaggedPhotoClick(taggedPhoto, getAdapterPosition());
+                    taggedPhotoClickListener.onTaggedPhotoClick(taggedPhoto, getAdapterPosition());
                     break;
                 case R.id.tag_indicator:
-                    if (!taggedPhotoTagsVisibilityStatusHelper.contains(taggedPhoto.getId())) {
+                    if (!mTaggedPhotoTagsVisibilityStatusHelper.contains(taggedPhoto.getId())) {
                         instaTagTaggedPhoto.showTags();
-                        taggedPhotoTagsVisibilityStatusHelper.add(taggedPhoto.getId());
+                        mTaggedPhotoTagsVisibilityStatusHelper.add(taggedPhoto.getId());
                     } else {
                         instaTagTaggedPhoto.hideTags();
-                        taggedPhotoTagsVisibilityStatusHelper.remove(taggedPhoto.getId());
+                        mTaggedPhotoTagsVisibilityStatusHelper.remove(taggedPhoto.getId());
                     }
                     break;
             }

@@ -20,18 +20,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.harsh.instatag.InstaTagOnTouchListener;
+import com.harsh.instatag.TagOnTouchListener;
 
 public class DragTestActivity extends Activity {
-
-    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drag_test);
-        image = (ImageView) findViewById(R.id.image);
-
-        image.setOnTouchListener(new InstaTagOnTouchListener(image));
+        ImageView mImageView = (ImageView) findViewById(R.id.image);
+        mImageView.setOnTouchListener(new TagOnTouchListener(mImageView));
     }
 }

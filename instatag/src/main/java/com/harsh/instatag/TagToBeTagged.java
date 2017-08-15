@@ -19,24 +19,24 @@ package com.harsh.instatag;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class UserToBeTagged implements Parcelable {
-    private String user_unique_id;
+public class TagToBeTagged implements Parcelable {
+    private String unique_tag_id;
     private Double x_co_ord;
     private Double y_co_ord;
 
-    public UserToBeTagged(String user_unique_id, Double x_co_ord, Double y_co_ord) {
-        this.user_unique_id = user_unique_id;
+    public TagToBeTagged(String unique_tag_id, Double x_co_ord, Double y_co_ord) {
+        this.unique_tag_id = unique_tag_id;
         this.x_co_ord = x_co_ord;
         this.y_co_ord = y_co_ord;
 
     }
 
-    public String getUser_unique_id() {
-        return user_unique_id;
+    public String getUnique_tag_id() {
+        return unique_tag_id;
     }
 
-    public void setUser_unique_id(String user_unique_id) {
-        this.user_unique_id = user_unique_id;
+    public void setUnique_tag_id(String unique_tag_id) {
+        this.unique_tag_id = unique_tag_id;
     }
 
     public Double getX_co_ord() {
@@ -63,26 +63,27 @@ public class UserToBeTagged implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.user_unique_id);
+        dest.writeString(this.unique_tag_id);
         dest.writeValue(this.x_co_ord);
         dest.writeValue(this.y_co_ord);
     }
 
-    protected UserToBeTagged(Parcel in) {
-        this.user_unique_id = in.readString();
+    private TagToBeTagged(Parcel in) {
+        this.unique_tag_id = in.readString();
         this.x_co_ord = (Double) in.readValue(Double.class.getClassLoader());
         this.y_co_ord = (Double) in.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<UserToBeTagged> CREATOR = new Parcelable.Creator<UserToBeTagged>() {
-        @Override
-        public UserToBeTagged createFromParcel(Parcel source) {
-            return new UserToBeTagged(source);
-        }
+    public static final Parcelable.Creator<TagToBeTagged> CREATOR =
+            new Parcelable.Creator<TagToBeTagged>() {
+                @Override
+                public TagToBeTagged createFromParcel(Parcel source) {
+                    return new TagToBeTagged(source);
+                }
 
-        @Override
-        public UserToBeTagged[] newArray(int size) {
-            return new UserToBeTagged[size];
-        }
-    };
+                @Override
+                public TagToBeTagged[] newArray(int size) {
+                    return new TagToBeTagged[size];
+                }
+            };
 }

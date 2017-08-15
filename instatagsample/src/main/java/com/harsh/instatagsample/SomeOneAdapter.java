@@ -32,38 +32,42 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class SomeOneToBeTaggedAdapter extends RecyclerView.Adapter<SomeOneToBeTaggedAdapter.ViewHolder> {
+public class SomeOneAdapter extends RecyclerView.Adapter<SomeOneAdapter.ViewHolder> {
 
-    private Context context;
-    private List<SomeOne> someOneList;
-    private SomeOneToBeTaggedAdapterClickListener someOneToBeTaggedAdapterClickListener;
+    private final Context mContext;
+    private final List<SomeOne> mSomeOneList;
+    private final SomeOneClickListener mSomeOneClickListener;
 
-    public SomeOneToBeTaggedAdapter(List<SomeOne> someOnes, Context context, SomeOneToBeTaggedAdapterClickListener someOneToBeTaggedAdapterClickListener) {
-        this.someOneList = someOnes;
-        this.context = context;
-        this.someOneToBeTaggedAdapterClickListener = someOneToBeTaggedAdapterClickListener;
+    public SomeOneAdapter(List<SomeOne> someOnes,
+                          Context mContext,
+                          SomeOneClickListener mSomeOneClickListener) {
+        this.mSomeOneList = someOnes;
+        this.mContext = mContext;
+        this.mSomeOneClickListener = mSomeOneClickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_some_one_to_be_tagged, parent, false);
-        return new ViewHolder(view, someOneToBeTaggedAdapterClickListener);
+        View view = LayoutInflater.
+                from(parent.getContext()).
+                inflate(R.layout.item_row_some_one_to_be_tagged, parent, false);
+        return new ViewHolder(view, mSomeOneClickListener);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        SomeOne someOne = someOneList.get(position);
+        SomeOne someOne = mSomeOneList.get(position);
         holder.setPosition(position);
         holder.setSomeOne(someOne);
-        holder.setContext(context);
+        holder.setContext(mContext);
         holder.txtUserName.setText(someOne.getUserName());
         holder.txtFullName.setText(someOne.getFullName());
 
         Glide
-                .with(context)
+                .with(mContext)
                 .load(someOne.getUrl())
                 .centerCrop()
-                .bitmapTransform(new CropCircleTransformation(context))
+                .bitmapTransform(new CropCircleTransformation(mContext))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_default_avatar)
                 .into(holder.imgProfile);
@@ -72,19 +76,19 @@ public class SomeOneToBeTaggedAdapter extends RecyclerView.Adapter<SomeOneToBeTa
 
     @Override
     public int getItemCount() {
-        if (someOneList != null) {
-            return someOneList.size();
+        if (mSomeOneList != null) {
+            return mSomeOneList.size();
         }
         return 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private SomeOneToBeTaggedAdapterClickListener listener;
-        private RelativeLayout relativeLayout;
-        private ImageView imgProfile;
-        private TextView txtUserName;
-        private TextView txtFullName;
+        private final SomeOneClickListener listener;
+        private final RelativeLayout relativeLayout;
+        private final ImageView imgProfile;
+        private final TextView txtUserName;
+        private final TextView txtFullName;
         private SomeOne someOne;
         private int position;
         private Context context;
@@ -101,7 +105,7 @@ public class SomeOneToBeTaggedAdapter extends RecyclerView.Adapter<SomeOneToBeTa
             this.context = context;
         }
 
-        public ViewHolder(View itemView, SomeOneToBeTaggedAdapterClickListener listener) {
+        public ViewHolder(View itemView, SomeOneClickListener listener) {
             super(itemView);
             this.listener = listener;
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.someOneItem);
@@ -115,7 +119,7 @@ public class SomeOneToBeTaggedAdapter extends RecyclerView.Adapter<SomeOneToBeTa
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.someOneItem:
-                    listener.onSomeOneToBeTaggedClick(someOne, position);
+                    listener.onSomeOneClicked(someOne, position);
                     break;
             }
         }

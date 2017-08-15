@@ -1,16 +1,6 @@
 /local.properties
 /.idea
 
-# generated files
-bin/
-
-# Windows thumbnail db
-Thumbs.db
-
-
-# Eclipse project files
-.classpath
-
 # Android Studio
 *.iml
 

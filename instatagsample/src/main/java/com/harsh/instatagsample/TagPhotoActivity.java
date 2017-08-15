@@ -32,44 +32,45 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.harsh.instatag.InstaTag;
-import com.harsh.instatag.InstaTagImageView;
+import com.harsh.instatag.TagImageView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTaggedAdapterClickListener, View.OnClickListener {
+public class TagPhotoActivity extends AppCompatActivity implements SomeOneClickListener,
+        View.OnClickListener {
 
-    private InstaTag instaTag;
-    private Uri photoToBeTaggedUri;
-    private RecyclerView recyclerViewSomeOneToBeTagged;
-    private LinearLayout headerSomeOneToBeTagged, headerSearchSomeOne;
-    private TextView tapPhotoToTagSomeOneTextView;
-    private int addTagInX, addTagInY;
-    private EditText editSearchForSomeOne;
-    private SomeOneToBeTaggedAdapter someOneToBeTaggedAdapter;
-    ArrayList<SomeOne> someOnes = new ArrayList<>();
+    private InstaTag mInstaTag;
+    private Uri mPhotoToBeTaggedUri;
+    private RecyclerView mRecyclerViewSomeOneToBeTagged;
+    private LinearLayout mHeaderSomeOneToBeTagged, mHeaderSearchSomeOne;
+    private TextView mTapPhotoToTagSomeOneTextView;
+    private int mAddTagInX, mAddTagInY;
+    private EditText mEditSearchForSomeOne;
+    private SomeOneAdapter mSomeOneAdapter;
+    private final ArrayList<SomeOne> mSomeOnes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag_photo);
 
-        photoToBeTaggedUri = getIntent().getData();
+        mPhotoToBeTaggedUri = getIntent().getData();
 
-        instaTag = (InstaTag) findViewById(R.id.insta_tag);
-        instaTag.setImageToBeTaggedEvent(imageToBeTaggedEvent);
+        mInstaTag = (InstaTag) findViewById(R.id.insta_tag);
+        mInstaTag.setImageToBeTaggedEvent(taggedImageEvent);
 
         final TextView cancelTextView = (TextView) findViewById(R.id.cancel);
-        final InstaTagImageView doneImageView = (InstaTagImageView) findViewById(R.id.done);
-        final InstaTagImageView backImageView = (InstaTagImageView) findViewById(R.id.get_back);
+        final TagImageView doneImageView = (TagImageView) findViewById(R.id.done);
+        final TagImageView backImageView = (TagImageView) findViewById(R.id.get_back);
 
-        recyclerViewSomeOneToBeTagged = (RecyclerView) findViewById(R.id.rv_some_one_to_be_tagged);
-        tapPhotoToTagSomeOneTextView = (TextView) findViewById(R.id.tap_photo_to_tag_someone);
-        headerSomeOneToBeTagged = (LinearLayout) findViewById(R.id.header_tag_photo);
-        headerSearchSomeOne = (LinearLayout) findViewById(R.id.header_search_someone);
-        editSearchForSomeOne = (EditText) findViewById(R.id.search_for_a_person);
+        mRecyclerViewSomeOneToBeTagged = (RecyclerView) findViewById(R.id.rv_some_one_to_be_tagged);
+        mTapPhotoToTagSomeOneTextView = (TextView) findViewById(R.id.tap_photo_to_tag_someone);
+        mHeaderSomeOneToBeTagged = (LinearLayout) findViewById(R.id.header_tag_photo);
+        mHeaderSearchSomeOne = (LinearLayout) findViewById(R.id.header_search_someone);
+        mEditSearchForSomeOne = (EditText) findViewById(R.id.search_for_a_person);
 
-        editSearchForSomeOne.addTextChangedListener(textWatcher);
+        mEditSearchForSomeOne.addTextChangedListener(textWatcher);
 
         cancelTextView.setOnClickListener(this);
         doneImageView.setOnClickListener(this);
@@ -77,32 +78,32 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTa
 
         loadImage();
 
-        someOnes.addAll(SomeOnesData.getDummySomeOneList());
-        someOneToBeTaggedAdapter = new SomeOneToBeTaggedAdapter(someOnes, this, this);
-        recyclerViewSomeOneToBeTagged.setAdapter(someOneToBeTaggedAdapter);
-        recyclerViewSomeOneToBeTagged.setLayoutManager(new LinearLayoutManager(this));
+        mSomeOnes.addAll(SomeOneData.getDummySomeOneList());
+        mSomeOneAdapter = new SomeOneAdapter(mSomeOnes, this, this);
+        mRecyclerViewSomeOneToBeTagged.setAdapter(mSomeOneAdapter);
+        mRecyclerViewSomeOneToBeTagged.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void loadImage() {
-        Glide.with(this).load(photoToBeTaggedUri)
+        Glide.with(this).load(mPhotoToBeTaggedUri)
                 .centerCrop()
                 .placeholder(0)
                 .fallback(0)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(instaTag.getInstaTagImageView());
+                .into(mInstaTag.getTagImageView());
     }
 
     @Override
-    public void onSomeOneToBeTaggedClick(final SomeOne someOne, int position) {
+    public void onSomeOneClicked(final SomeOne someOne, int position) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                instaTag.addTagView(addTagInX, addTagInY, someOne.getUserName());
-                recyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
-                tapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
-                headerSearchSomeOne.setVisibility(View.GONE);
-                headerSomeOneToBeTagged.setVisibility(View.VISIBLE);
+                mInstaTag.addTag(mAddTagInX, mAddTagInY, someOne.getUserName());
+                mRecyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
+                mTapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
+                mHeaderSearchSomeOne.setVisibility(View.GONE);
+                mHeaderSomeOneToBeTagged.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -111,22 +112,22 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTa
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancel:
-                recyclerViewSomeOneToBeTagged.scrollToPosition(0);
-                recyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
-                tapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
-                headerSearchSomeOne.setVisibility(View.GONE);
-                headerSomeOneToBeTagged.setVisibility(View.VISIBLE);
+                mRecyclerViewSomeOneToBeTagged.scrollToPosition(0);
+                mRecyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
+                mTapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
+                mHeaderSearchSomeOne.setVisibility(View.GONE);
+                mHeaderSomeOneToBeTagged.setVisibility(View.VISIBLE);
                 break;
             case R.id.done:
-                if (instaTag.getListOfUserToBeTagged().isEmpty()) {
+                if (mInstaTag.getListOfTagsToBeTagged().isEmpty()) {
                     Toast.makeText(this, "Please tag at least one user", Toast.LENGTH_SHORT).show();
                 } else {
                     ArrayList<TaggedPhoto> taggedPhotoArrayList = InstaTagSampleApplication.getInstance().getTaggedPhotos();
                     taggedPhotoArrayList.add(
                             new TaggedPhoto(
                                     Calendar.getInstance().getTimeInMillis() + "",
-                                    photoToBeTaggedUri.toString(),
-                                    instaTag.getListOfUserToBeTagged()));
+                                    mPhotoToBeTaggedUri.toString(),
+                                    mInstaTag.getListOfTagsToBeTagged()));
                     InstaTagSampleApplication.getInstance().setTaggedPhotos(taggedPhotoArrayList);
                     Toast.makeText(this, "Photo tagged successfully", Toast.LENGTH_SHORT).show();
                     finish();
@@ -138,38 +139,39 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneToBeTa
         }
     }
 
-    InstaTag.ImageToBeTaggedEvent imageToBeTaggedEvent = new InstaTag.ImageToBeTaggedEvent() {
+    private final InstaTag.TaggedImageEvent taggedImageEvent = new InstaTag.TaggedImageEvent() {
         @Override
-        public void singleTapConfirmedAndInstaRootIsInTouch(final int x, final int y) {
+        public void singleTapConfirmedAndRootIsInTouch(final int x, final int y) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    addTagInX = x;
-                    addTagInY = y;
-                    recyclerViewSomeOneToBeTagged.setVisibility(View.VISIBLE);
-                    headerSomeOneToBeTagged.setVisibility(View.GONE);
-                    tapPhotoToTagSomeOneTextView.setVisibility(View.GONE);
-                    headerSearchSomeOne.setVisibility(View.VISIBLE);
+                    mAddTagInX = x;
+                    mAddTagInY = y;
+                    mRecyclerViewSomeOneToBeTagged.setVisibility(View.VISIBLE);
+                    mHeaderSomeOneToBeTagged.setVisibility(View.GONE);
+                    mTapPhotoToTagSomeOneTextView.setVisibility(View.GONE);
+                    mHeaderSearchSomeOne.setVisibility(View.VISIBLE);
                 }
             });
         }
     };
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (editSearchForSomeOne.getText().toString().trim().equals("")) {
-                someOnes.clear();
-                someOnes.addAll(SomeOnesData.getDummySomeOneList());
-                someOneToBeTaggedAdapter.notifyDataSetChanged();
+            if (mEditSearchForSomeOne.getText().toString().trim().equals("")) {
+                mSomeOnes.clear();
+                mSomeOnes.addAll(SomeOneData.getDummySomeOneList());
+                mSomeOneAdapter.notifyDataSetChanged();
             } else {
-                someOnes.clear();
-                someOnes.addAll(SomeOnesData.getFilteredUser(editSearchForSomeOne.getText().toString().trim()));
-                someOneToBeTaggedAdapter.notifyDataSetChanged();
+                mSomeOnes.clear();
+                mSomeOnes.addAll(SomeOneData.
+                        getFilteredUser(mEditSearchForSomeOne.getText().toString().trim()));
+                mSomeOneAdapter.notifyDataSetChanged();
             }
         }
 

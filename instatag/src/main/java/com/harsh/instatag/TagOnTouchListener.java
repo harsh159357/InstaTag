@@ -19,7 +19,7 @@ package com.harsh.instatag;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class InstaTagOnTouchListener implements View.OnTouchListener {
+public class TagOnTouchListener implements View.OnTouchListener {
 
     /**
      * Callback used to indicate when the drag is finished
@@ -46,32 +46,30 @@ public class InstaTagOnTouchListener implements View.OnTouchListener {
     private boolean isInitialized = false;
 
     private int width;
-    private float xWhenAttached;
     private float maxLeft;
     private float maxRight;
     private float dX;
 
     private int height;
-    private float yWhenAttached;
     private float maxTop;
     private float maxBottom;
     private float dY;
 
     private OnDragActionListener mOnDragActionListener;
 
-    public InstaTagOnTouchListener(View view) {
+    public TagOnTouchListener(View view) {
         this(view, (View) view.getParent(), null);
     }
 
-    public InstaTagOnTouchListener(View view, View parent) {
+    public TagOnTouchListener(View view, View parent) {
         this(view, parent, null);
     }
 
-    public InstaTagOnTouchListener(View view, OnDragActionListener onDragActionListener) {
+    public TagOnTouchListener(View view, OnDragActionListener onDragActionListener) {
         this(view, (View) view.getParent(), onDragActionListener);
     }
 
-    public InstaTagOnTouchListener(View view, View parent, OnDragActionListener onDragActionListener) {
+    public TagOnTouchListener(View view, View parent, OnDragActionListener onDragActionListener) {
         initListener(view, parent);
         setOnDragActionListener(onDragActionListener);
     }
@@ -80,30 +78,28 @@ public class InstaTagOnTouchListener implements View.OnTouchListener {
         mOnDragActionListener = onDragActionListener;
     }
 
-    public void initListener(View view, View parent) {
+    private void initListener(View view, View parent) {
         mView = view;
         mParent = parent;
         isDragging = false;
         isInitialized = false;
     }
 
-    public void updateBounds() {
+    private void updateBounds() {
         updateViewBounds();
         updateParentBounds();
         isInitialized = true;
     }
 
-    public void updateViewBounds() {
+    private void updateViewBounds() {
         width = mView.getWidth();
-        xWhenAttached = mView.getX();
         dX = 0;
 
         height = mView.getHeight();
-        yWhenAttached = mView.getY();
         dY = 0;
     }
 
-    public void updateParentBounds() {
+    private void updateParentBounds() {
         maxLeft = 0;
         maxRight = maxLeft + mParent.getWidth();
 

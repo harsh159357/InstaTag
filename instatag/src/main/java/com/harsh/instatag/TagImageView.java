@@ -20,16 +20,16 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
-public class InstaTagImageView extends AppCompatImageView {
-    public InstaTagImageView(Context context) {
+public class TagImageView extends AppCompatImageView {
+    public TagImageView(Context context) {
         super(context);
     }
 
-    public InstaTagImageView(Context context, AttributeSet attrs) {
+    public TagImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public InstaTagImageView(Context context, AttributeSet attrs, int defStyle) {
+    public TagImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

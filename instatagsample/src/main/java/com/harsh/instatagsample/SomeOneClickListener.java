@@ -16,6 +16,6 @@
 
 package com.harsh.instatagsample;
 
-public interface SomeOneToBeTaggedAdapterClickListener {
-    void onSomeOneToBeTaggedClick(SomeOne someOne, int position);
+public interface SomeOneClickListener {
+    void onSomeOneClicked(SomeOne someOne, int position);
 }

@@ -28,9 +28,9 @@ import java.util.ArrayList;
 
 
 public class InstaTagSampleApplication extends Application {
-    private static InstaTagSampleApplication instaTagSampleApplication;
-    public static final String SHARED_PREF_NAME = "insta_tag_preferences";
-    private SharedPreferences sharedPreferences;
+    private static InstaTagSampleApplication sInstaTagSampleApplication;
+    private static final String SHARED_PREF_NAME = "insta_tag_preferences";
+    private SharedPreferences mSharedPreferences;
 
     @Override
     public void onCreate() {
@@ -38,39 +38,40 @@ public class InstaTagSampleApplication extends Application {
     }
 
     public InstaTagSampleApplication() {
-        instaTagSampleApplication = this;
+        sInstaTagSampleApplication = this;
     }
 
     public static InstaTagSampleApplication getInstance() {
-        if (instaTagSampleApplication == null) {
-            instaTagSampleApplication = new InstaTagSampleApplication();
+        if (sInstaTagSampleApplication == null) {
+            sInstaTagSampleApplication = new InstaTagSampleApplication();
         }
-        if (instaTagSampleApplication.sharedPreferences == null) {
-            instaTagSampleApplication.sharedPreferences = instaTagSampleApplication.getSharedPreferences(SHARED_PREF_NAME,
-                    Context.MODE_PRIVATE);
+        if (sInstaTagSampleApplication.mSharedPreferences == null) {
+            sInstaTagSampleApplication.mSharedPreferences =
+                    sInstaTagSampleApplication.getSharedPreferences(SHARED_PREF_NAME,
+                            Context.MODE_PRIVATE);
         }
 
-        return instaTagSampleApplication;
+        return sInstaTagSampleApplication;
     }
 
     public void clear() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.clear();
         editor.apply();
     }
 
-    private String getString(String key, String deafultValue) {
-        if (sharedPreferences != null) {
-            return sharedPreferences.getString(key, deafultValue);
+    private String getString(String key) {
+        if (mSharedPreferences != null) {
+            return mSharedPreferences.getString(key, "");
         }
 
-        return deafultValue;
+        return "";
     }
 
     private void putString(String key, String value) {
         try {
-            if (sharedPreferences != null) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+            if (mSharedPreferences != null) {
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.putString(key, value);
                 editor.apply();
             }
@@ -81,11 +82,12 @@ public class InstaTagSampleApplication extends Application {
 
 
     public ArrayList<TaggedPhoto> getTaggedPhotos() {
-        String json = getString(Keys.TAGGED_PHOTOS.getKeyName(), "");
+        String json = getString(Keys.TAGGED_PHOTOS.getKeyName());
         ArrayList<TaggedPhoto> taggedPhotoArrayList;
         if (!json.equals("")) {
-            taggedPhotoArrayList = new Gson().fromJson(json, new TypeToken<ArrayList<TaggedPhoto>>() {
-            }.getType());
+            taggedPhotoArrayList =
+                    new Gson().fromJson(json, new TypeToken<ArrayList<TaggedPhoto>>() {
+                    }.getType());
         } else {
             taggedPhotoArrayList = new ArrayList<>();
         }
@@ -98,7 +100,7 @@ public class InstaTagSampleApplication extends Application {
 
     private enum Keys {
         TAGGED_PHOTOS("TAGGED_PHOTOS");
-        private String keyName;
+        private final String keyName;
 
         Keys(String label) {
             this.keyName = label;

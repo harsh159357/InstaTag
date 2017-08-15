@@ -28,7 +28,7 @@
             android:id="@+id/carrot_left"
             android:layout_width="@dimen/dp22"
             android:layout_height="@dimen/dp20"
-            android:background="@drawable/insta_tag_shape_carrot_left"
+            android:background="@drawable/tag_shape_carrot_left"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="invisible" />
@@ -43,15 +43,15 @@
                 android:layout_width="@dimen/dp22"
                 android:layout_height="@dimen/dp20"
                 android:layout_gravity="center"
-                android:background="@drawable/insta_tag_shape_carrot_top"
+                android:background="@drawable/tag_shape_carrot_top"
                 android:gravity="center"
                 android:orientation="horizontal" />
 
             <LinearLayout
-                android:id="@+id/insta_tag_text_container"
+                android:id="@+id/tag_text_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/insta_tag_shape_tag_text"
+                android:background="@drawable/tag_shape_tag_text"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
@@ -72,7 +72,7 @@
                 android:layout_width="@dimen/dp22"
                 android:layout_height="@dimen/dp20"
                 android:layout_gravity="center"
-                android:background="@drawable/insta_tag_shape_carrot_bottom"
+                android:background="@drawable/tag_shape_carrot_bottom"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="invisible" />
@@ -83,14 +83,14 @@
             android:id="@+id/carrot_right"
             android:layout_width="@dimen/dp22"
             android:layout_height="@dimen/dp20"
-            android:background="@drawable/insta_tag_shape_carrot_right"
+            android:background="@drawable/tag_shape_carrot_right"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="invisible" />
 
     </LinearLayout>
 
-    <com.harsh.instatag.InstaTagImageView
+    <com.harsh.instatag.TagImageView
         android:id="@+id/remove_tag_image_view"
         android:layout_width="@dimen/dp18"
         android:layout_height="@dimen/dp18"

@@ -46,7 +46,7 @@ public class SomeOne implements Parcelable {
         dest.writeString(this.url);
     }
 
-    protected SomeOne(Parcel in) {
+    private SomeOne(Parcel in) {
         this.userName = in.readString();
         this.fullName = in.readString();
         this.url = in.readString();

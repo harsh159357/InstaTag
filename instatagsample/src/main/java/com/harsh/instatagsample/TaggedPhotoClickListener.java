@@ -16,6 +16,6 @@
 
 package com.harsh.instatagsample;
 
-public interface TaggedPhotoAdapterClickListener {
+public interface TaggedPhotoClickListener {
     void onTaggedPhotoClick(TaggedPhoto taggedPhoto,int position);
 }

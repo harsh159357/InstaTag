@@ -22,27 +22,27 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-public class SomeOnesActivity extends AppCompatActivity implements SomeOneToBeTaggedAdapterClickListener {
-
-    RecyclerView recyclerViewSomeOne;
+public class SomeOneActivity extends AppCompatActivity implements SomeOneClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_some_one);
-        recyclerViewSomeOne = (RecyclerView) findViewById(R.id.rv_some_one);
-        SomeOneToBeTaggedAdapter someOneToBeTaggedAdapter = new SomeOneToBeTaggedAdapter(SomeOnesData.getDummySomeOneList(), this, this);
-        recyclerViewSomeOne.setAdapter(someOneToBeTaggedAdapter);
-        recyclerViewSomeOne.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView mRecyclerViewSomeOne = (RecyclerView) findViewById(R.id.rv_some_one);
+        SomeOneAdapter someOneAdapter =
+                new SomeOneAdapter(SomeOneData.getDummySomeOneList(), this, this);
+        mRecyclerViewSomeOne.setAdapter(someOneAdapter);
+        mRecyclerViewSomeOne.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
     @Override
-    public void onSomeOneToBeTaggedClick(final SomeOne someOne, int position) {
+    public void onSomeOneClicked(final SomeOne someOne, int position) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(SomeOnesActivity.this, someOne.getFullName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SomeOneActivity.this,
+                        someOne.getFullName(), Toast.LENGTH_SHORT).show();
             }
         });
     }

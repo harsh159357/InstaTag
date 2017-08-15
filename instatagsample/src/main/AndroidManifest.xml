@@ -43,7 +43,7 @@
             android:name=".TagPhotoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SomeOnesActivity"
+            android:name=".SomeOneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TaggedPhotoActivity"

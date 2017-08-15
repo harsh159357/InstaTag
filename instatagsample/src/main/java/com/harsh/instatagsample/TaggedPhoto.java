@@ -19,22 +19,22 @@ package com.harsh.instatagsample;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.harsh.instatag.UserToBeTagged;
+import com.harsh.instatag.TagToBeTagged;
 
 import java.util.ArrayList;
 
 public class TaggedPhoto implements Parcelable {
     private String id;
-    private String imageURI;
-    private ArrayList<UserToBeTagged> userToBeTaggeds;
+    private String imageUri;
+    private ArrayList<TagToBeTagged> tagToBeTaggeds;
 
     public TaggedPhoto() {
     }
 
-    public TaggedPhoto(String id, String imageURI, ArrayList<UserToBeTagged> userToBeTaggeds) {
+    public TaggedPhoto(String id, String imageUri, ArrayList<TagToBeTagged> tagToBeTaggeds) {
         this.id = id;
-        this.imageURI = imageURI;
-        this.userToBeTaggeds = userToBeTaggeds;
+        this.imageUri = imageUri;
+        this.tagToBeTaggeds = tagToBeTaggeds;
     }
 
     public String getId() {
@@ -45,20 +45,20 @@ public class TaggedPhoto implements Parcelable {
         this.id = id;
     }
 
-    public String getImageURI() {
-        return imageURI;
+    public String getImageUri() {
+        return imageUri;
     }
 
-    public void setImageURI(String imageURI) {
-        this.imageURI = imageURI;
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
-    public ArrayList<UserToBeTagged> getUserToBeTaggeds() {
-        return userToBeTaggeds;
+    public ArrayList<TagToBeTagged> getTagToBeTaggeds() {
+        return tagToBeTaggeds;
     }
 
-    public void setUserToBeTaggeds(ArrayList<UserToBeTagged> userToBeTaggeds) {
-        this.userToBeTaggeds = userToBeTaggeds;
+    public void setTagToBeTaggeds(ArrayList<TagToBeTagged> tagToBeTaggeds) {
+        this.tagToBeTaggeds = tagToBeTaggeds;
     }
 
 
@@ -70,14 +70,14 @@ public class TaggedPhoto implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
-        dest.writeString(this.imageURI);
-        dest.writeTypedList(this.userToBeTaggeds);
+        dest.writeString(this.imageUri);
+        dest.writeTypedList(this.tagToBeTaggeds);
     }
 
-    protected TaggedPhoto(Parcel in) {
+    private TaggedPhoto(Parcel in) {
         this.id = in.readString();
-        this.imageURI = in.readString();
-        this.userToBeTaggeds = in.createTypedArrayList(UserToBeTagged.CREATOR);
+        this.imageUri = in.readString();
+        this.tagToBeTaggeds = in.createTypedArrayList(TagToBeTagged.CREATOR);
     }
 
     public static final Creator<TaggedPhoto> CREATOR = new Creator<TaggedPhoto>() {

@@ -27,7 +27,7 @@
         android:background="#DFDFE1"
         android:orientation="horizontal">
 
-        <com.harsh.instatag.InstaTagImageView
+        <com.harsh.instatag.TagImageView
             android:id="@+id/get_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -46,7 +46,7 @@
             android:textColor="@android:color/black"
             android:textSize="22sp" />
 
-        <com.harsh.instatag.InstaTagImageView
+        <com.harsh.instatag.TagImageView
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

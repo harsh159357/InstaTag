@@ -18,7 +18,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EEFFFFFF">
+    android:background="#EEFFFFFF"
+    tools:ignore="Overdraw">
 
     <RelativeLayout
         android:id="@+id/someOneItem"

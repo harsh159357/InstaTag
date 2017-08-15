@@ -23,25 +23,24 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class TaggedPhotoActivity extends AppCompatActivity implements TaggedPhotoAdapterClickListener {
+public class TaggedPhotoActivity extends AppCompatActivity implements TaggedPhotoClickListener {
 
-    RecyclerView recyclerViewTaggedPhotos;
-    ArrayList<Object> objectArrayList = new ArrayList<>();
+    private final ArrayList<Object> mObjectArrayList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tagged_photo);
-        objectArrayList.addAll(InstaTagSampleApplication.getInstance().getTaggedPhotos());
-        recyclerViewTaggedPhotos = (RecyclerView) findViewById(R.id.rv_tagged_photos);
-        TaggedPhotoAdapter taggedPhotoAdapter = new TaggedPhotoAdapter(objectArrayList, this, this);
-        recyclerViewTaggedPhotos.setAdapter(taggedPhotoAdapter);
-        recyclerViewTaggedPhotos.setLayoutManager(new LinearLayoutManager(this));
+        mObjectArrayList.addAll(InstaTagSampleApplication.getInstance().getTaggedPhotos());
+        RecyclerView mRecyclerViewTaggedPhotos = (RecyclerView) findViewById(R.id.rv_tagged_photos);
+        TaggedPhotoAdapter taggedPhotoAdapter = new TaggedPhotoAdapter(mObjectArrayList, this, this);
+        mRecyclerViewTaggedPhotos.setAdapter(taggedPhotoAdapter);
+        mRecyclerViewTaggedPhotos.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
     @Override
     public void onTaggedPhotoClick(TaggedPhoto taggedPhoto, int position) {
-
+        // Do something when clicked on any tagged photo in mRecyclerViewTaggedPhotos
     }
 }
