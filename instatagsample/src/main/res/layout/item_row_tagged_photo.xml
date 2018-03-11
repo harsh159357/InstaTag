@@ -30,9 +30,11 @@
         app:carrotLeftColor="@color/yellow"
         app:carrotRightColor="@color/vanilla"
         app:carrotTopColor="@color/blue"
+        app:hideAnimation="@anim/bounce_down"
         app:instaBackgroundColor="@color/gray"
         app:instaTextColor="@android:color/white"
-        app:showAllCarrots="false" />
+        app:showAllCarrots="false"
+        app:showAnimation="@anim/bounce_up" />
 
     <ImageView
         android:id="@+id/tag_indicator"

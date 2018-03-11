@@ -44,5 +44,9 @@
         <!--Used for replacing top carrot background with custom background-->
         <attr name="carrotBottomBackground" format="reference" />
         <!--Used for replacing bottom carrot background with custom background-->
+        <attr name="hideAnimation" format="reference" />
+        <!--Used for animating tag while hiding-->
+        <attr name="showAnimation" format="reference" />
+        <!--Used for animating tag while showing-->
     </declare-styleable>
 </resources>

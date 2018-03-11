@@ -34,6 +34,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -69,6 +71,8 @@ public class InstaTag extends RelativeLayout {
     private boolean mShowAllCarrots;
     private boolean mIsRootIsInTouch = true;
 
+    private Animation mShowAnimation;
+    private Animation mHideAnimation;
 
     private GestureDetector mGestureDetector;
 
@@ -245,6 +249,12 @@ public class InstaTag extends RelativeLayout {
             mCarrotRightBackGroundColor = overrideDefaultColor;
             mCarrotBottomBackGroundColor = overrideDefaultColor;
         }
+
+        mHideAnimation = AnimationUtils.loadAnimation(context, obtainStyledAttributes.
+                getResourceId(R.styleable.InstaTag_hideAnimation, R.anim.zoom_out));
+
+        mShowAnimation = AnimationUtils.loadAnimation(context, obtainStyledAttributes.
+                getResourceId(R.styleable.InstaTag_showAnimation, R.anim.zoom_in));
 
         initViewWithId(context);
         obtainStyledAttributes.recycle();
@@ -615,6 +625,7 @@ public class InstaTag extends RelativeLayout {
         if (!mTagList.isEmpty()) {
             for (View tagView : mTagList) {
                 tagView.setVisibility(VISIBLE);
+                tagView.startAnimation(mShowAnimation);
             }
         }
     }
@@ -622,6 +633,7 @@ public class InstaTag extends RelativeLayout {
     public void hideTags() {
         if (!mTagList.isEmpty()) {
             for (View tagView : mTagList) {
+                tagView.startAnimation(mHideAnimation);
                 tagView.setVisibility(GONE);
             }
         }
