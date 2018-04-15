@@ -28,7 +28,7 @@ public class DragTestActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drag_test);
-        ImageView mImageView = (ImageView) findViewById(R.id.image);
+        ImageView mImageView = findViewById(R.id.image);
         mImageView.setOnTouchListener(new TagOnTouchListener(mImageView));
     }
 }

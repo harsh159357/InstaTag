@@ -71,8 +71,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:gravity="left|center_vertical"
+            android:gravity="start|center_vertical"
             android:hint="@string/search_for_some_one"
+            android:inputType="text"
             android:padding="10dp"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
@@ -90,47 +91,42 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+
+        <com.harsh.instatag.InstaTag
+            android:id="@+id/insta_tag"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:canWeAddTags="true"
+            app:carrotBottomColor="@color/vermilion"
+            app:carrotLeftColor="@color/yellow"
+            app:carrotRightColor="@color/vanilla"
+            app:carrotTopColor="@color/blue"
+            app:instaTextColor="@android:color/white" />
 
+        <TextView
+            android:id="@+id/tap_photo_to_tag_someone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/insta_tag"
+            android:layout_gravity="bottom"
+            android:background="#DFDFE1"
+            android:gravity="center"
+            android:text="@string/tap_photo_tag_someone_drag_to_move_or_tap_to_delete"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="normal" />
 
-            <com.harsh.instatag.InstaTag
-                android:id="@+id/insta_tag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:canWeAddTags="true"
-                app:carrotBottomColor="@color/vermilion"
-                app:carrotLeftColor="@color/yellow"
-                app:carrotRightColor="@color/vanilla"
-                app:carrotTopColor="@color/blue"
-                app:instaTextColor="@android:color/white" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_some_one_to_be_tagged"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EEFFFFFF"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tap_photo_to_tag_someone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/insta_tag"
-                android:layout_gravity="bottom"
-                android:background="#DFDFE1"
-                android:gravity="center"
-                android:text="@string/tap_photo_tag_someone_drag_to_move_or_tap_to_delete"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="normal" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_some_one_to_be_tagged"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#EEFFFFFF"
-                android:visibility="gone" />
-
-        </RelativeLayout>
-    </FrameLayout>
+    </RelativeLayout>
 
 </LinearLayout>

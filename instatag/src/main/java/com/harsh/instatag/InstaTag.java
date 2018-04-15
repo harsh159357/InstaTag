@@ -194,8 +194,8 @@ public class InstaTag extends RelativeLayout {
                 (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.tag_root, this);
 
-        mRoot = (ViewGroup) findViewById(R.id.tag_root);
-        mTagImageView = (TagImageView) findViewById(R.id.tag_image_view);
+        mRoot = findViewById(R.id.tag_root);
+        mTagImageView = findViewById(R.id.tag_image_view);
 
         setLayoutParamsToBeSetForRootLayout(mContext);
         mRoot.post(mSetRootHeightWidth);
@@ -482,21 +482,21 @@ public class InstaTag extends RelativeLayout {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
             final View tagView = layoutInflater.inflate(R.layout.view_for_tag, mRoot, false);
-            final TextView tagTextView = (TextView) tagView.findViewById(R.id.tag_text_view);
+            final TextView tagTextView = tagView.findViewById(R.id.tag_text_view);
 
             final LinearLayout carrotTopContainer =
-                    (LinearLayout) tagView.findViewById(R.id.carrot_top);
+                    tagView.findViewById(R.id.carrot_top);
             final LinearLayout carrotLeftContainer =
-                    (LinearLayout) tagView.findViewById(R.id.carrot_left);
+                    tagView.findViewById(R.id.carrot_left);
             final LinearLayout carrotRightContainer =
-                    (LinearLayout) tagView.findViewById(R.id.carrot_right);
+                    tagView.findViewById(R.id.carrot_right);
             final LinearLayout carrotBottomContainer =
-                    (LinearLayout) tagView.findViewById(R.id.carrot_bottom);
+                    tagView.findViewById(R.id.carrot_bottom);
 
             final ImageView removeTagImageView =
-                    (ImageView) tagView.findViewById(R.id.remove_tag_image_view);
+                    tagView.findViewById(R.id.remove_tag_image_view);
             final LinearLayout textContainer =
-                    (LinearLayout) tagView.findViewById(R.id.tag_text_container);
+                    tagView.findViewById(R.id.tag_text_container);
 
             if (mTagTextDrawable != null) {
                 ViewCompat.setBackground(textContainer, mTagTextDrawable);

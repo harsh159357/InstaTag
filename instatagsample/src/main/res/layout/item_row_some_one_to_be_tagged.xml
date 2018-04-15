@@ -41,8 +41,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/someOneProfileImage"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/someOneProfileImage"
+            android:layout_toEndOf="@+id/someOneProfileImage"
             android:text="@string/hsharma"
             android:textColor="#0097a7"
             android:textSize="@dimen/sp14" />
@@ -54,7 +56,9 @@
             android:layout_alignBottom="@id/someOneProfileImage"
             android:layout_below="@+id/someOneUserName"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_toRightOf="@+id/someOneProfileImage"
+            android:layout_toEndOf="@+id/someOneProfileImage"
             android:maxLines="3"
             android:text="@string/harsh_sharma"
             android:textColor="#716e69"
@@ -68,5 +72,6 @@
         android:layout_height="1dp"
         android:layout_below="@+id/someOneItem"
         android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:background="#716e69" />
 </RelativeLayout>

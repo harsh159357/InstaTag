@@ -32,7 +32,7 @@ public class TaggedPhotoActivity extends AppCompatActivity implements TaggedPhot
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tagged_photo);
         mObjectArrayList.addAll(InstaTagSampleApplication.getInstance().getTaggedPhotos());
-        RecyclerView mRecyclerViewTaggedPhotos = (RecyclerView) findViewById(R.id.rv_tagged_photos);
+        RecyclerView mRecyclerViewTaggedPhotos = findViewById(R.id.rv_tagged_photos);
         TaggedPhotoAdapter taggedPhotoAdapter = new TaggedPhotoAdapter(mObjectArrayList, this, this);
         mRecyclerViewTaggedPhotos.setAdapter(taggedPhotoAdapter);
         mRecyclerViewTaggedPhotos.setLayoutManager(new LinearLayoutManager(this));

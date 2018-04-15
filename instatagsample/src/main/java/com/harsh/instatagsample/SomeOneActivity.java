@@ -28,7 +28,7 @@ public class SomeOneActivity extends AppCompatActivity implements SomeOneClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_some_one);
-        RecyclerView mRecyclerViewSomeOne = (RecyclerView) findViewById(R.id.rv_some_one);
+        RecyclerView mRecyclerViewSomeOne = findViewById(R.id.rv_some_one);
         SomeOneAdapter someOneAdapter =
                 new SomeOneAdapter(SomeOneData.getDummySomeOneList(), this, this);
         mRecyclerViewSomeOne.setAdapter(someOneAdapter);

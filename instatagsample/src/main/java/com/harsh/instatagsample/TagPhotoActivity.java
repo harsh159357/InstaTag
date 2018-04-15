@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.harsh.instatag.InstaTag;
 import com.harsh.instatag.TagImageView;
 
@@ -49,6 +50,13 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneClickL
     private EditText mEditSearchForSomeOne;
     private SomeOneAdapter mSomeOneAdapter;
     private final ArrayList<SomeOne> mSomeOnes = new ArrayList<>();
+    private RequestOptions requestOptions =
+            new RequestOptions()
+                    .placeholder(0)
+                    .fallback(0)
+                    .centerCrop()
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +65,18 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneClickL
 
         mPhotoToBeTaggedUri = getIntent().getData();
 
-        mInstaTag = (InstaTag) findViewById(R.id.insta_tag);
+        mInstaTag = findViewById(R.id.insta_tag);
         mInstaTag.setImageToBeTaggedEvent(taggedImageEvent);
 
-        final TextView cancelTextView = (TextView) findViewById(R.id.cancel);
-        final TagImageView doneImageView = (TagImageView) findViewById(R.id.done);
-        final TagImageView backImageView = (TagImageView) findViewById(R.id.get_back);
+        final TextView cancelTextView = findViewById(R.id.cancel);
+        final TagImageView doneImageView = findViewById(R.id.done);
+        final TagImageView backImageView = findViewById(R.id.get_back);
 
-        mRecyclerViewSomeOneToBeTagged = (RecyclerView) findViewById(R.id.rv_some_one_to_be_tagged);
-        mTapPhotoToTagSomeOneTextView = (TextView) findViewById(R.id.tap_photo_to_tag_someone);
-        mHeaderSomeOneToBeTagged = (LinearLayout) findViewById(R.id.header_tag_photo);
-        mHeaderSearchSomeOne = (LinearLayout) findViewById(R.id.header_search_someone);
-        mEditSearchForSomeOne = (EditText) findViewById(R.id.search_for_a_person);
+        mRecyclerViewSomeOneToBeTagged = findViewById(R.id.rv_some_one_to_be_tagged);
+        mTapPhotoToTagSomeOneTextView = findViewById(R.id.tap_photo_to_tag_someone);
+        mHeaderSomeOneToBeTagged = findViewById(R.id.header_tag_photo);
+        mHeaderSearchSomeOne = findViewById(R.id.header_search_someone);
+        mEditSearchForSomeOne = findViewById(R.id.search_for_a_person);
 
         mEditSearchForSomeOne.addTextChangedListener(textWatcher);
 
@@ -85,12 +93,10 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneClickL
     }
 
     private void loadImage() {
-        Glide.with(this).load(mPhotoToBeTaggedUri)
-                .centerCrop()
-                .placeholder(0)
-                .fallback(0)
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide
+                .with(this)
+                .load(mPhotoToBeTaggedUri)
+                .apply(requestOptions)
                 .into(mInstaTag.getTagImageView());
     }
 
