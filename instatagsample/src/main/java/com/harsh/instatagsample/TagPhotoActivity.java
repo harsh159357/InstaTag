@@ -105,6 +105,7 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneClickL
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Util.hideKeyboard(TagPhotoActivity.this);
                 mInstaTag.addTag(mAddTagInX, mAddTagInY, someOne.getUserName());
                 mRecyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
                 mTapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
@@ -118,6 +119,7 @@ public class TagPhotoActivity extends AppCompatActivity implements SomeOneClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancel:
+                Util.hideKeyboard(this);
                 mRecyclerViewSomeOneToBeTagged.scrollToPosition(0);
                 mRecyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
                 mTapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
