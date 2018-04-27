@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.harsh.instatagsample.models.TaggedPhoto;
 
 import java.util.ArrayList;
 

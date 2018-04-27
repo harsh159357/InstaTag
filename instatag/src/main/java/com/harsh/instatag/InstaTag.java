@@ -481,7 +481,8 @@ public class InstaTag extends RelativeLayout {
         if (tagNotTaggedYet(tagText)) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-            final View tagView = layoutInflater.inflate(R.layout.view_for_tag, mRoot, false);
+            final View tagView = layoutInflater.
+                    inflate(R.layout.view_for_tag, mRoot, false);
             final TextView tagTextView = tagView.findViewById(R.id.tag_text_view);
 
             final LinearLayout carrotTopContainer =
@@ -529,7 +530,10 @@ public class InstaTag extends RelativeLayout {
                             RelativeLayout.LayoutParams.WRAP_CONTENT,
                             RelativeLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.
-                    setMargins(x - tagTextView.length() * 8, y - tagTextView.length() * 2, 0, 0);
+                    setMargins(x - tagTextView.length() * 8,
+                            y - tagTextView.length() * 2,
+                            0,
+                            0);
             tagView.setLayoutParams(layoutParams);
 
             mTagList.add(tagView);
@@ -636,6 +640,15 @@ public class InstaTag extends RelativeLayout {
                 tagView.startAnimation(mHideAnimation);
                 tagView.setVisibility(GONE);
             }
+        }
+    }
+
+    public void removeTags() {
+        if (!mTagList.isEmpty()) {
+            for (View tagView : mTagList) {
+                mRoot.removeView(tagView);
+            }
+            mTagList.clear();
         }
     }
 

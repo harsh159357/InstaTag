@@ -38,11 +38,11 @@
 
     <ImageView
         android:id="@+id/tag_indicator"
-        android:layout_width="@dimen/dp40"
-        android:layout_height="@dimen/dp40"
+        android:layout_width="@dimen/dp50"
+        android:layout_height="@dimen/dp50"
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/dp25"
-        android:background="@drawable/ic_tag_indicator"
+        android:background="@drawable/ic_tag_badge"
         tools:ignore="ContentDescription" />
 
 </FrameLayout>

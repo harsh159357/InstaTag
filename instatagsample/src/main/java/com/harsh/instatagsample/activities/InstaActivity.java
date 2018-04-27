@@ -12,9 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +23,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
+import com.harsh.instatagsample.InstaTagSampleApplication;
+import com.harsh.instatagsample.R;
 
 public class InstaActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,7 +53,8 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
             case R.id.see_tagged_photos:
                 if (!InstaTagSampleApplication.getInstance().getTaggedPhotos().isEmpty()) {
                     Intent taggedPhotos = new Intent();
-                    taggedPhotos.setClass(InstaActivity.this, TaggedPhotoActivity.class);
+                    taggedPhotos.setClass(InstaActivity.this,
+                            TaggedPhotoActivity.class);
                     startActivity(taggedPhotos);
                 } else {
                     Toast.makeText(this, NO_PHOTO_TAGGED, Toast.LENGTH_SHORT).show();

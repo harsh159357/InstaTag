@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2017 Harsh Sharma
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,10 +12,12 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
+  ~
   -->
 
-<resources>
-    <dimen name="dp40">40dp</dimen>
-    <dimen name="dp25">25dp</dimen>
-    <dimen name="dp50">50dp</dimen>
-</resources>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+</LinearLayout>

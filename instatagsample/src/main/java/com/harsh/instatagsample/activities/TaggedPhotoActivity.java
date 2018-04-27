@@ -12,14 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.harsh.instatagsample.InstaTagSampleApplication;
+import com.harsh.instatagsample.R;
+import com.harsh.instatagsample.adapters.TaggedPhotoAdapter;
+import com.harsh.instatagsample.interfaces.TaggedPhotoClickListener;
+import com.harsh.instatagsample.models.TaggedPhoto;
 
 import java.util.ArrayList;
 
@@ -33,7 +40,8 @@ public class TaggedPhotoActivity extends AppCompatActivity implements TaggedPhot
         setContentView(R.layout.activity_tagged_photo);
         mObjectArrayList.addAll(InstaTagSampleApplication.getInstance().getTaggedPhotos());
         RecyclerView mRecyclerViewTaggedPhotos = findViewById(R.id.rv_tagged_photos);
-        TaggedPhotoAdapter taggedPhotoAdapter = new TaggedPhotoAdapter(mObjectArrayList, this, this);
+        TaggedPhotoAdapter taggedPhotoAdapter = new TaggedPhotoAdapter(mObjectArrayList,
+                this, this);
         mRecyclerViewTaggedPhotos.setAdapter(taggedPhotoAdapter);
         mRecyclerViewTaggedPhotos.setLayoutManager(new LinearLayoutManager(this));
     }

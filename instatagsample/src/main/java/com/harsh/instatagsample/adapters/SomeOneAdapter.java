@@ -12,9 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -30,6 +31,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.harsh.instatagsample.R;
+import com.harsh.instatagsample.interfaces.SomeOneClickListener;
+import com.harsh.instatagsample.models.SomeOne;
 
 import java.util.List;
 

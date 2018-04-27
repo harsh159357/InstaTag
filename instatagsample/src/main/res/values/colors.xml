@@ -24,4 +24,7 @@
     <color name="yellow">#F5F749</color>
     <color name="vermilion">#F24236</color>
     <color name="gray">#565554</color>
+    <color name="bottom_sheet_background">#FFE0E0E0</color>
+    <color name="material_blue_gray_500">#FF607D8B</color>
+
 </resources>

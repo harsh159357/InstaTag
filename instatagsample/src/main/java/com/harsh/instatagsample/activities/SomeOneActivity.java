@@ -12,15 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
+
+import com.harsh.instatagsample.R;
+import com.harsh.instatagsample.adapters.SomeOneAdapter;
+import com.harsh.instatagsample.interfaces.SomeOneClickListener;
+import com.harsh.instatagsample.models.SomeOne;
+import com.harsh.instatagsample.utilities.SomeOneData;
 
 public class SomeOneActivity extends AppCompatActivity implements SomeOneClickListener {
 
@@ -30,7 +37,8 @@ public class SomeOneActivity extends AppCompatActivity implements SomeOneClickLi
         setContentView(R.layout.activity_some_one);
         RecyclerView mRecyclerViewSomeOne = findViewById(R.id.rv_some_one);
         SomeOneAdapter someOneAdapter =
-                new SomeOneAdapter(SomeOneData.getDummySomeOneList(), this, this);
+                new SomeOneAdapter(SomeOneData.getDummySomeOneList(),
+                        this, this);
         mRecyclerViewSomeOne.setAdapter(someOneAdapter);
         mRecyclerViewSomeOne.setLayoutManager(new LinearLayoutManager(this));
     }

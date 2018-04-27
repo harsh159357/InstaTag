@@ -12,9 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -29,6 +30,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.harsh.instatag.InstaTag;
+import com.harsh.instatagsample.R;
+import com.harsh.instatagsample.interfaces.TaggedPhotoClickListener;
+import com.harsh.instatagsample.models.TaggedPhoto;
 
 import java.util.ArrayList;
 
@@ -65,11 +69,13 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         switch (viewType) {
             case VIEW_ITEM_DATA_TYPE_1:
-                View dataView1 = inflater.inflate(R.layout.item_row_tagged_photo, viewGroup, false);
+                View dataView1 = inflater.inflate(R.layout.item_row_tagged_photo,
+                        viewGroup, false);
                 viewHolder = new TaggedPhotoViewHolder(dataView1, mTaggedPhotoClickListener);
                 break;
             default:
-                View defaultView = inflater.inflate(R.layout.item_row_tagged_photo, viewGroup, false);
+                View defaultView = inflater.inflate(R.layout.item_row_tagged_photo,
+                        viewGroup, false);
                 viewHolder = new TaggedPhotoViewHolder(defaultView, mTaggedPhotoClickListener);
                 break;
         }

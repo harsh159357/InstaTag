@@ -12,23 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.interfaces;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.ImageView;
+import com.harsh.instatagsample.models.TaggedPhoto;
 
-import com.harsh.instatag.TagOnTouchListener;
-
-public class DragTestActivity extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drag_test);
-        ImageView mImageView = findViewById(R.id.image);
-        mImageView.setOnTouchListener(new TagOnTouchListener(mImageView));
-    }
+public interface TaggedPhotoClickListener {
+    void onTaggedPhotoClick(TaggedPhoto taggedPhoto, int position);
 }

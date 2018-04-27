@@ -12,11 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.utilities;
 
 import android.util.SparseArray;
+
+import com.harsh.instatagsample.models.SomeOne;
 
 import java.util.ArrayList;
 
@@ -81,7 +84,8 @@ public class SomeOneData {
             }
         }
         if (filteredUser.isEmpty()) {
-            filteredUser.add(new SomeOne("No Result Found", "No Result Found", "No Result Found"));
+            filteredUser.add(new SomeOne("No Result Found",
+                    "No Result Found", "No Result Found"));
         }
         return filteredUser;
     }

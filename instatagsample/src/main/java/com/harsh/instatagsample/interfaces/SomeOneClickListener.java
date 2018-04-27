@@ -12,10 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.interfaces;
 
-public interface TaggedPhotoClickListener {
-    void onTaggedPhotoClick(TaggedPhoto taggedPhoto,int position);
+import com.harsh.instatagsample.models.SomeOne;
+
+public interface SomeOneClickListener {
+    void onSomeOneClicked(SomeOne someOne, int position);
 }

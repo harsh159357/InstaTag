@@ -12,10 +12,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.harsh.instatagsample;
+package com.harsh.instatagsample.activities;
 
-public interface SomeOneClickListener {
-    void onSomeOneClicked(SomeOne someOne, int position);
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+import com.harsh.instatag.TagOnTouchListener;
+import com.harsh.instatagsample.R;
+
+public class DragTestActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_drag_test);
+        ImageView mImageView = findViewById(R.id.image);
+        mImageView.setOnTouchListener(new TagOnTouchListener(mImageView));
+    }
 }
