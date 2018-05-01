@@ -37,12 +37,29 @@
         app:showAnimation="@anim/bounce_down" />
 
     <ImageView
+        android:id="@+id/iv_animated_heart"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_heart"
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/tag_indicator"
         android:layout_width="@dimen/dp50"
         android:layout_height="@dimen/dp50"
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/dp25"
         android:background="@drawable/ic_tag_badge"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/tag_heart"
+        android:layout_width="@dimen/dp40"
+        android:layout_height="@dimen/dp40"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/dp25"
+        android:background="@drawable/ic_heart"
         tools:ignore="ContentDescription" />
 
 </FrameLayout>

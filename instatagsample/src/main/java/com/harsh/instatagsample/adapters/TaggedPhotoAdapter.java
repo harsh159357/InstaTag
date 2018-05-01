@@ -17,6 +17,10 @@
 
 package com.harsh.instatagsample.adapters;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -24,6 +28,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -143,6 +148,8 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private class TaggedPhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final InstaTag instaTagTaggedPhoto;
+        final ImageView animatedHeart;
+        final ImageView tagHeart;
         final ImageView tagIndicator;
         final TaggedPhotoClickListener taggedPhotoClickListener;
 
@@ -150,7 +157,10 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(view);
             this.taggedPhotoClickListener = taggedPhotoClickListener;
             instaTagTaggedPhoto = view.findViewById(R.id.insta_tag_tagged_photo);
+            animatedHeart = view.findViewById(R.id.iv_animated_heart);
+            tagHeart = view.findViewById(R.id.tag_heart);
             tagIndicator = view.findViewById(R.id.tag_indicator);
+            tagHeart.setOnClickListener(this);
             tagIndicator.setOnClickListener(this);
         }
 
@@ -160,6 +170,9 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             switch (view.getId()) {
                 case R.id.insta_tag_tagged_photo:
                     taggedPhotoClickListener.onTaggedPhotoClick(taggedPhoto, getAdapterPosition());
+                    break;
+                case R.id.tag_heart:
+                    animateHeart();
                     break;
                 case R.id.tag_indicator:
                     if (!mTaggedPhotoTagsVisibilityStatusHelper.contains(taggedPhoto.getId())) {
@@ -171,6 +184,44 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                     break;
             }
+        }
+
+        void animateHeart() {
+            animatedHeart.setVisibility(View.VISIBLE);
+            animatedHeart.setScaleY(0f);
+            animatedHeart.setScaleX(0f);
+
+            AnimatorSet animatorSet = new AnimatorSet();
+
+            ObjectAnimator likeScaleUpYAnimator = ObjectAnimator.ofFloat(animatedHeart, ImageView.SCALE_Y, 0f, 1f);
+            likeScaleUpYAnimator.setDuration(400);
+            likeScaleUpYAnimator.setInterpolator(new OvershootInterpolator());
+
+            ObjectAnimator likeScaleUpXAnimator = ObjectAnimator.ofFloat(animatedHeart, ImageView.SCALE_X, 0f, 1f);
+            likeScaleUpXAnimator.setDuration(400);
+            likeScaleUpXAnimator.setInterpolator(new OvershootInterpolator());
+
+            ObjectAnimator likeScaleDownYAnimator = ObjectAnimator.ofFloat(animatedHeart, ImageView.SCALE_Y, 1f, 0f);
+            likeScaleDownYAnimator.setDuration(100);
+
+            ObjectAnimator likeScaleDownXAnimator = ObjectAnimator.ofFloat(animatedHeart, ImageView.SCALE_X, 1f, 0f);
+            likeScaleDownXAnimator.setDuration(100);
+
+            animatorSet.playTogether(likeScaleUpXAnimator,
+                    likeScaleUpYAnimator);
+
+            animatorSet.play(likeScaleDownXAnimator).
+                    with(likeScaleDownYAnimator).
+                    after(800);
+
+            animatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    animatedHeart.setVisibility(View.GONE);
+                }
+            });
+
+            animatorSet.start();
         }
     }
 }
