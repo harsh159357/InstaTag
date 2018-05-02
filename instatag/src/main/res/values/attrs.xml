@@ -48,5 +48,11 @@
         <!--Used for animating tag while hiding-->
         <attr name="showAnimation" format="reference" />
         <!--Used for animating tag while showing-->
+        <attr name="likeColor" format="color" />
+        <!--Used for setting like color-->
+        <attr name="likeSize" format="dimension" />
+        <!--Used for setting like size-->
+        <attr name="likeSrc" format="reference" />
+        <!--Used for setting source for like-->
     </declare-styleable>
 </resources>

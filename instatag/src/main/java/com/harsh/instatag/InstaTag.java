@@ -16,6 +16,10 @@
 
 package com.harsh.instatag;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -25,6 +29,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -36,6 +43,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -66,9 +74,9 @@ public class InstaTag extends RelativeLayout {
     private Drawable mCarrotRightDrawable;
     private Drawable mCarrotBottomDrawable;
 
-    private boolean mTagsAreAdded;
-    private boolean mCanWeAddTags;
-    private boolean mShowAllCarrots;
+    private boolean tagsAreAdded;
+    private boolean canWeAddTags;
+    private boolean showAllCarrots;
     private boolean mIsRootIsInTouch = true;
 
     private Animation mShowAnimation;
@@ -79,6 +87,7 @@ public class InstaTag extends RelativeLayout {
     private TaggedImageEvent mTaggedImageEvent;
 
     private ViewGroup mRoot;
+    private ImageView mLikeImage;
     private TagImageView mTagImageView;
     private final ArrayList<View> mTagList = new ArrayList<>();
 
@@ -105,7 +114,7 @@ public class InstaTag extends RelativeLayout {
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            if (mCanWeAddTags) {
+            if (canWeAddTags) {
                 if (mIsRootIsInTouch) {
                     int x = (int) e.getX();
                     int y = (int) e.getY();
@@ -136,16 +145,27 @@ public class InstaTag extends RelativeLayout {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            return true;
+            if (mTaggedImageEvent != null) {
+                return mTaggedImageEvent.onDoubleTap(e);
+            } else {
+                return true;
+            }
         }
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
-            return true;
+            if (mTaggedImageEvent != null) {
+                return mTaggedImageEvent.onDoubleTapEvent(e);
+            } else {
+                return true;
+            }
         }
 
         @Override
         public void onLongPress(MotionEvent e) {
+            if (mTaggedImageEvent != null) {
+                mTaggedImageEvent.onLongPress(e);
+            }
         }
 
         @Override
@@ -171,11 +191,17 @@ public class InstaTag extends RelativeLayout {
 
     public interface TaggedImageEvent {
         void singleTapConfirmedAndRootIsInTouch(int x, int y);
+
+        boolean onDoubleTap(MotionEvent e);
+
+        boolean onDoubleTapEvent(MotionEvent e);
+
+        void onLongPress(MotionEvent e);
     }
 
     public InstaTag(Context context) {
         super(context);
-        initViewWithId(context);
+        initViewWithId(context, null);
     }
 
     public InstaTag(Context context, AttributeSet attrs) {
@@ -187,7 +213,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private void initViewWithId(Context context) {
+    private void initViewWithId(Context context, TypedArray obtainStyledAttributes) {
         mContext = context;
 
         LayoutInflater inflater =
@@ -196,6 +222,29 @@ public class InstaTag extends RelativeLayout {
 
         mRoot = findViewById(R.id.tag_root);
         mTagImageView = findViewById(R.id.tag_image_view);
+        mLikeImage = new ImageView(context);
+
+        int likeColor, likeSrc, likeSize;
+        if (obtainStyledAttributes != null) {
+            likeColor = obtainStyledAttributes.getColor(R.styleable.InstaTag_likeColor,
+                    ContextCompat.getColor(context, R.color.colorAccent));
+            likeSrc = obtainStyledAttributes.getResourceId(R.styleable.InstaTag_likeSrc,
+                    R.drawable.ic_like);
+            likeSize = obtainStyledAttributes
+                    .getDimensionPixelSize(R.styleable.InstaTag_likeSize,
+                            getResources().getDimensionPixelSize(R.dimen.dp256));
+        } else {
+            likeColor = ContextCompat.getColor(context, R.color.colorAccent);
+            likeSrc = R.drawable.ic_like;
+            likeSize = getResources().getDimensionPixelSize(R.dimen.dp256);
+        }
+        LayoutParams heartParams = new LayoutParams(likeSize, likeSize);
+        heartParams.addRule(CENTER_IN_PARENT, TRUE);
+
+        mLikeImage.setLayoutParams(heartParams);
+        mLikeImage.setVisibility(GONE);
+        mLikeImage.setImageResource(likeSrc);
+        mLikeImage.setColorFilter(likeColor);
 
         setLayoutParamsToBeSetForRootLayout(mContext);
         mRoot.post(mSetRootHeightWidth);
@@ -220,9 +269,9 @@ public class InstaTag extends RelativeLayout {
         mCarrotBottomDrawable = obtainStyledAttributes.
                 getDrawable(R.styleable.InstaTag_carrotBottomBackground);
 
-        mCanWeAddTags = obtainStyledAttributes.
+        canWeAddTags = obtainStyledAttributes.
                 getBoolean(R.styleable.InstaTag_canWeAddTags, false);
-        mShowAllCarrots = obtainStyledAttributes.
+        showAllCarrots = obtainStyledAttributes.
                 getBoolean(R.styleable.InstaTag_showAllCarrots, false);
 
         mTagTextColor = obtainStyledAttributes.
@@ -256,12 +305,12 @@ public class InstaTag extends RelativeLayout {
         mShowAnimation = AnimationUtils.loadAnimation(context, obtainStyledAttributes.
                 getResourceId(R.styleable.InstaTag_showAnimation, R.anim.zoom_in));
 
-        initViewWithId(context);
+        initViewWithId(context, obtainStyledAttributes);
         obtainStyledAttributes.recycle();
     }
 
     private void setCarrotVisibility(View tagView, String carrotType) {
-        if (!mShowAllCarrots) {
+        if (!showAllCarrots) {
             switch (carrotType) {
                 case Constants.CARROT_TOP:
                     tagView.findViewById(R.id.carrot_top).setVisibility(View.VISIBLE);
@@ -515,7 +564,7 @@ public class InstaTag extends RelativeLayout {
                 ViewCompat.setBackground(carrotBottomContainer, mCarrotBottomDrawable);
             }
 
-            if (mShowAllCarrots) {
+            if (showAllCarrots) {
                 tagView.findViewById(R.id.carrot_top).setVisibility(View.VISIBLE);
                 tagView.findViewById(R.id.carrot_left).setVisibility(View.VISIBLE);
                 tagView.findViewById(R.id.carrot_right).setVisibility(View.VISIBLE);
@@ -549,7 +598,7 @@ public class InstaTag extends RelativeLayout {
 
             tagView.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(final View view, MotionEvent event) {
-                    if (mCanWeAddTags) {
+                    if (canWeAddTags) {
                         mIsRootIsInTouch = false;
 
                         final int X = (int) event.getRawX();
@@ -588,13 +637,13 @@ public class InstaTag extends RelativeLayout {
     }
 
     public void addTagViewFromTagsToBeTagged(ArrayList<TagToBeTagged> tagsToBeTagged) {
-        if (!mTagsAreAdded) {
+        if (!tagsAreAdded) {
             for (TagToBeTagged tagToBeTagged : tagsToBeTagged) {
                 addTag(getXWhileAddingTag(tagToBeTagged.getX_co_ord()),
                         getYWhileAddingTag(tagToBeTagged.getY_co_ord()),
                         tagToBeTagged.getUnique_tag_id());
             }
-            mTagsAreAdded = true;
+            tagsAreAdded = true;
         }
     }
 
@@ -650,6 +699,46 @@ public class InstaTag extends RelativeLayout {
             }
             mTagList.clear();
         }
+    }
+
+    public void animateLike() {
+        mRoot.addView(mLikeImage);
+        mLikeImage.setVisibility(View.VISIBLE);
+        mLikeImage.setScaleY(0f);
+        mLikeImage.setScaleX(0f);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+
+        ObjectAnimator likeScaleUpYAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_Y, 0f, 1f);
+        likeScaleUpYAnimator.setDuration(400);
+        likeScaleUpYAnimator.setInterpolator(new OvershootInterpolator());
+
+        ObjectAnimator likeScaleUpXAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_X, 0f, 1f);
+        likeScaleUpXAnimator.setDuration(400);
+        likeScaleUpXAnimator.setInterpolator(new OvershootInterpolator());
+
+        ObjectAnimator likeScaleDownYAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_Y, 1f, 0f);
+        likeScaleDownYAnimator.setDuration(100);
+
+        ObjectAnimator likeScaleDownXAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_X, 1f, 0f);
+        likeScaleDownXAnimator.setDuration(100);
+
+        animatorSet.playTogether(likeScaleUpXAnimator,
+                likeScaleUpYAnimator);
+
+        animatorSet.play(likeScaleDownXAnimator).
+                with(likeScaleDownYAnimator).
+                after(800);
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mLikeImage.setVisibility(View.GONE);
+                mRoot.removeView(mLikeImage);
+            }
+        });
+
+        animatorSet.start();
     }
 
     public int getRootWidth() {
@@ -713,15 +802,28 @@ public class InstaTag extends RelativeLayout {
     }
 
     public boolean canWeAddTags() {
-        return mCanWeAddTags;
+        return canWeAddTags;
     }
 
     public void setCanWeAddTags(boolean mCanWeAddTags) {
-        this.mCanWeAddTags = mCanWeAddTags;
+        this.canWeAddTags = mCanWeAddTags;
     }
 
     public boolean isShowAllCarrots() {
-        return mShowAllCarrots;
+        return showAllCarrots;
     }
+
+    public void setLikeResource(@DrawableRes int resource) {
+        mLikeImage.setImageResource(resource);
+    }
+
+    public void setLikeDrawable(Drawable drawable) {
+        mLikeImage.setImageDrawable(drawable);
+    }
+
+    public void setLikeColor(@ColorInt int color) {
+        mLikeImage.setColorFilter(color);
+    }
+
 }
 
