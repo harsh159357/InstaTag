@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2017 Harsh Sharma
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +12,19 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
+  ~
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="24"
+    android:viewportWidth="24">
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M11.85,4.08a0.5 0.5 ,0,0,0-0.35-0.15H4.43a0.5 0.5 ,0,0,0-0.5 0.5 V11.5a0.5 0.5
+,0,0,0,0.15 0.35
+l7.78,7.78h0a1.5,1.5,0,0,0,2.12,0L19.63,14a1.5,1.5,0,0,0,0-2.12Zm7.07,9.19-5.66,5.66a0.5
+0.5 ,0,0,1-0.71,0L4.93,11.29V4.93h6.36l7.63,7.63A0.5 0.5 ,0,0,1,18.93,13.27Z" />
 
-    package="com.harsh.instatag">
-
-    <application
-        android:icon="@drawable/ic_insta_tag"
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true">
-
-    </application>
-
-</manifest>
+</vector>

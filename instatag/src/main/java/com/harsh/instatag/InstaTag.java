@@ -702,25 +702,33 @@ public class InstaTag extends RelativeLayout {
     }
 
     public void animateLike() {
-        mRoot.addView(mLikeImage);
+        try {
+            mRoot.addView(mLikeImage);
+        } catch (Exception ignored) {
+            // Illegal Exception is being thrown here while adding mLikeImage
+        }
         mLikeImage.setVisibility(View.VISIBLE);
         mLikeImage.setScaleY(0f);
         mLikeImage.setScaleX(0f);
 
         AnimatorSet animatorSet = new AnimatorSet();
 
-        ObjectAnimator likeScaleUpYAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_Y, 0f, 1f);
+        ObjectAnimator likeScaleUpYAnimator = ObjectAnimator
+                .ofFloat(mLikeImage, ImageView.SCALE_Y, 0f, 1f);
         likeScaleUpYAnimator.setDuration(400);
         likeScaleUpYAnimator.setInterpolator(new OvershootInterpolator());
 
-        ObjectAnimator likeScaleUpXAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_X, 0f, 1f);
+        ObjectAnimator likeScaleUpXAnimator = ObjectAnimator
+                .ofFloat(mLikeImage, ImageView.SCALE_X, 0f, 1f);
         likeScaleUpXAnimator.setDuration(400);
         likeScaleUpXAnimator.setInterpolator(new OvershootInterpolator());
 
-        ObjectAnimator likeScaleDownYAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_Y, 1f, 0f);
+        ObjectAnimator likeScaleDownYAnimator = ObjectAnimator
+                .ofFloat(mLikeImage, ImageView.SCALE_Y, 1f, 0f);
         likeScaleDownYAnimator.setDuration(100);
 
-        ObjectAnimator likeScaleDownXAnimator = ObjectAnimator.ofFloat(mLikeImage, ImageView.SCALE_X, 1f, 0f);
+        ObjectAnimator likeScaleDownXAnimator = ObjectAnimator
+                .ofFloat(mLikeImage, ImageView.SCALE_X, 1f, 0f);
         likeScaleDownXAnimator.setDuration(100);
 
         animatorSet.playTogether(likeScaleUpXAnimator,

@@ -31,4 +31,17 @@
     <string name="tap_here_to_choose_a_photo">Tap here to choose a photo</string>
     <string name="my_profile">My Profile</string>
     <string name="no_posts_yet">No Posts Yet</string>
+
+    <!--          My Profile        -->
+    <string name="name">Harsh Sharma</string>
+    <string name="sub_title">Android Developer</string>
+    <string name="brief">I can\'t predict the future - But I can Invent It.</string>
+    <string name="github_link">harsh159357</string>
+    <string name="facebook_link">HARSH159357</string>
+    <string name="twitter_link">HARSH159357</string>
+    <string name="instagram_link">harsh159357/</string>
+    <string name="google_plus_link">+HarshSharma159357</string>
+    <string name="linkedin_link">harsh159357/</string>
+    <string name="email_link">harsh159357@gmail.com</string>
+    <string name="whatsapp">+919599305737</string>
 </resources>
