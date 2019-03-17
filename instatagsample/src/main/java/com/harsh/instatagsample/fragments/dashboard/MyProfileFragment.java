@@ -53,9 +53,15 @@ public class MyProfileFragment extends Fragment {
     public void myProfile() {
         AboutBuilder builder = AboutBuilder.with(getActivity())
 /*
+                 Add Following things if needed
                 .setAppIcon(R.mipmap.ic_launcher)
                 .setAppName(R.string.app_name)
+                .addTwitterLink(getString(R.string.twitter_link))
+                .addInstagramLink(getString(R.string.instagram_link))
+                .addGooglePlusLink(getString(R.string.google_plus_link))
+                .addWhatsappLink(getString(R.string.name), getString(R.string.whatsapp))
 */
+
                 .setPhoto(R.drawable.profile_picture_instatag)
                 .setCover(R.drawable.profile_cover_instatag)
                 .setLinksAnimated(true)
@@ -66,12 +72,8 @@ public class MyProfileFragment extends Fragment {
                 .setBrief(getString(R.string.brief))
                 .addGitHubLink(getString(R.string.github_link))
                 .addFacebookLink(getString(R.string.facebook_link))
-                .addTwitterLink(getString(R.string.twitter_link))
-                .addInstagramLink(getString(R.string.instagram_link))
-                .addGooglePlusLink(getString(R.string.google_plus_link))
                 .addLinkedInLink(getString(R.string.linkedin_link))
                 .addEmailLink(getString(R.string.email_link))
-                .addWhatsappLink(getString(R.string.name), getString(R.string.whatsapp))
                 .addFeedbackAction(getString(R.string.email_link))
                 .setWrapScrollView(true)
                 .setShowAsCard(true);
