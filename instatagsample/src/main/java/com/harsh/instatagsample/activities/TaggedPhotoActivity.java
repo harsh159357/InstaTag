@@ -22,7 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.harsh.instatagsample.InstaTagSampleApplication;
+import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
 import com.harsh.instatagsample.adapters.TaggedPhotoAdapter;
 import com.harsh.instatagsample.interfaces.TaggedPhotoClickListener;
@@ -32,15 +32,15 @@ import java.util.ArrayList;
 
 public class TaggedPhotoActivity extends AppCompatActivity implements TaggedPhotoClickListener {
 
-    private final ArrayList<Object> mObjectArrayList = new ArrayList<>();
+    private final ArrayList<TaggedPhoto> taggedPhotos = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tagged_photo);
-        mObjectArrayList.addAll(InstaTagSampleApplication.getInstance().getTaggedPhotos());
+        taggedPhotos.addAll(InstaTagApplication.getInstance().getTaggedPhotos());
         RecyclerView mRecyclerViewTaggedPhotos = findViewById(R.id.rv_tagged_photos);
-        TaggedPhotoAdapter taggedPhotoAdapter = new TaggedPhotoAdapter(mObjectArrayList,
+        TaggedPhotoAdapter taggedPhotoAdapter = new TaggedPhotoAdapter(taggedPhotos,
                 this, this);
         mRecyclerViewTaggedPhotos.setAdapter(taggedPhotoAdapter);
         mRecyclerViewTaggedPhotos.setLayoutManager(new LinearLayoutManager(this));

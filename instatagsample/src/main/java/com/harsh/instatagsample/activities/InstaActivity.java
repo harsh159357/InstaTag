@@ -24,7 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.harsh.instatagsample.InstaTagSampleApplication;
+import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
 
 public class InstaActivity extends AppCompatActivity implements View.OnClickListener {
@@ -51,7 +51,7 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(photoToBeTagged, CHOOSE_A_PHOTO_TO_BE_TAGGED);
                 break;
             case R.id.see_tagged_photos:
-                if (!InstaTagSampleApplication.getInstance().getTaggedPhotos().isEmpty()) {
+                if (!InstaTagApplication.getInstance().getTaggedPhotos().isEmpty()) {
                     Intent taggedPhotos = new Intent();
                     taggedPhotos.setClass(InstaActivity.this,
                             TaggedPhotoActivity.class);
@@ -62,7 +62,7 @@ public class InstaActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.see_some_ones:
                 Intent someOnes = new Intent();
-                someOnes.setClass(InstaActivity.this, SomeOneActivity.class);
+                someOnes.setClass(InstaActivity.this, UserActivity.class);
                 startActivity(someOnes);
                 break;
             case R.id.drag_test:

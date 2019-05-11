@@ -20,15 +20,15 @@ package com.harsh.instatagsample.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SomeOne implements Parcelable {
+public class User implements Parcelable {
     private String userName;
     private String fullName;
     private String url;
 
-    public SomeOne() {
+    public User() {
     }
 
-    public SomeOne(String userName, String fullName, String url) {
+    public User(String userName, String fullName, String url) {
         this.userName = userName;
         this.fullName = fullName;
         this.url = url;
@@ -47,21 +47,21 @@ public class SomeOne implements Parcelable {
         dest.writeString(this.url);
     }
 
-    private SomeOne(Parcel in) {
+    private User(Parcel in) {
         this.userName = in.readString();
         this.fullName = in.readString();
         this.url = in.readString();
     }
 
-    public static final Parcelable.Creator<SomeOne> CREATOR = new Parcelable.Creator<SomeOne>() {
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
         @Override
-        public SomeOne createFromParcel(Parcel source) {
-            return new SomeOne(source);
+        public User createFromParcel(Parcel source) {
+            return new User(source);
         }
 
         @Override
-        public SomeOne[] newArray(int size) {
-            return new SomeOne[size];
+        public User[] newArray(int size) {
+            return new User[size];
         }
     };
 
@@ -89,7 +89,7 @@ public class SomeOne implements Parcelable {
         this.url = url;
     }
 
-    public static Creator<SomeOne> getCREATOR() {
+    public static Creator<User> getCREATOR() {
         return CREATOR;
     }
 }

@@ -22,14 +22,14 @@
     tools:ignore="Overdraw">
 
     <RelativeLayout
-        android:id="@+id/someOneItem"
+        android:id="@+id/root_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/someOneProfileImage"
+            android:id="@+id/img_profile"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -37,28 +37,28 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/someOneUserName"
+            android:id="@+id/txt_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/someOneProfileImage"
+            android:layout_alignTop="@id/img_profile"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/someOneProfileImage"
-            android:layout_toEndOf="@+id/someOneProfileImage"
+            android:layout_toRightOf="@+id/img_profile"
+            android:layout_toEndOf="@+id/img_profile"
             android:text="@string/hsharma"
             android:textColor="#0097a7"
             android:textSize="@dimen/sp14" />
 
         <TextView
-            android:id="@+id/txtFullName"
+            android:id="@+id/txt_full_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/someOneProfileImage"
-            android:layout_below="@+id/someOneUserName"
+            android:layout_alignBottom="@id/img_profile"
+            android:layout_below="@+id/txt_user_name"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/someOneProfileImage"
-            android:layout_toEndOf="@+id/someOneProfileImage"
+            android:layout_toRightOf="@+id/img_profile"
+            android:layout_toEndOf="@+id/img_profile"
             android:maxLines="3"
             android:text="@string/harsh_sharma"
             android:textColor="#716e69"
@@ -70,7 +70,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/someOneItem"
+        android:layout_below="@+id/root_user"
         android:layout_marginLeft="60dp"
         android:layout_marginStart="60dp"
         android:background="#716e69" />

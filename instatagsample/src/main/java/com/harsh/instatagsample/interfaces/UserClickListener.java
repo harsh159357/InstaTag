@@ -17,8 +17,8 @@
 
 package com.harsh.instatagsample.interfaces;
 
-import com.harsh.instatagsample.models.SomeOne;
+import com.harsh.instatagsample.models.User;
 
-public interface SomeOneClickListener {
-    void onSomeOneClicked(SomeOne someOne, int position);
+public interface UserClickListener {
+    void onUserClick(User user, int position);
 }

@@ -23,10 +23,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
@@ -36,6 +34,19 @@ allprojects {
         google()
         maven { url "https://jitpack.io" }
     }
+}
+
+ext {
+    COMPILE_SDK_VERSION = 28
+    BUILD_TOOL_VERSION = "28.0.3"
+
+    MIN_SDK_VERSION = 15
+    TARGET_SDK_VERSION = 28
+
+    VERSION_CODE = 1
+    VERSION_NAME = "1.0"
+
+    GOOGLE_SUPPORT_LIBRARY_VERSION = '28.0.0'
 }
 
 task clean(type: Delete) {

@@ -27,15 +27,15 @@ import java.util.ArrayList;
 public class TaggedPhoto implements Parcelable {
     private String id;
     private String imageUri;
-    private ArrayList<TagToBeTagged> tagToBeTaggeds;
+    private ArrayList<TagToBeTagged> tags;
 
     public TaggedPhoto() {
     }
 
-    public TaggedPhoto(String id, String imageUri, ArrayList<TagToBeTagged> tagToBeTaggeds) {
+    public TaggedPhoto(String id, String imageUri, ArrayList<TagToBeTagged> tags) {
         this.id = id;
         this.imageUri = imageUri;
-        this.tagToBeTaggeds = tagToBeTaggeds;
+        this.tags = tags;
     }
 
     public String getId() {
@@ -54,12 +54,12 @@ public class TaggedPhoto implements Parcelable {
         this.imageUri = imageUri;
     }
 
-    public ArrayList<TagToBeTagged> getTagToBeTaggeds() {
-        return tagToBeTaggeds;
+    public ArrayList<TagToBeTagged> getTags() {
+        return tags;
     }
 
-    public void setTagToBeTaggeds(ArrayList<TagToBeTagged> tagToBeTaggeds) {
-        this.tagToBeTaggeds = tagToBeTaggeds;
+    public void setTags(ArrayList<TagToBeTagged> tags) {
+        this.tags = tags;
     }
 
 
@@ -72,13 +72,13 @@ public class TaggedPhoto implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.imageUri);
-        dest.writeTypedList(this.tagToBeTaggeds);
+        dest.writeTypedList(this.tags);
     }
 
     private TaggedPhoto(Parcel in) {
         this.id = in.readString();
         this.imageUri = in.readString();
-        this.tagToBeTaggeds = in.createTypedArrayList(TagToBeTagged.CREATOR);
+        this.tags = in.createTypedArrayList(TagToBeTagged.CREATOR);
     }
 
     public static final Creator<TaggedPhoto> CREATOR = new Creator<TaggedPhoto>() {

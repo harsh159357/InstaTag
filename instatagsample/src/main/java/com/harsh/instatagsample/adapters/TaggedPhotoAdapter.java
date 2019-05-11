@@ -39,11 +39,10 @@ import java.util.ArrayList;
 
 public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int VIEW_ITEM_DATA_TYPE_1 = 1;
-    private final ArrayList<Object> mObjectArrayList;
-    private final Context mContext;
-    private final TaggedPhotoClickListener mTaggedPhotoClickListener;
-    private final ArrayList<String> mTaggedPhotoTagsVisibilityStatusHelper;
+    private final ArrayList<TaggedPhoto> taggedPhotos;
+    private final Context context;
+    private final TaggedPhotoClickListener taggedPhotoClickListener;
+    private final ArrayList<String> tagsShowHideHelper;
     private RequestOptions requestOptions =
             new RequestOptions()
                     .placeholder(0)
@@ -53,13 +52,13 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 
-    public TaggedPhotoAdapter(ArrayList<Object> mObjectArrayList,
-                              Context mContext,
-                              TaggedPhotoClickListener mTaggedPhotoClickListener) {
-        this.mObjectArrayList = mObjectArrayList;
-        this.mContext = mContext;
-        this.mTaggedPhotoClickListener = mTaggedPhotoClickListener;
-        this.mTaggedPhotoTagsVisibilityStatusHelper = new ArrayList<>();
+    public TaggedPhotoAdapter(ArrayList<TaggedPhoto> taggedPhotos,
+                              Context context,
+                              TaggedPhotoClickListener taggedPhotoClickListener) {
+        this.taggedPhotos = taggedPhotos;
+        this.context = context;
+        this.taggedPhotoClickListener = taggedPhotoClickListener;
+        this.tagsShowHideHelper = new ArrayList<>();
     }
 
     @NonNull
@@ -68,82 +67,57 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
-        switch (viewType) {
-            case VIEW_ITEM_DATA_TYPE_1:
-                View dataView1 = inflater.inflate(R.layout.item_row_tagged_photo,
-                        viewGroup, false);
-                viewHolder = new TaggedPhotoViewHolder(dataView1, mTaggedPhotoClickListener);
-                break;
-            default:
-                View defaultView = inflater.inflate(R.layout.item_row_tagged_photo,
-                        viewGroup, false);
-                viewHolder = new TaggedPhotoViewHolder(defaultView, mTaggedPhotoClickListener);
-                break;
-        }
+        View defaultView = inflater.inflate(R.layout.item_row_tagged_photo,
+                viewGroup, false);
+        viewHolder = new TaggedPhotoViewHolder(defaultView, taggedPhotoClickListener);
+
         return viewHolder;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mObjectArrayList.get(position) instanceof TaggedPhoto) {
-            return VIEW_ITEM_DATA_TYPE_1;
-        }
         return -1;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        switch (viewHolder.getItemViewType()) {
-            case VIEW_ITEM_DATA_TYPE_1:
-                TaggedPhotoViewHolder taggedPhotoViewHolder = (TaggedPhotoViewHolder) viewHolder;
-                taggedPhotoViewHolder.instaTagTaggedPhoto.
-                        measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                taggedPhotoViewHolder.instaTagTaggedPhoto.
-                        setRootWidth(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
-                taggedPhotoViewHolder.instaTagTaggedPhoto.
-                        setRootHeight(taggedPhotoViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
-                configureTaggedPhotoViewHolder(taggedPhotoViewHolder, position);
-                break;
-
-            default:
-                TaggedPhotoViewHolder defaultViewHolder = (TaggedPhotoViewHolder) viewHolder;
-                defaultViewHolder.instaTagTaggedPhoto.
-                        measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                defaultViewHolder.instaTagTaggedPhoto.
-                        setRootWidth(defaultViewHolder.instaTagTaggedPhoto.getMeasuredWidth());
-                defaultViewHolder.instaTagTaggedPhoto.
-                        setRootHeight(defaultViewHolder.instaTagTaggedPhoto.getMeasuredHeight());
-                configureTaggedPhotoViewHolder(defaultViewHolder, position);
-                break;
-        }
+        TaggedPhotoViewHolder defaultViewHolder = (TaggedPhotoViewHolder) viewHolder;
+        defaultViewHolder.instaTag.
+                measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        defaultViewHolder.instaTag.
+                setRootWidth(defaultViewHolder.instaTag.getMeasuredWidth());
+        defaultViewHolder.instaTag.
+                setRootHeight(defaultViewHolder.instaTag.getMeasuredHeight());
+        configureTaggedPhotoViewHolder(defaultViewHolder, position);
     }
 
     private void configureTaggedPhotoViewHolder(TaggedPhotoViewHolder taggedPhotoViewHolder,
                                                 int position) {
-        TaggedPhoto taggedPhoto = (TaggedPhoto) mObjectArrayList.get(position);
+        TaggedPhoto taggedPhoto = taggedPhotos.get(position);
+
         Glide
-                .with(mContext)
+                .with(context)
                 .load(Uri.parse(taggedPhoto.getImageUri()))
                 .apply(requestOptions)
-                .into(taggedPhotoViewHolder.instaTagTaggedPhoto.getTagImageView());
+                .into(taggedPhotoViewHolder.instaTag.getTagImageView());
 
-        taggedPhotoViewHolder.instaTagTaggedPhoto.
-                addTagViewFromTagsToBeTagged(taggedPhoto.getTagToBeTaggeds());
-        if (mTaggedPhotoTagsVisibilityStatusHelper.contains(((TaggedPhoto)
-                mObjectArrayList.get(taggedPhotoViewHolder.getAdapterPosition())).getId())) {
-            taggedPhotoViewHolder.instaTagTaggedPhoto.showTags();
+        taggedPhotoViewHolder.instaTag.
+                addTagViewFromTagsToBeTagged(taggedPhoto.getTags());
+        if (tagsShowHideHelper.contains(
+                taggedPhotos.get(taggedPhotoViewHolder.getAdapterPosition()).getId())) {
+            taggedPhotoViewHolder.instaTag.showTags();
         } else {
-            taggedPhotoViewHolder.instaTagTaggedPhoto.hideTags();
+            taggedPhotoViewHolder.instaTag.hideTags();
         }
     }
 
     @Override
     public int getItemCount() {
-        return mObjectArrayList.size();
+        return taggedPhotos.size();
     }
 
     private class TaggedPhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        final InstaTag instaTagTaggedPhoto;
+        final InstaTag instaTag;
         final ImageView tagHeart;
         final ImageView tagIndicator;
         final TaggedPhotoClickListener taggedPhotoClickListener;
@@ -151,12 +125,12 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TaggedPhotoViewHolder(View view, TaggedPhotoClickListener taggedPhotoClickListener) {
             super(view);
             this.taggedPhotoClickListener = taggedPhotoClickListener;
-            instaTagTaggedPhoto = view.findViewById(R.id.insta_tag_tagged_photo);
+            instaTag = view.findViewById(R.id.insta_tag_tagged_photo);
             tagHeart = view.findViewById(R.id.tag_heart);
             tagIndicator = view.findViewById(R.id.tag_indicator);
             tagHeart.setOnClickListener(this);
             tagIndicator.setOnClickListener(this);
-            instaTagTaggedPhoto.setImageToBeTaggedEvent(taggedImageEvent);
+            instaTag.setImageToBeTaggedEvent(taggedImageEvent);
         }
 
         private InstaTag.TaggedImageEvent taggedImageEvent = new InstaTag.TaggedImageEvent() {
@@ -167,39 +141,39 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                instaTagTaggedPhoto.animateLike();
+                instaTag.animateLike();
                 return true;
             }
 
             @Override
             public boolean onDoubleTapEvent(MotionEvent e) {
-                instaTagTaggedPhoto.animateLike();
+                instaTag.animateLike();
                 return true;
             }
 
             @Override
             public void onLongPress(MotionEvent e) {
-                instaTagTaggedPhoto.animateLike();
+                instaTag.animateLike();
             }
         };
 
         @Override
         public void onClick(View view) {
-            TaggedPhoto taggedPhoto = (TaggedPhoto) mObjectArrayList.get(getAdapterPosition());
+            TaggedPhoto taggedPhoto = (TaggedPhoto) taggedPhotos.get(getAdapterPosition());
             switch (view.getId()) {
                 case R.id.insta_tag_tagged_photo:
                     taggedPhotoClickListener.onTaggedPhotoClick(taggedPhoto, getAdapterPosition());
                     break;
                 case R.id.tag_heart:
-                    instaTagTaggedPhoto.animateLike();
+                    instaTag.animateLike();
                     break;
                 case R.id.tag_indicator:
-                    if (!mTaggedPhotoTagsVisibilityStatusHelper.contains(taggedPhoto.getId())) {
-                        instaTagTaggedPhoto.showTags();
-                        mTaggedPhotoTagsVisibilityStatusHelper.add(taggedPhoto.getId());
+                    if (!tagsShowHideHelper.contains(taggedPhoto.getId())) {
+                        instaTag.showTags();
+                        tagsShowHideHelper.add(taggedPhoto.getId());
                     } else {
-                        instaTagTaggedPhoto.hideTags();
-                        mTaggedPhotoTagsVisibilityStatusHelper.remove(taggedPhoto.getId());
+                        instaTag.hideTags();
+                        tagsShowHideHelper.remove(taggedPhoto.getId());
                     }
                     break;
             }

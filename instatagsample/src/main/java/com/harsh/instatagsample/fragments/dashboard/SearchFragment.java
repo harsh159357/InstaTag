@@ -30,19 +30,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.harsh.instatagsample.R;
-import com.harsh.instatagsample.adapters.SomeOneAdapter;
-import com.harsh.instatagsample.interfaces.SomeOneClickListener;
-import com.harsh.instatagsample.models.SomeOne;
-import com.harsh.instatagsample.utilities.SomeOneData;
+import com.harsh.instatagsample.adapters.UserAdapter;
+import com.harsh.instatagsample.interfaces.UserClickListener;
+import com.harsh.instatagsample.models.User;
+import com.harsh.instatagsample.utilities.UsersData;
 
 import java.util.ArrayList;
 
-public class SearchFragment extends Fragment implements SomeOneClickListener {
+public class SearchFragment extends Fragment implements UserClickListener {
 
-    private RecyclerView mRecyclerViewSomeOne;
-    private EditText mEditSearchForSomeOne;
-    private SomeOneAdapter mSomeOneAdapter;
-    private final ArrayList<SomeOne> mSomeOnes = new ArrayList<>();
+    private RecyclerView recyclerViewUsers;
+    private EditText searchForUser;
+    private UserAdapter userAdapter;
+    private final ArrayList<User> users = new ArrayList<>();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -57,14 +57,14 @@ public class SearchFragment extends Fragment implements SomeOneClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-        mRecyclerViewSomeOne = rootView.findViewById(R.id.rv_some_one);
-        mEditSearchForSomeOne = rootView.findViewById(R.id.search_for_a_person);
-        mEditSearchForSomeOne.addTextChangedListener(textWatcher);
+        recyclerViewUsers = rootView.findViewById(R.id.rv_users);
+        searchForUser = rootView.findViewById(R.id.search_for_a_person);
+        searchForUser.addTextChangedListener(textWatcher);
 
-        mSomeOnes.addAll(SomeOneData.getDummySomeOneList());
-        mSomeOneAdapter = new SomeOneAdapter(mSomeOnes, getActivity(), this);
-        mRecyclerViewSomeOne.setAdapter(mSomeOneAdapter);
-        mRecyclerViewSomeOne.setLayoutManager(new LinearLayoutManager(getActivity()));
+        users.addAll(UsersData.getDummySomeOneList());
+        userAdapter = new UserAdapter(users, getActivity(), this);
+        recyclerViewUsers.setAdapter(userAdapter);
+        recyclerViewUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return rootView;
     }
@@ -76,15 +76,15 @@ public class SearchFragment extends Fragment implements SomeOneClickListener {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mEditSearchForSomeOne.getText().toString().trim().equals("")) {
-                mSomeOnes.clear();
-                mSomeOnes.addAll(SomeOneData.getDummySomeOneList());
-                mSomeOneAdapter.notifyDataSetChanged();
+            if (searchForUser.getText().toString().trim().equals("")) {
+                users.clear();
+                users.addAll(UsersData.getDummySomeOneList());
+                userAdapter.notifyDataSetChanged();
             } else {
-                mSomeOnes.clear();
-                mSomeOnes.addAll(SomeOneData.
-                        getFilteredUser(mEditSearchForSomeOne.getText().toString().trim()));
-                mSomeOneAdapter.notifyDataSetChanged();
+                users.clear();
+                users.addAll(UsersData.
+                        getFilteredUser(searchForUser.getText().toString().trim()));
+                userAdapter.notifyDataSetChanged();
             }
         }
 
@@ -94,12 +94,12 @@ public class SearchFragment extends Fragment implements SomeOneClickListener {
     };
 
     @Override
-    public void onSomeOneClicked(final SomeOne someOne, int position) {
+    public void onUserClick(final User user, int position) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getActivity(),
-                        someOne.getFullName(), Toast.LENGTH_SHORT).show();
+                        user.getFullName(), Toast.LENGTH_SHORT).show();
             }
         });
     }

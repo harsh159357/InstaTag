@@ -54,8 +54,6 @@ import java.util.ArrayList;
 
 public class InstaTag extends RelativeLayout {
 
-    private int mPosX;
-    private int mPosY;
     private int mRootWidth;
     private int mRootHeight;
 
@@ -344,94 +342,6 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private void actionTagMove(View tagView, int pointerCount, int X, int Y) {
-        int width = tagView.getWidth();
-        int height = tagView.getHeight();
-        int x = (int) tagView.getX();
-        int y = (int) tagView.getY();
-
-        if (x <= width && y <= height) {
-            carrotType(Constants.CARROT_TOP, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else if (x + width >= mRootWidth && y + height >= mRootHeight) {
-            carrotType(Constants.CARROT_BOTTOM, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else if (x - width <= 0 && y + height >= mRootHeight) {
-            carrotType(Constants.CARROT_BOTTOM, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else if (x + width >= mRootWidth && y <= height / 2) {
-            carrotType(Constants.CARROT_TOP, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else if (x <= 0 && y > height && y + height < mRootHeight) {
-            carrotType(Constants.CARROT_LEFT, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else if (x > width && x + width < mRootWidth && y - height <= 0) {
-            carrotType(Constants.CARROT_TOP, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else if (x + width >= mRootWidth && y > height && y + height < mRootHeight) {
-            carrotType(Constants.CARROT_RIGHT, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else if (x > width && x + width < mRootWidth && y + height >= mRootHeight) {
-            carrotType(Constants.CARROT_BOTTOM, tagView, pointerCount, X, mPosX, Y, mPosY);
-        } else {
-            carrotType(Constants.CARROT_TOP, tagView, pointerCount, X, mPosX, Y, mPosY);
-        }
-    }
-
-    private void carrotType(String carrotType,
-                            View tagView,
-                            int pointerCount, int X, int posX, int Y, int posY) {
-        switch (carrotType) {
-            case Constants.CARROT_TOP:
-                setCarrotVisibility(tagView, Constants.CARROT_TOP);
-                setLayoutParamsForTagView(Constants.CARROT_TOP,
-                        pointerCount, X, posX, Y, posY, tagView);
-                break;
-            case Constants.CARROT_LEFT:
-                setCarrotVisibility(tagView, Constants.CARROT_LEFT);
-                setLayoutParamsForTagView(Constants.CARROT_LEFT,
-                        pointerCount, X, posX, Y, posY, tagView);
-                break;
-            case Constants.CARROT_RIGHT:
-                setCarrotVisibility(tagView, Constants.CARROT_RIGHT);
-                setLayoutParamsForTagView(Constants.CARROT_RIGHT,
-                        pointerCount, X, posX, Y, posY, tagView);
-                break;
-            case Constants.CARROT_BOTTOM:
-                setCarrotVisibility(tagView, Constants.CARROT_BOTTOM);
-                setLayoutParamsForTagView(Constants.CARROT_BOTTOM,
-                        pointerCount, X, posX, Y, posY, tagView);
-                break;
-        }
-    }
-
-    private void setLayoutParamsForTagView(String carrotType,
-                                           int pointerCount, int X, int posX, int Y, int posY,
-                                           View tagView) {
-        int left = X - posX;
-        int top = Y - posY;
-
-        if (left < 0) {
-            left = 0;
-        } else if (left + tagView.getWidth() > mRootWidth) {
-            left = mRootWidth - tagView.getWidth();
-        }
-
-        if (top < 0) {
-            top = 0;
-        } else if (top + tagView.getHeight() > mRootHeight) {
-            top = mRootHeight - tagView.getHeight();
-        }
-
-        RelativeLayout.LayoutParams tagViewLayoutParams =
-                (RelativeLayout.LayoutParams) tagView.getLayoutParams();
-        if (pointerCount == 1) {
-            switch (carrotType) {
-                case Constants.CARROT_TOP:
-                case Constants.CARROT_LEFT:
-                case Constants.CARROT_RIGHT:
-                case Constants.CARROT_BOTTOM:
-                    tagViewLayoutParams.setMargins(left, top, 0, 0);
-                    tagView.setLayoutParams(tagViewLayoutParams);
-                    break;
-            }
-        }
-    }
-
-
     private void setColorForTag(View tagView) {
         ((TextView) tagView.findViewById(R.id.tag_text_view)).setTextColor(mTagTextColor);
 
@@ -596,41 +506,21 @@ public class InstaTag extends RelativeLayout {
                 }
             });
 
-            tagView.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(final View view, MotionEvent event) {
+            TagOnTouchListener tagOnTouchListener = new TagOnTouchListener(tagView);
+            tagOnTouchListener.setOnDragActionListener((new TagOnTouchListener.OnDragActionListener() {
+                @Override
+                public void onDragStart(View view) {
                     if (canWeAddTags) {
                         mIsRootIsInTouch = false;
-
-                        final int X = (int) event.getRawX();
-                        final int Y = (int) event.getRawY();
-
-                        int pointerCount = event.getPointerCount();
-
-                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                            case MotionEvent.ACTION_DOWN:
-                                RelativeLayout.LayoutParams layoutParams =
-                                        (RelativeLayout.LayoutParams) view.getLayoutParams();
-
-                                mPosX = X - layoutParams.leftMargin;
-                                mPosY = Y - layoutParams.topMargin;
-
-                                removeTagImageView.setVisibility(View.VISIBLE);
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                break;
-                            case MotionEvent.ACTION_POINTER_DOWN:
-                                break;
-                            case MotionEvent.ACTION_POINTER_UP:
-                                break;
-                            case MotionEvent.ACTION_MOVE:
-                                actionTagMove(tagView, pointerCount, X, Y);
-                                break;
-                        }
-                        mRoot.invalidate();
+                        removeTagImageView.setVisibility(VISIBLE);
                     }
-                    return true;
                 }
-            });
+
+                @Override
+                public void onDragEnd(View view) {
+                }
+            }));
+            tagView.setOnTouchListener(tagOnTouchListener);
         } else {
             Toast.makeText(mContext, "This user is already tagged", Toast.LENGTH_SHORT).show();
         }

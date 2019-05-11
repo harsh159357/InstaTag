@@ -32,17 +32,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.harsh.instatagsample.R;
-import com.harsh.instatagsample.interfaces.SomeOneClickListener;
-import com.harsh.instatagsample.models.SomeOne;
+import com.harsh.instatagsample.interfaces.UserClickListener;
+import com.harsh.instatagsample.models.User;
 
 import java.util.List;
 
 
-public class SomeOneAdapter extends RecyclerView.Adapter<SomeOneAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    private final Context mContext;
-    private final List<SomeOne> mSomeOneList;
-    private final SomeOneClickListener mSomeOneClickListener;
+    private final Context context;
+    private final List<User> userList;
+    private final UserClickListener userClickListener;
     private RequestOptions requestOptions =
             new RequestOptions()
                     .centerCrop()
@@ -50,12 +50,12 @@ public class SomeOneAdapter extends RecyclerView.Adapter<SomeOneAdapter.ViewHold
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_default_avatar);
 
-    public SomeOneAdapter(List<SomeOne> someOnes,
-                          Context mContext,
-                          SomeOneClickListener mSomeOneClickListener) {
-        this.mSomeOneList = someOnes;
-        this.mContext = mContext;
-        this.mSomeOneClickListener = mSomeOneClickListener;
+    public UserAdapter(List<User> users,
+                       Context context,
+                       UserClickListener userClickListener) {
+        this.userList = users;
+        this.context = context;
+        this.userClickListener = userClickListener;
     }
 
     @NonNull
@@ -64,41 +64,41 @@ public class SomeOneAdapter extends RecyclerView.Adapter<SomeOneAdapter.ViewHold
         View view = LayoutInflater.
                 from(parent.getContext()).
                 inflate(R.layout.item_row_some_one_to_be_tagged, parent, false);
-        return new ViewHolder(view, mSomeOneClickListener);
+        return new ViewHolder(view, userClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SomeOne someOne = mSomeOneList.get(position);
+        User user = userList.get(position);
         holder.setPosition(position);
-        holder.setSomeOne(someOne);
-        holder.setContext(mContext);
-        holder.txtUserName.setText(someOne.getUserName());
-        holder.txtFullName.setText(someOne.getFullName());
+        holder.setUser(user);
+        holder.setContext(context);
+        holder.txtUserName.setText(user.getUserName());
+        holder.txtFullName.setText(user.getFullName());
 
         Glide
-                .with(mContext)
-                .load(someOne.getUrl())
+                .with(context)
+                .load(user.getUrl())
                 .apply(requestOptions.transforms(new CircleCrop()))
                 .into(holder.imgProfile);
     }
 
     @Override
     public int getItemCount() {
-        if (mSomeOneList != null) {
-            return mSomeOneList.size();
+        if (userList != null) {
+            return userList.size();
         }
         return 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final SomeOneClickListener listener;
+        private final UserClickListener listener;
         private final RelativeLayout relativeLayout;
         private final ImageView imgProfile;
         private final TextView txtUserName;
         private final TextView txtFullName;
-        private SomeOne someOne;
+        private User user;
         private int position;
         private Context context;
 
@@ -106,29 +106,29 @@ public class SomeOneAdapter extends RecyclerView.Adapter<SomeOneAdapter.ViewHold
             this.position = position;
         }
 
-        public void setSomeOne(SomeOne someOne) {
-            this.someOne = someOne;
+        public void setUser(User user) {
+            this.user = user;
         }
 
         public void setContext(Context context) {
             this.context = context;
         }
 
-        public ViewHolder(View itemView, SomeOneClickListener listener) {
+        public ViewHolder(View itemView, UserClickListener listener) {
             super(itemView);
             this.listener = listener;
-            relativeLayout = itemView.findViewById(R.id.someOneItem);
-            imgProfile = itemView.findViewById(R.id.someOneProfileImage);
-            txtUserName = itemView.findViewById(R.id.someOneUserName);
-            txtFullName = itemView.findViewById(R.id.txtFullName);
+            relativeLayout = itemView.findViewById(R.id.root_user);
+            imgProfile = itemView.findViewById(R.id.img_profile);
+            txtUserName = itemView.findViewById(R.id.txt_user_name);
+            txtFullName = itemView.findViewById(R.id.txt_full_name);
             relativeLayout.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.someOneItem:
-                    listener.onSomeOneClicked(someOne, position);
+                case R.id.root_user:
+                    listener.onUserClick(user, position);
                     break;
             }
         }

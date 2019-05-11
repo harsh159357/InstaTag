@@ -30,16 +30,13 @@ import com.harsh.instatagsample.fragments.dashboard.ViewPagerFragmentForDashBoar
 
 public class DashBoardActivity extends AppCompatActivity {
 
-    private FragmentManager fragmentManager;
-    private Fragment fragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-        fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragment = new DashBoardFragment();
+        Fragment fragment = new DashBoardFragment();
         fragmentTransaction.add(R.id.dash_board_content,
                 fragment,
                 ViewPagerFragmentForDashBoard.DashBoardFragments.HOME);

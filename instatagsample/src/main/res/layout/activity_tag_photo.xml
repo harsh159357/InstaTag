@@ -72,7 +72,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="start|center_vertical"
-            android:hint="@string/search_for_some_one"
+            android:hint="@string/search_for_user"
             android:inputType="text"
             android:padding="10dp"
             android:textColor="@android:color/black"
@@ -115,7 +115,7 @@
             android:layout_gravity="bottom"
             android:background="#DFDFE1"
             android:gravity="center"
-            android:text="@string/tap_photo_tag_someone_drag_to_move_or_tap_to_delete"
+            android:text="@string/tap_photo_tag_user_drag_to_move_or_tap_to_delete"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="normal" />

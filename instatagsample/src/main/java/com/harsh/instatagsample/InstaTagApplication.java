@@ -24,46 +24,48 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.harsh.instatagsample.models.TaggedPhoto;
+import com.harsh.instatagsample.utilities.JsonUtil;
 
 import java.util.ArrayList;
 
 
-public class InstaTagSampleApplication extends Application {
-    private static InstaTagSampleApplication sInstaTagSampleApplication;
-    private static final String SHARED_PREF_NAME = "insta_tag_preferences";
-    private SharedPreferences mSharedPreferences;
+public class InstaTagApplication extends Application {
+    public static final String SHARED_PREF_NAME = "insta_tag_preferences";
+
+    private static InstaTagApplication instaTagApplication;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
 
-    public InstaTagSampleApplication() {
-        sInstaTagSampleApplication = this;
+    public InstaTagApplication() {
+        instaTagApplication = this;
     }
 
-    public static InstaTagSampleApplication getInstance() {
-        if (sInstaTagSampleApplication == null) {
-            sInstaTagSampleApplication = new InstaTagSampleApplication();
+    public static InstaTagApplication getInstance() {
+        if (instaTagApplication == null) {
+            instaTagApplication = new InstaTagApplication();
         }
-        if (sInstaTagSampleApplication.mSharedPreferences == null) {
-            sInstaTagSampleApplication.mSharedPreferences =
-                    sInstaTagSampleApplication.getSharedPreferences(SHARED_PREF_NAME,
+        if (instaTagApplication.sharedPreferences == null) {
+            instaTagApplication.sharedPreferences =
+                    instaTagApplication.getSharedPreferences(SHARED_PREF_NAME,
                             Context.MODE_PRIVATE);
         }
 
-        return sInstaTagSampleApplication;
+        return instaTagApplication;
     }
 
     public void clear() {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
     }
 
     private String getString(String key) {
-        if (mSharedPreferences != null) {
-            return mSharedPreferences.getString(key, "");
+        if (sharedPreferences != null) {
+            return sharedPreferences.getString(key, "");
         }
 
         return "";
@@ -71,8 +73,8 @@ public class InstaTagSampleApplication extends Application {
 
     private void putString(String key, String value) {
         try {
-            if (mSharedPreferences != null) {
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
+            if (sharedPreferences != null) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(key, value);
                 editor.apply();
             }
@@ -96,7 +98,7 @@ public class InstaTagSampleApplication extends Application {
     }
 
     public void setTaggedPhotos(ArrayList<TaggedPhoto> taggedPhotoArrayList) {
-        putString(Keys.TAGGED_PHOTOS.getKeyName(), toJson(taggedPhotoArrayList));
+        putString(Keys.TAGGED_PHOTOS.getKeyName(), JsonUtil.toJson(taggedPhotoArrayList));
     }
 
     private enum Keys {
@@ -110,17 +112,6 @@ public class InstaTagSampleApplication extends Application {
         public String getKeyName() {
             return keyName;
         }
-    }
-
-
-    public static String toJson(Object object) {
-        try {
-            Gson gson = new com.google.gson.Gson();
-            return gson.toJson(object);
-        } catch (Exception e) {
-            Log.e(SHARED_PREF_NAME, "Error In Converting ModelToJson", e);
-        }
-        return "";
     }
 
 }

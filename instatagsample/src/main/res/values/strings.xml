@@ -19,12 +19,12 @@
     <string name="tag_a_photo">Tag a photo</string>
     <string name="see_tagged_photos">See tagged photos</string>
     <string name="tag_photo">Tag Photo</string>
-    <string name="tap_photo_tag_someone_drag_to_move_or_tap_to_delete">Tap photo to tag someone.\nDrag to move, or tap to delete.</string>
+    <string name="tap_photo_tag_user_drag_to_move_or_tap_to_delete">Tap photo to tag User.\nDrag to move, or tap to delete.</string>
     <string name="harsh_sharma">Harsh Sharma</string>
     <string name="hsharma">hsharma</string>
     <string name="cancel">@android:string/cancel</string>
-    <string name="search_for_some_one">Search for someone</string>
-    <string name="someones">SomeOnes</string>
+    <string name="search_for_user">Search for user</string>
+    <string name="users">Users</string>
     <string name="drag_test">Drag Test</string>
     <string name="home">Home</string>
     <string name="search">Search</string>

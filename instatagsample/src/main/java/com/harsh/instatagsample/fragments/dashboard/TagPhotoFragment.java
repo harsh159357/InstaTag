@@ -40,31 +40,31 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.harsh.instatag.InstaTag;
 import com.harsh.instatag.TagImageView;
-import com.harsh.instatagsample.InstaTagSampleApplication;
+import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
-import com.harsh.instatagsample.adapters.SomeOneAdapter;
-import com.harsh.instatagsample.interfaces.SomeOneClickListener;
-import com.harsh.instatagsample.models.SomeOne;
+import com.harsh.instatagsample.adapters.UserAdapter;
+import com.harsh.instatagsample.interfaces.UserClickListener;
 import com.harsh.instatagsample.models.TaggedPhoto;
-import com.harsh.instatagsample.utilities.CommonUtil;
-import com.harsh.instatagsample.utilities.SomeOneData;
+import com.harsh.instatagsample.models.User;
+import com.harsh.instatagsample.utilities.KeyBoardUtil;
+import com.harsh.instatagsample.utilities.UsersData;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TagPhotoFragment extends Fragment implements SomeOneClickListener, View.OnClickListener {
+public class TagPhotoFragment extends Fragment implements UserClickListener, View.OnClickListener {
 
     private static final int CHOOSE_A_PHOTO_TO_BE_TAGGED = 5000;
 
-    private InstaTag mInstaTag;
-    private Uri mPhotoToBeTaggedUri;
-    private RecyclerView mRecyclerViewSomeOneToBeTagged;
-    private LinearLayout mHeaderSomeOneToBeTagged, mHeaderSearchSomeOne;
-    private TextView mTapPhotoToTagSomeOneTextView;
-    private int mAddTagInX, mAddTagInY;
-    private EditText mEditSearchForSomeOne;
-    private SomeOneAdapter mSomeOneAdapter;
-    private final ArrayList<SomeOne> mSomeOnes = new ArrayList<>();
+    private InstaTag instaTag;
+    private Uri photoToBeTaggedURI;
+    private RecyclerView recyclerViewUsers;
+    private LinearLayout headerUsers, headerSearchUsers;
+    private TextView tapPhotoToTagUser;
+    private int addTagInX, addTagInY;
+    private EditText searchForUser;
+    private UserAdapter userAdapter;
+    private final ArrayList<User> users = new ArrayList<>();
     private RequestOptions requestOptions =
             new RequestOptions()
                     .placeholder(0)
@@ -87,31 +87,31 @@ public class TagPhotoFragment extends Fragment implements SomeOneClickListener, 
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tag_photo, container, false);
 
-        mInstaTag = rootView.findViewById(R.id.insta_tag);
-        mInstaTag.setImageToBeTaggedEvent(taggedImageEvent);
+        instaTag = rootView.findViewById(R.id.insta_tag);
+        instaTag.setImageToBeTaggedEvent(taggedImageEvent);
 
         final TextView cancelTextView = rootView.findViewById(R.id.cancel);
         final TagImageView doneImageView = rootView.findViewById(R.id.done);
         final TagImageView backImageView = rootView.findViewById(R.id.get_back);
 
-        mRecyclerViewSomeOneToBeTagged = rootView.findViewById(R.id.rv_some_one_to_be_tagged);
-        mTapPhotoToTagSomeOneTextView = rootView.findViewById(R.id.tap_photo_to_tag_someone);
-        mHeaderSomeOneToBeTagged = rootView.findViewById(R.id.header_tag_photo);
-        mHeaderSearchSomeOne = rootView.findViewById(R.id.header_search_someone);
-        mEditSearchForSomeOne = rootView.findViewById(R.id.search_for_a_person);
+        recyclerViewUsers = rootView.findViewById(R.id.rv_some_one_to_be_tagged);
+        tapPhotoToTagUser = rootView.findViewById(R.id.tap_photo_to_tag_someone);
+        headerUsers = rootView.findViewById(R.id.header_tag_photo);
+        headerSearchUsers = rootView.findViewById(R.id.header_search_someone);
+        searchForUser = rootView.findViewById(R.id.search_for_a_person);
 
-        mEditSearchForSomeOne.addTextChangedListener(textWatcher);
+        searchForUser.addTextChangedListener(textWatcher);
 
-        mTapPhotoToTagSomeOneTextView.setOnClickListener(this);
+        tapPhotoToTagUser.setOnClickListener(this);
         cancelTextView.setOnClickListener(this);
         doneImageView.setOnClickListener(this);
         backImageView.setOnClickListener(this);
 
-        mSomeOnes.addAll(SomeOneData.getDummySomeOneList());
-        mSomeOneAdapter = new SomeOneAdapter(mSomeOnes, getActivity(),
+        users.addAll(UsersData.getDummySomeOneList());
+        userAdapter = new UserAdapter(users, getActivity(),
                 TagPhotoFragment.this);
-        mRecyclerViewSomeOneToBeTagged.setAdapter(mSomeOneAdapter);
-        mRecyclerViewSomeOneToBeTagged.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewUsers.setAdapter(userAdapter);
+        recyclerViewUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return rootView;
     }
@@ -119,22 +119,22 @@ public class TagPhotoFragment extends Fragment implements SomeOneClickListener, 
     private void loadImage() {
         Glide
                 .with(this)
-                .load(mPhotoToBeTaggedUri)
+                .load(photoToBeTaggedURI)
                 .apply(requestOptions)
-                .into(mInstaTag.getTagImageView());
+                .into(instaTag.getTagImageView());
     }
 
     @Override
-    public void onSomeOneClicked(final SomeOne someOne, int position) {
+    public void onUserClick(final User user, int position) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                CommonUtil.hideKeyboard(getActivity());
-                mInstaTag.addTag(mAddTagInX, mAddTagInY, someOne.getUserName());
-                mRecyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
-                mTapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
-                mHeaderSearchSomeOne.setVisibility(View.GONE);
-                mHeaderSomeOneToBeTagged.setVisibility(View.VISIBLE);
+                KeyBoardUtil.hideKeyboard(getActivity());
+                instaTag.addTag(addTagInX, addTagInY, user.getUserName());
+                recyclerViewUsers.setVisibility(View.GONE);
+                tapPhotoToTagUser.setVisibility(View.VISIBLE);
+                headerSearchUsers.setVisibility(View.GONE);
+                headerUsers.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -143,27 +143,27 @@ public class TagPhotoFragment extends Fragment implements SomeOneClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancel:
-                CommonUtil.hideKeyboard(getActivity());
-                mRecyclerViewSomeOneToBeTagged.scrollToPosition(0);
-                mRecyclerViewSomeOneToBeTagged.setVisibility(View.GONE);
-                mTapPhotoToTagSomeOneTextView.setVisibility(View.VISIBLE);
-                mHeaderSearchSomeOne.setVisibility(View.GONE);
-                mHeaderSomeOneToBeTagged.setVisibility(View.VISIBLE);
+                KeyBoardUtil.hideKeyboard(getActivity());
+                recyclerViewUsers.scrollToPosition(0);
+                recyclerViewUsers.setVisibility(View.GONE);
+                tapPhotoToTagUser.setVisibility(View.VISIBLE);
+                headerSearchUsers.setVisibility(View.GONE);
+                headerUsers.setVisibility(View.VISIBLE);
                 break;
             case R.id.done:
-                if (mPhotoToBeTaggedUri != null) {
-                    if (mInstaTag.getListOfTagsToBeTagged().isEmpty()) {
+                if (photoToBeTaggedURI != null) {
+                    if (instaTag.getListOfTagsToBeTagged().isEmpty()) {
                         Toast.makeText(getActivity(),
                                 "Please tag at least one user", Toast.LENGTH_SHORT).show();
                     } else {
-                        ArrayList<TaggedPhoto> taggedPhotoArrayList = InstaTagSampleApplication
+                        ArrayList<TaggedPhoto> taggedPhotoArrayList = InstaTagApplication
                                 .getInstance().getTaggedPhotos();
                         taggedPhotoArrayList.add(
                                 new TaggedPhoto(
                                         Calendar.getInstance().getTimeInMillis() + "",
-                                        mPhotoToBeTaggedUri.toString(),
-                                        mInstaTag.getListOfTagsToBeTagged()));
-                        InstaTagSampleApplication.getInstance().setTaggedPhotos(taggedPhotoArrayList);
+                                        photoToBeTaggedURI.toString(),
+                                        instaTag.getListOfTagsToBeTagged()));
+                        InstaTagApplication.getInstance().setTaggedPhotos(taggedPhotoArrayList);
                         Toast.makeText(getActivity(),
                                 "Photo tagged successfully", Toast.LENGTH_SHORT).show();
                         ((ViewPagerFragmentForDashBoard) getParentFragment()).setHomeAsSelectedTab();
@@ -181,7 +181,7 @@ public class TagPhotoFragment extends Fragment implements SomeOneClickListener, 
                 reset();
                 break;
             case R.id.tap_photo_to_tag_someone:
-                if (mPhotoToBeTaggedUri == null) {
+                if (photoToBeTaggedURI == null) {
                     Intent photoToBeTagged = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(photoToBeTagged, CHOOSE_A_PHOTO_TO_BE_TAGGED);
@@ -196,12 +196,12 @@ public class TagPhotoFragment extends Fragment implements SomeOneClickListener, 
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mAddTagInX = x;
-                    mAddTagInY = y;
-                    mRecyclerViewSomeOneToBeTagged.setVisibility(View.VISIBLE);
-                    mHeaderSomeOneToBeTagged.setVisibility(View.GONE);
-                    mTapPhotoToTagSomeOneTextView.setVisibility(View.GONE);
-                    mHeaderSearchSomeOne.setVisibility(View.VISIBLE);
+                    addTagInX = x;
+                    addTagInY = y;
+                    recyclerViewUsers.setVisibility(View.VISIBLE);
+                    headerUsers.setVisibility(View.GONE);
+                    tapPhotoToTagUser.setVisibility(View.GONE);
+                    headerSearchUsers.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -229,15 +229,15 @@ public class TagPhotoFragment extends Fragment implements SomeOneClickListener, 
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mEditSearchForSomeOne.getText().toString().trim().equals("")) {
-                mSomeOnes.clear();
-                mSomeOnes.addAll(SomeOneData.getDummySomeOneList());
-                mSomeOneAdapter.notifyDataSetChanged();
+            if (searchForUser.getText().toString().trim().equals("")) {
+                users.clear();
+                users.addAll(UsersData.getDummySomeOneList());
+                userAdapter.notifyDataSetChanged();
             } else {
-                mSomeOnes.clear();
-                mSomeOnes.addAll(SomeOneData.
-                        getFilteredUser(mEditSearchForSomeOne.getText().toString().trim()));
-                mSomeOneAdapter.notifyDataSetChanged();
+                users.clear();
+                users.addAll(UsersData.
+                        getFilteredUser(searchForUser.getText().toString().trim()));
+                userAdapter.notifyDataSetChanged();
             }
         }
 
@@ -252,17 +252,17 @@ public class TagPhotoFragment extends Fragment implements SomeOneClickListener, 
         if (requestCode == CHOOSE_A_PHOTO_TO_BE_TAGGED
                 && resultCode == android.app.Activity.RESULT_OK
                 && data != null) {
-            mPhotoToBeTaggedUri = data.getData();
+            photoToBeTaggedURI = data.getData();
             loadImage();
-            mTapPhotoToTagSomeOneTextView
-                    .setText(getString(R.string.tap_photo_tag_someone_drag_to_move_or_tap_to_delete));
+            tapPhotoToTagUser
+                    .setText(getString(R.string.tap_photo_tag_user_drag_to_move_or_tap_to_delete));
         }
     }
 
     private void reset() {
-        mPhotoToBeTaggedUri = null;
+        photoToBeTaggedURI = null;
         loadImage();
-        mInstaTag.removeTags();
-        mTapPhotoToTagSomeOneTextView.setText(getString(R.string.tap_here_to_choose_a_photo));
+        instaTag.removeTags();
+        tapPhotoToTagUser.setText(getString(R.string.tap_here_to_choose_a_photo));
     }
 }

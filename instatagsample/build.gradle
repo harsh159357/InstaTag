@@ -17,14 +17,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.ext.BUILD_TOOL_VERSION
     defaultConfig {
         applicationId "com.harsh.instatagsample"
-        minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.MIN_SDK_VERSION
+        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION
+        versionCode rootProject.ext.VERSION_CODE
+        versionName rootProject.ext.VERSION_NAME
     }
     buildTypes {
         release {
@@ -37,10 +37,10 @@ android {
 dependencies {
     implementation project(':instatag')
     //noinspection GradleCompatible
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.github.jrvansuita:MaterialAbout:+'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.android.support:design:' + rootProject.ext.GOOGLE_SUPPORT_LIBRARY_VERSION
+    implementation 'com.android.support:appcompat-v7:' + rootProject.ext.GOOGLE_SUPPORT_LIBRARY_VERSION
+    implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.GOOGLE_SUPPORT_LIBRARY_VERSION
 }

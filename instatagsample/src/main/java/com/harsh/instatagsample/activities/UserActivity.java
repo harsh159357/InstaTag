@@ -24,33 +24,33 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.harsh.instatagsample.R;
-import com.harsh.instatagsample.adapters.SomeOneAdapter;
-import com.harsh.instatagsample.interfaces.SomeOneClickListener;
-import com.harsh.instatagsample.models.SomeOne;
-import com.harsh.instatagsample.utilities.SomeOneData;
+import com.harsh.instatagsample.adapters.UserAdapter;
+import com.harsh.instatagsample.interfaces.UserClickListener;
+import com.harsh.instatagsample.models.User;
+import com.harsh.instatagsample.utilities.UsersData;
 
-public class SomeOneActivity extends AppCompatActivity implements SomeOneClickListener {
+public class UserActivity extends AppCompatActivity implements UserClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_some_one);
-        RecyclerView mRecyclerViewSomeOne = findViewById(R.id.rv_some_one);
-        SomeOneAdapter someOneAdapter =
-                new SomeOneAdapter(SomeOneData.getDummySomeOneList(),
+        setContentView(R.layout.activity_users);
+        RecyclerView mRecyclerViewSomeOne = findViewById(R.id.rv_users);
+        UserAdapter userAdapter =
+                new UserAdapter(UsersData.getDummySomeOneList(),
                         this, this);
-        mRecyclerViewSomeOne.setAdapter(someOneAdapter);
+        mRecyclerViewSomeOne.setAdapter(userAdapter);
         mRecyclerViewSomeOne.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
     @Override
-    public void onSomeOneClicked(final SomeOne someOne, int position) {
+    public void onUserClick(final User user, int position) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(SomeOneActivity.this,
-                        someOne.getFullName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserActivity.this,
+                        user.getFullName(), Toast.LENGTH_SHORT).show();
             }
         });
     }
