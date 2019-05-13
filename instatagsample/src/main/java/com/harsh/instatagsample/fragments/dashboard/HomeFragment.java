@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
 
     private IntentFilter newPhotoTaggedIntentFilter = new IntentFilter(Events.NEW_PHOTO_IS_TAGGED);
 
-    private final ArrayList<Photo> photos = new ArrayList<>();
+    private ArrayList<Photo> photos = new ArrayList<>();
     private RecyclerView recyclerViewPhotos;
     private LinearLayout emptyContainer;
     private PhotoAdapter photoAdapter;
@@ -119,9 +119,11 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    photos.clear();
-                    photos.addAll(InstaTagApplication.getInstance().getPhotos());
-                    photoAdapter.notifyDataSetChanged();
+                    photos = InstaTagApplication.getInstance().getPhotos();
+                    photoAdapter = new PhotoAdapter(photos,
+                            getContext(),
+                            HomeFragment.this);
+                    recyclerViewPhotos.setAdapter(photoAdapter);
                     showEmptyContainer();
                     dismissProgress();
                     recyclerViewPhotos.scrollToPosition(photos.size() - 1);

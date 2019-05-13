@@ -36,12 +36,13 @@ import com.harsh.instatagsample.interfaces.PhotoClickListener;
 import com.harsh.instatagsample.models.Photo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
     private final ArrayList<Photo> photos;
-    private final ArrayList<String> tagsShowHideHelper;
+    private final HashSet<String> tagsShowHideHelper;
     private final PhotoClickListener photoClickListener;
 
     private RequestOptions requestOptions =
@@ -57,7 +58,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.photos = photos;
         this.context = context;
         this.photoClickListener = photoClickListener;
-        this.tagsShowHideHelper = new ArrayList<>();
+        this.tagsShowHideHelper = new HashSet<>();
     }
 
     @NonNull
@@ -101,8 +102,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         taggedPhotoViewHolder.instaTag.
                 addTagViewFromTags(photo.getTags());
-        if (tagsShowHideHelper.contains(
-                photos.get(taggedPhotoViewHolder.getAdapterPosition()).getId())) {
+        if (tagsShowHideHelper.contains(photos.get(taggedPhotoViewHolder.getAdapterPosition()).getId())) {
             taggedPhotoViewHolder.instaTag.showTags();
         } else {
             taggedPhotoViewHolder.instaTag.hideTags();
