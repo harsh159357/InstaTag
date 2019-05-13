@@ -22,7 +22,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_tagged_photos"
+        android:id="@+id/rv_photos"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

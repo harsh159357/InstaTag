@@ -34,7 +34,6 @@ public class ViewPagerAdapterForDashBoard extends FragmentStatePagerAdapter {
         dashBoardFragments.add(ViewPagerFragmentForDashBoard.DashBoardFragments.HOME);
         dashBoardFragments.add(ViewPagerFragmentForDashBoard.DashBoardFragments.TAG_PHOTO);
         dashBoardFragments.add(ViewPagerFragmentForDashBoard.DashBoardFragments.SEARCH);
-        dashBoardFragments.add(ViewPagerFragmentForDashBoard.DashBoardFragments.MY_PROFILE);
         this.dashBoardFragment = dashBoardFragment;
     }
 

@@ -20,19 +20,19 @@ package com.harsh.instatagsample.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.harsh.instatag.TagToBeTagged;
+import com.harsh.instatag.Tag;
 
 import java.util.ArrayList;
 
-public class TaggedPhoto implements Parcelable {
+public class Photo implements Parcelable {
     private String id;
     private String imageUri;
-    private ArrayList<TagToBeTagged> tags;
+    private ArrayList<Tag> tags;
 
-    public TaggedPhoto() {
+    public Photo() {
     }
 
-    public TaggedPhoto(String id, String imageUri, ArrayList<TagToBeTagged> tags) {
+    public Photo(String id, String imageUri, ArrayList<Tag> tags) {
         this.id = id;
         this.imageUri = imageUri;
         this.tags = tags;
@@ -54,11 +54,11 @@ public class TaggedPhoto implements Parcelable {
         this.imageUri = imageUri;
     }
 
-    public ArrayList<TagToBeTagged> getTags() {
+    public ArrayList<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<TagToBeTagged> tags) {
+    public void setTags(ArrayList<Tag> tags) {
         this.tags = tags;
     }
 
@@ -75,21 +75,21 @@ public class TaggedPhoto implements Parcelable {
         dest.writeTypedList(this.tags);
     }
 
-    private TaggedPhoto(Parcel in) {
+    private Photo(Parcel in) {
         this.id = in.readString();
         this.imageUri = in.readString();
-        this.tags = in.createTypedArrayList(TagToBeTagged.CREATOR);
+        this.tags = in.createTypedArrayList(Tag.CREATOR);
     }
 
-    public static final Creator<TaggedPhoto> CREATOR = new Creator<TaggedPhoto>() {
+    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
         @Override
-        public TaggedPhoto createFromParcel(Parcel source) {
-            return new TaggedPhoto(source);
+        public Photo createFromParcel(Parcel source) {
+            return new Photo(source);
         }
 
         @Override
-        public TaggedPhoto[] newArray(int size) {
-            return new TaggedPhoto[size];
+        public Photo[] newArray(int size) {
+            return new Photo[size];
         }
     };
 }

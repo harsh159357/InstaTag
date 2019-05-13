@@ -19,12 +19,12 @@ package com.harsh.instatag;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TagToBeTagged implements Parcelable {
+public class Tag implements Parcelable {
     private String unique_tag_id;
     private Double x_co_ord;
     private Double y_co_ord;
 
-    public TagToBeTagged(String unique_tag_id, Double x_co_ord, Double y_co_ord) {
+    public Tag(String unique_tag_id, Double x_co_ord, Double y_co_ord) {
         this.unique_tag_id = unique_tag_id;
         this.x_co_ord = x_co_ord;
         this.y_co_ord = y_co_ord;
@@ -68,22 +68,22 @@ public class TagToBeTagged implements Parcelable {
         dest.writeValue(this.y_co_ord);
     }
 
-    private TagToBeTagged(Parcel in) {
+    private Tag(Parcel in) {
         this.unique_tag_id = in.readString();
         this.x_co_ord = (Double) in.readValue(Double.class.getClassLoader());
         this.y_co_ord = (Double) in.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<TagToBeTagged> CREATOR =
-            new Parcelable.Creator<TagToBeTagged>() {
+    public static final Parcelable.Creator<Tag> CREATOR =
+            new Parcelable.Creator<Tag>() {
                 @Override
-                public TagToBeTagged createFromParcel(Parcel source) {
-                    return new TagToBeTagged(source);
+                public Tag createFromParcel(Parcel source) {
+                    return new Tag(source);
                 }
 
                 @Override
-                public TagToBeTagged[] newArray(int size) {
-                    return new TagToBeTagged[size];
+                public Tag[] newArray(int size) {
+                    return new Tag[size];
                 }
             };
 }

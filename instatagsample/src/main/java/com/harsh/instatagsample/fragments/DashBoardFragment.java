@@ -32,16 +32,16 @@ import android.view.ViewGroup;
 import com.harsh.instatagsample.R;
 import com.harsh.instatagsample.activities.DashBoardActivity;
 import com.harsh.instatagsample.fragments.dashboard.ViewPagerAdapterForDashBoard;
+import com.harsh.instatagsample.interfaces.AppConstants;
 import com.harsh.instatagsample.utilities.CustomViewPager;
 
-public class DashBoardFragment extends Fragment {
-    public static final int OFFSCREEN_PAGE_LIMIT = 4;
-    //    @BindView(R.id.bottom_navigation_view)
+public class DashBoardFragment extends Fragment implements AppConstants {
     BottomNavigationView bottomNavigationView;
-    //    @BindView(R.id.dashboard_pager)
     CustomViewPager customViewPager;
+
     private View rootView;
     private DashBoardActivity dashBoardActivityContext;
+
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -55,9 +55,6 @@ public class DashBoardFragment extends Fragment {
                     break;
                 case R.id.tab_search:
                     customViewPager.setCurrentItem(2, true);
-                    break;
-                case R.id.tab_my_profile:
-                    customViewPager.setCurrentItem(3, true);
                     break;
             }
             return true;
@@ -109,6 +106,5 @@ public class DashBoardFragment extends Fragment {
     public void setHomeAsSelectedTab() {
         bottomNavigationView.setSelectedItemId(R.id.tab_home);
     }
-
 
 }

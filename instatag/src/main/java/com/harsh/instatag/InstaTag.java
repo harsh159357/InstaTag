@@ -82,7 +82,7 @@ public class InstaTag extends RelativeLayout {
 
     private GestureDetector mGestureDetector;
 
-    private TaggedImageEvent mTaggedImageEvent;
+    private PhotoEvent mPhotoEvent;
 
     private ViewGroup mRoot;
     private ImageView mLikeImage;
@@ -121,8 +121,8 @@ public class InstaTag extends RelativeLayout {
                         case MotionEvent.ACTION_MOVE:
                         case MotionEvent.ACTION_UP:
                     }
-                    if (mTaggedImageEvent != null) {
-                        mTaggedImageEvent.singleTapConfirmedAndRootIsInTouch(x, y);
+                    if (mPhotoEvent != null) {
+                        mPhotoEvent.singleTapConfirmedAndRootIsInTouch(x, y);
                     }
                 } else {
                     hideRemoveButtonFromAllTagView();
@@ -143,8 +143,8 @@ public class InstaTag extends RelativeLayout {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            if (mTaggedImageEvent != null) {
-                return mTaggedImageEvent.onDoubleTap(e);
+            if (mPhotoEvent != null) {
+                return mPhotoEvent.onDoubleTap(e);
             } else {
                 return true;
             }
@@ -152,8 +152,8 @@ public class InstaTag extends RelativeLayout {
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
-            if (mTaggedImageEvent != null) {
-                return mTaggedImageEvent.onDoubleTapEvent(e);
+            if (mPhotoEvent != null) {
+                return mPhotoEvent.onDoubleTapEvent(e);
             } else {
                 return true;
             }
@@ -161,8 +161,8 @@ public class InstaTag extends RelativeLayout {
 
         @Override
         public void onLongPress(MotionEvent e) {
-            if (mTaggedImageEvent != null) {
-                mTaggedImageEvent.onLongPress(e);
+            if (mPhotoEvent != null) {
+                mPhotoEvent.onLongPress(e);
             }
         }
 
@@ -187,7 +187,7 @@ public class InstaTag extends RelativeLayout {
         String CARROT_BOTTOM = "CARROT_BOTTOM";
     }
 
-    public interface TaggedImageEvent {
+    public interface PhotoEvent {
         void singleTapConfirmedAndRootIsInTouch(int x, int y);
 
         boolean onDoubleTap(MotionEvent e);
@@ -244,7 +244,7 @@ public class InstaTag extends RelativeLayout {
         mLikeImage.setImageResource(likeSrc);
         mLikeImage.setColorFilter(likeColor);
 
-        setLayoutParamsToBeSetForRootLayout(mContext);
+        setRootLayoutParams(mContext);
         mRoot.post(mSetRootHeightWidth);
         mRoot.setOnTouchListener(mTagOnTouchListener);
         mGestureDetector = new GestureDetector(mRoot.getContext(), mTagGestureListener);
@@ -376,7 +376,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private boolean tagNotTaggedYet(String tagName) {
+    private boolean isTagged(String tagName) {
         boolean tagFound = true;
         if (!mTagList.isEmpty()) {
             for (View tagView : mTagList) {
@@ -410,7 +410,7 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    private void setLayoutParamsToBeSetForRootLayout(Context context) {
+    private void setRootLayoutParams(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
@@ -428,16 +428,16 @@ public class InstaTag extends RelativeLayout {
         mRoot.setLayoutParams(params);
     }
 
-    private int getXWhileAddingTag(Double x) {
+    private int getXCoOrdForTag(Double x) {
         return (mRootWidth * x.intValue()) / 100;
     }
 
-    private int getYWhileAddingTag(Double y) {
+    private int getYCoOrdForTag(Double y) {
         return (mRootHeight * y.intValue()) / 100;
     }
 
     public void addTag(int x, int y, String tagText) {
-        if (tagNotTaggedYet(tagText)) {
+        if (isTagged(tagText)) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
             final View tagView = layoutInflater.
@@ -526,12 +526,12 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
-    public void addTagViewFromTagsToBeTagged(ArrayList<TagToBeTagged> tagsToBeTagged) {
+    public void addTagViewFromTags(ArrayList<Tag> tags) {
         if (!tagsAreAdded) {
-            for (TagToBeTagged tagToBeTagged : tagsToBeTagged) {
-                addTag(getXWhileAddingTag(tagToBeTagged.getX_co_ord()),
-                        getYWhileAddingTag(tagToBeTagged.getY_co_ord()),
-                        tagToBeTagged.getUnique_tag_id());
+            for (Tag tag : tags) {
+                addTag(getXCoOrdForTag(tag.getX_co_ord()),
+                        getYCoOrdForTag(tag.getY_co_ord()),
+                        tag.getUnique_tag_id());
             }
             tagsAreAdded = true;
         }
@@ -541,8 +541,8 @@ public class InstaTag extends RelativeLayout {
         return mTagImageView;
     }
 
-    public ArrayList<TagToBeTagged> getListOfTagsToBeTagged() {
-        ArrayList<TagToBeTagged> tagsToBeTagged = new ArrayList<>();
+    public ArrayList<Tag> getTags() {
+        ArrayList<Tag> tags = new ArrayList<>();
         if (!mTagList.isEmpty()) {
             for (int i = 0; i < mTagList.size(); i++) {
                 View view = mTagList.get(i);
@@ -550,17 +550,17 @@ public class InstaTag extends RelativeLayout {
                 x = (x / mRootWidth) * 100;
                 double y = view.getY();
                 y = (y / mRootHeight) * 100;
-                tagsToBeTagged.
-                        add(new TagToBeTagged(((TextView) view.
+                tags.
+                        add(new Tag(((TextView) view.
                                 findViewById(R.id.tag_text_view)).getText().toString(), x, y));
             }
         }
-        return tagsToBeTagged;
+        return tags;
     }
 
-    public void setImageToBeTaggedEvent(TaggedImageEvent taggedImageEvent) {
-        if (this.mTaggedImageEvent == null) {
-            this.mTaggedImageEvent = taggedImageEvent;
+    public void setTaggedPhotoEvent(PhotoEvent photoEvent) {
+        if (this.mPhotoEvent == null) {
+            this.mPhotoEvent = photoEvent;
         }
     }
 

@@ -32,17 +32,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.harsh.instatag.InstaTag;
 import com.harsh.instatagsample.R;
-import com.harsh.instatagsample.interfaces.TaggedPhotoClickListener;
-import com.harsh.instatagsample.models.TaggedPhoto;
+import com.harsh.instatagsample.interfaces.PhotoClickListener;
+import com.harsh.instatagsample.models.Photo;
 
 import java.util.ArrayList;
 
-public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final ArrayList<TaggedPhoto> taggedPhotos;
     private final Context context;
-    private final TaggedPhotoClickListener taggedPhotoClickListener;
+    private final ArrayList<Photo> photos;
     private final ArrayList<String> tagsShowHideHelper;
+    private final PhotoClickListener photoClickListener;
+
     private RequestOptions requestOptions =
             new RequestOptions()
                     .placeholder(0)
@@ -52,12 +53,10 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 
-    public TaggedPhotoAdapter(ArrayList<TaggedPhoto> taggedPhotos,
-                              Context context,
-                              TaggedPhotoClickListener taggedPhotoClickListener) {
-        this.taggedPhotos = taggedPhotos;
+    public PhotoAdapter(ArrayList<Photo> photos, Context context, PhotoClickListener photoClickListener) {
+        this.photos = photos;
         this.context = context;
-        this.taggedPhotoClickListener = taggedPhotoClickListener;
+        this.photoClickListener = photoClickListener;
         this.tagsShowHideHelper = new ArrayList<>();
     }
 
@@ -67,9 +66,8 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
-        View defaultView = inflater.inflate(R.layout.item_row_tagged_photo,
-                viewGroup, false);
-        viewHolder = new TaggedPhotoViewHolder(defaultView, taggedPhotoClickListener);
+        View defaultView = inflater.inflate(R.layout.item_photo, viewGroup, false);
+        viewHolder = new TaggedPhotoViewHolder(defaultView);
 
         return viewHolder;
     }
@@ -82,29 +80,29 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         TaggedPhotoViewHolder defaultViewHolder = (TaggedPhotoViewHolder) viewHolder;
-        defaultViewHolder.instaTag.
-                measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        defaultViewHolder.instaTag.
-                setRootWidth(defaultViewHolder.instaTag.getMeasuredWidth());
-        defaultViewHolder.instaTag.
-                setRootHeight(defaultViewHolder.instaTag.getMeasuredHeight());
+
+        defaultViewHolder.instaTag.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+
+        defaultViewHolder.instaTag.setRootWidth(defaultViewHolder.instaTag.getMeasuredWidth());
+        defaultViewHolder.instaTag.setRootHeight(defaultViewHolder.instaTag.getMeasuredHeight());
+
         configureTaggedPhotoViewHolder(defaultViewHolder, position);
     }
 
     private void configureTaggedPhotoViewHolder(TaggedPhotoViewHolder taggedPhotoViewHolder,
                                                 int position) {
-        TaggedPhoto taggedPhoto = taggedPhotos.get(position);
+        Photo photo = photos.get(position);
 
         Glide
                 .with(context)
-                .load(Uri.parse(taggedPhoto.getImageUri()))
+                .load(Uri.parse(photo.getImageUri()))
                 .apply(requestOptions)
                 .into(taggedPhotoViewHolder.instaTag.getTagImageView());
 
         taggedPhotoViewHolder.instaTag.
-                addTagViewFromTagsToBeTagged(taggedPhoto.getTags());
+                addTagViewFromTags(photo.getTags());
         if (tagsShowHideHelper.contains(
-                taggedPhotos.get(taggedPhotoViewHolder.getAdapterPosition()).getId())) {
+                photos.get(taggedPhotoViewHolder.getAdapterPosition()).getId())) {
             taggedPhotoViewHolder.instaTag.showTags();
         } else {
             taggedPhotoViewHolder.instaTag.hideTags();
@@ -113,27 +111,25 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return taggedPhotos.size();
+        return photos.size();
     }
 
     private class TaggedPhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final InstaTag instaTag;
         final ImageView tagHeart;
         final ImageView tagIndicator;
-        final TaggedPhotoClickListener taggedPhotoClickListener;
 
-        TaggedPhotoViewHolder(View view, TaggedPhotoClickListener taggedPhotoClickListener) {
+        TaggedPhotoViewHolder(View view) {
             super(view);
-            this.taggedPhotoClickListener = taggedPhotoClickListener;
-            instaTag = view.findViewById(R.id.insta_tag_tagged_photo);
+            instaTag = view.findViewById(R.id.insta_tag_photo);
             tagHeart = view.findViewById(R.id.tag_heart);
             tagIndicator = view.findViewById(R.id.tag_indicator);
             tagHeart.setOnClickListener(this);
             tagIndicator.setOnClickListener(this);
-            instaTag.setImageToBeTaggedEvent(taggedImageEvent);
+            instaTag.setTaggedPhotoEvent(photoEvent);
         }
 
-        private InstaTag.TaggedImageEvent taggedImageEvent = new InstaTag.TaggedImageEvent() {
+        private InstaTag.PhotoEvent photoEvent = new InstaTag.PhotoEvent() {
             @Override
             public void singleTapConfirmedAndRootIsInTouch(int x, int y) {
 
@@ -159,21 +155,21 @@ public class TaggedPhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void onClick(View view) {
-            TaggedPhoto taggedPhoto = (TaggedPhoto) taggedPhotos.get(getAdapterPosition());
+            Photo photo = photos.get(getAdapterPosition());
             switch (view.getId()) {
-                case R.id.insta_tag_tagged_photo:
-                    taggedPhotoClickListener.onTaggedPhotoClick(taggedPhoto, getAdapterPosition());
+                case R.id.insta_tag_photo:
+                    photoClickListener.onPhotoClick(photo, getAdapterPosition());
                     break;
                 case R.id.tag_heart:
                     instaTag.animateLike();
                     break;
                 case R.id.tag_indicator:
-                    if (!tagsShowHideHelper.contains(taggedPhoto.getId())) {
+                    if (!tagsShowHideHelper.contains(photo.getId())) {
                         instaTag.showTags();
-                        tagsShowHideHelper.add(taggedPhoto.getId());
+                        tagsShowHideHelper.add(photo.getId());
                     } else {
                         instaTag.hideTags();
-                        tagsShowHideHelper.remove(taggedPhoto.getId());
+                        tagsShowHideHelper.remove(photo.getId());
                     }
                     break;
             }

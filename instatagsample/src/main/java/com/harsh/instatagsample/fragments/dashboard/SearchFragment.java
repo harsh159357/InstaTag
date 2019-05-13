@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment implements UserClickListener {
         searchForUser = rootView.findViewById(R.id.search_for_a_person);
         searchForUser.addTextChangedListener(textWatcher);
 
-        users.addAll(UsersData.getDummySomeOneList());
+        users.addAll(UsersData.getUsers());
         userAdapter = new UserAdapter(users, getActivity(), this);
         recyclerViewUsers.setAdapter(userAdapter);
         recyclerViewUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -78,12 +78,12 @@ public class SearchFragment extends Fragment implements UserClickListener {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (searchForUser.getText().toString().trim().equals("")) {
                 users.clear();
-                users.addAll(UsersData.getDummySomeOneList());
+                users.addAll(UsersData.getUsers());
                 userAdapter.notifyDataSetChanged();
             } else {
                 users.clear();
                 users.addAll(UsersData.
-                        getFilteredUser(searchForUser.getText().toString().trim()));
+                        getFilteredUsers(searchForUser.getText().toString().trim()));
                 userAdapter.notifyDataSetChanged();
             }
         }
@@ -98,8 +98,7 @@ public class SearchFragment extends Fragment implements UserClickListener {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(),
-                        user.getFullName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), user.getFullName(), Toast.LENGTH_SHORT).show();
             }
         });
     }

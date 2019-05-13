@@ -17,27 +17,33 @@
 package com.harsh.instatagsample;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.harsh.instatagsample.models.TaggedPhoto;
+import com.harsh.instatagsample.interfaces.AppConstants;
+import com.harsh.instatagsample.models.Photo;
 import com.harsh.instatagsample.utilities.JsonUtil;
+import com.harsh.instatagsample.utilities.RawJsonToStringUtil;
+import com.harsh.instatagsample.utilities.UsersData;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
 
 
-public class InstaTagApplication extends Application {
-    public static final String SHARED_PREF_NAME = "insta_tag_preferences";
-
+public class InstaTagApplication extends Application implements AppConstants {
     private static InstaTagApplication instaTagApplication;
-    private SharedPreferences sharedPreferences;
+    private static AppPreferences appPreferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        appPreferences = new AppPreferences(instaTagApplication);
+        UsersData.getUsers().addAll(
+                UsersData.getUsersFromJson(
+                        RawJsonToStringUtil.rawJsonToString(instaTagApplication.getResources(),
+                                R.raw.users)));
+
     }
 
     public InstaTagApplication() {
@@ -48,70 +54,27 @@ public class InstaTagApplication extends Application {
         if (instaTagApplication == null) {
             instaTagApplication = new InstaTagApplication();
         }
-        if (instaTagApplication.sharedPreferences == null) {
-            instaTagApplication.sharedPreferences =
-                    instaTagApplication.getSharedPreferences(SHARED_PREF_NAME,
-                            Context.MODE_PRIVATE);
-        }
-
         return instaTagApplication;
     }
 
-    public void clear() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-    }
-
-    private String getString(String key) {
-        if (sharedPreferences != null) {
-            return sharedPreferences.getString(key, "");
-        }
-
-        return "";
-    }
-
-    private void putString(String key, String value) {
-        try {
-            if (sharedPreferences != null) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(key, value);
-                editor.apply();
-            }
-        } catch (Exception e) {
-            Log.e(SHARED_PREF_NAME, "Unable Put String in Shared preference", e);
-        }
-    }
-
-
-    public ArrayList<TaggedPhoto> getTaggedPhotos() {
-        String json = getString(Keys.TAGGED_PHOTOS.getKeyName());
-        ArrayList<TaggedPhoto> taggedPhotoArrayList;
+    public ArrayList<Photo> getPhotos() {
+        String json = appPreferences.getString
+                (AppConstants.PreferenceKeys.TAGGED_PHOTOS, "");
+        ArrayList<Photo> photoArrayList;
         if (!json.equals("")) {
-            taggedPhotoArrayList =
-                    new Gson().fromJson(json, new TypeToken<ArrayList<TaggedPhoto>>() {
+            photoArrayList =
+                    new Gson().fromJson(json, new TypeToken<ArrayList<Photo>>() {
                     }.getType());
         } else {
-            taggedPhotoArrayList = new ArrayList<>();
+            photoArrayList = new ArrayList<>();
         }
-        return taggedPhotoArrayList;
+        return photoArrayList;
     }
 
-    public void setTaggedPhotos(ArrayList<TaggedPhoto> taggedPhotoArrayList) {
-        putString(Keys.TAGGED_PHOTOS.getKeyName(), JsonUtil.toJson(taggedPhotoArrayList));
+    public void savePhotos(ArrayList<Photo> photoArrayList) {
+        appPreferences.put(
+                AppConstants.PreferenceKeys.TAGGED_PHOTOS,
+                JsonUtil.toJson(photoArrayList
+                ));
     }
-
-    private enum Keys {
-        TAGGED_PHOTOS("TAGGED_PHOTOS");
-        private final String keyName;
-
-        Keys(String label) {
-            this.keyName = label;
-        }
-
-        public String getKeyName() {
-            return keyName;
-        }
-    }
-
 }

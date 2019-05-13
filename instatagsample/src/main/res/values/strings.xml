@@ -19,18 +19,18 @@
     <string name="tag_a_photo">Tag a photo</string>
     <string name="see_tagged_photos">See tagged photos</string>
     <string name="tag_photo">Tag Photo</string>
-    <string name="tap_photo_tag_user_drag_to_move_or_tap_to_delete">Tap photo to tag User.\nDrag to move, or tap to delete.</string>
     <string name="harsh_sharma">Harsh Sharma</string>
     <string name="hsharma">hsharma</string>
-    <string name="cancel">@android:string/cancel</string>
-    <string name="search_for_user">Search for user</string>
-    <string name="users">Users</string>
-    <string name="drag_test">Drag Test</string>
     <string name="home">Home</string>
+    <string name="users">Users</string>
     <string name="search">Search</string>
-    <string name="tap_here_to_choose_a_photo">Tap here to choose a photo</string>
+    <string name="drag_test">Drag Test</string>
     <string name="my_profile">My Profile</string>
     <string name="no_posts_yet">No Posts Yet</string>
+    <string name="cancel">@android:string/cancel</string>
+    <string name="search_for_user">Search for user</string>
+    <string name="tap_here_to_choose_a_photo">Tap here to choose a photo</string>
+    <string name="tap_photo_tag_user_drag_to_move_or_tap_to_delete">Tap photo to tag User.\nDrag to move, or tap to delete.</string>
 
     <!--          My Profile        -->
     <string name="name">Harsh Sharma</string>
@@ -38,10 +38,6 @@
     <string name="brief">I can\'t predict the future - But I can Invent It.</string>
     <string name="github_link">harsh159357</string>
     <string name="facebook_link">HARSH159357</string>
-    <string name="twitter_link">HARSH159357</string>
-    <string name="instagram_link">harsh159357/</string>
-    <string name="google_plus_link">+HarshSharma159357</string>
     <string name="linkedin_link">harsh159357/</string>
     <string name="email_link">harsh159357@gmail.com</string>
-    <string name="whatsapp">+919599305737</string>
 </resources>

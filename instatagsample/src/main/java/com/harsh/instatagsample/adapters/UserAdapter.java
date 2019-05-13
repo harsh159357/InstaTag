@@ -43,6 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context context;
     private final List<User> userList;
     private final UserClickListener userClickListener;
+
     private RequestOptions requestOptions =
             new RequestOptions()
                     .centerCrop()
@@ -50,9 +51,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_default_avatar);
 
-    public UserAdapter(List<User> users,
-                       Context context,
-                       UserClickListener userClickListener) {
+    public UserAdapter(List<User> users, Context context, UserClickListener userClickListener) {
         this.userList = users;
         this.context = context;
         this.userClickListener = userClickListener;
@@ -61,18 +60,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.
-                from(parent.getContext()).
-                inflate(R.layout.item_row_some_one_to_be_tagged, parent, false);
-        return new ViewHolder(view, userClickListener);
+        View view = LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.item_user, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = userList.get(position);
-        holder.setPosition(position);
-        holder.setUser(user);
-        holder.setContext(context);
+
+        holder.user = user;
         holder.txtUserName.setText(user.getUserName());
         holder.txtFullName.setText(user.getFullName());
 
@@ -91,32 +88,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final UserClickListener listener;
         private final RelativeLayout relativeLayout;
         private final ImageView imgProfile;
         private final TextView txtUserName;
         private final TextView txtFullName;
         private User user;
-        private int position;
-        private Context context;
 
-        public void setPosition(int position) {
-            this.position = position;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public void setContext(Context context) {
-            this.context = context;
-        }
-
-        public ViewHolder(View itemView, UserClickListener listener) {
+        ViewHolder(View itemView) {
             super(itemView);
-            this.listener = listener;
             relativeLayout = itemView.findViewById(R.id.root_user);
             imgProfile = itemView.findViewById(R.id.img_profile);
             txtUserName = itemView.findViewById(R.id.txt_user_name);
@@ -126,10 +107,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.root_user:
-                    listener.onUserClick(user, position);
-                    break;
+            if (v.getId() == R.id.root_user) {
+                userClickListener.onUserClick(user, getAdapterPosition());
             }
         }
     }

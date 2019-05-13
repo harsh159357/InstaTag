@@ -43,8 +43,9 @@ import com.harsh.instatag.TagImageView;
 import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
 import com.harsh.instatagsample.adapters.UserAdapter;
+import com.harsh.instatagsample.interfaces.AppConstants;
 import com.harsh.instatagsample.interfaces.UserClickListener;
-import com.harsh.instatagsample.models.TaggedPhoto;
+import com.harsh.instatagsample.models.Photo;
 import com.harsh.instatagsample.models.User;
 import com.harsh.instatagsample.utilities.KeyBoardUtil;
 import com.harsh.instatagsample.utilities.UsersData;
@@ -52,9 +53,8 @@ import com.harsh.instatagsample.utilities.UsersData;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TagPhotoFragment extends Fragment implements UserClickListener, View.OnClickListener {
+public class TagPhotoFragment extends Fragment implements UserClickListener, View.OnClickListener, AppConstants {
 
-    private static final int CHOOSE_A_PHOTO_TO_BE_TAGGED = 5000;
 
     private InstaTag instaTag;
     private Uri photoToBeTaggedURI;
@@ -88,7 +88,7 @@ public class TagPhotoFragment extends Fragment implements UserClickListener, Vie
         View rootView = inflater.inflate(R.layout.fragment_tag_photo, container, false);
 
         instaTag = rootView.findViewById(R.id.insta_tag);
-        instaTag.setImageToBeTaggedEvent(taggedImageEvent);
+        instaTag.setTaggedPhotoEvent(photoEvent);
 
         final TextView cancelTextView = rootView.findViewById(R.id.cancel);
         final TagImageView doneImageView = rootView.findViewById(R.id.done);
@@ -107,7 +107,7 @@ public class TagPhotoFragment extends Fragment implements UserClickListener, Vie
         doneImageView.setOnClickListener(this);
         backImageView.setOnClickListener(this);
 
-        users.addAll(UsersData.getDummySomeOneList());
+        users.addAll(UsersData.getUsers());
         userAdapter = new UserAdapter(users, getActivity(),
                 TagPhotoFragment.this);
         recyclerViewUsers.setAdapter(userAdapter);
@@ -152,28 +152,27 @@ public class TagPhotoFragment extends Fragment implements UserClickListener, Vie
                 break;
             case R.id.done:
                 if (photoToBeTaggedURI != null) {
-                    if (instaTag.getListOfTagsToBeTagged().isEmpty()) {
-                        Toast.makeText(getActivity(),
-                                "Please tag at least one user", Toast.LENGTH_SHORT).show();
+                    if (instaTag.getTags().isEmpty()) {
+                        Toast.makeText(getActivity(), ToastText.TAG_ONE_USER_AT_LEAST, Toast.LENGTH_SHORT).show();
                     } else {
-                        ArrayList<TaggedPhoto> taggedPhotoArrayList = InstaTagApplication
-                                .getInstance().getTaggedPhotos();
-                        taggedPhotoArrayList.add(
-                                new TaggedPhoto(
+                        ArrayList<Photo> photoArrayList = InstaTagApplication
+                                .getInstance().getPhotos();
+                        Photo photo =
+                                new Photo(
                                         Calendar.getInstance().getTimeInMillis() + "",
                                         photoToBeTaggedURI.toString(),
-                                        instaTag.getListOfTagsToBeTagged()));
-                        InstaTagApplication.getInstance().setTaggedPhotos(taggedPhotoArrayList);
-                        Toast.makeText(getActivity(),
-                                "Photo tagged successfully", Toast.LENGTH_SHORT).show();
+                                        instaTag.getTags());
+
+                        photoArrayList.add(photo);
+                        InstaTagApplication.getInstance().savePhotos(photoArrayList);
                         ((ViewPagerFragmentForDashBoard) getParentFragment()).setHomeAsSelectedTab();
                         reset();
+                        Intent intentNewPhotoIsTagged = new Intent(Events.NEW_PHOTO_IS_TAGGED);
                         LocalBroadcastManager.getInstance(getActivity())
-                                .sendBroadcast(new Intent(HomeFragment.NEW_PHOTO_IS_TAGGED));
+                                .sendBroadcast(intentNewPhotoIsTagged);
                     }
                 } else {
-                    Toast.makeText(getActivity(),
-                            "Please choose a photo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ToastText.CHOOSE_A_PHOTO, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.get_back:
@@ -190,7 +189,7 @@ public class TagPhotoFragment extends Fragment implements UserClickListener, Vie
         }
     }
 
-    private final InstaTag.TaggedImageEvent taggedImageEvent = new InstaTag.TaggedImageEvent() {
+    private final InstaTag.PhotoEvent photoEvent = new InstaTag.PhotoEvent() {
         @Override
         public void singleTapConfirmedAndRootIsInTouch(final int x, final int y) {
             getActivity().runOnUiThread(new Runnable() {
@@ -231,12 +230,12 @@ public class TagPhotoFragment extends Fragment implements UserClickListener, Vie
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (searchForUser.getText().toString().trim().equals("")) {
                 users.clear();
-                users.addAll(UsersData.getDummySomeOneList());
+                users.addAll(UsersData.getUsers());
                 userAdapter.notifyDataSetChanged();
             } else {
                 users.clear();
                 users.addAll(UsersData.
-                        getFilteredUser(searchForUser.getText().toString().trim()));
+                        getFilteredUsers(searchForUser.getText().toString().trim()));
                 userAdapter.notifyDataSetChanged();
             }
         }

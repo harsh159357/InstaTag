@@ -36,9 +36,8 @@ android {
 
 dependencies {
     implementation project(':instatag')
-    //noinspection GradleCompatible
-    implementation 'com.github.jrvansuita:MaterialAbout:+'
     implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'net.grandcentrix.tray:tray:0.12.0'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.android.support:design:' + rootProject.ext.GOOGLE_SUPPORT_LIBRARY_VERSION
     implementation 'com.android.support:appcompat-v7:' + rootProject.ext.GOOGLE_SUPPORT_LIBRARY_VERSION

@@ -66,10 +66,6 @@ public class ViewPagerFragmentForDashBoard extends Fragment {
                 fragment = new SearchFragment();
                 switchFragment(fragment);
                 break;
-            case DashBoardFragments.MY_PROFILE:
-                fragment = new MyProfileFragment();
-                switchFragment(fragment);
-                break;
             default:
                 fragment = new HomeFragment();
                 switchFragment(fragment);
@@ -86,7 +82,6 @@ public class ViewPagerFragmentForDashBoard extends Fragment {
         String HOME = "HOME";
         String TAG_PHOTO = "MY_TEAM";
         String SEARCH = "SEARCH";
-        String MY_PROFILE = "MY_PROFILE";
     }
 
     public void setHomeAsSelectedTab() {

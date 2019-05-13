@@ -15,22 +15,10 @@
  *
  */
 
-package com.harsh.instatagsample.activities;
+package com.harsh.instatagsample.interfaces;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.ImageView;
+import com.harsh.instatagsample.models.Photo;
 
-import com.harsh.instatag.TagOnTouchListener;
-import com.harsh.instatagsample.R;
-
-public class DragTestActivity extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drag_test);
-        ImageView mImageView = findViewById(R.id.image);
-        mImageView.setOnTouchListener(new TagOnTouchListener(mImageView));
-    }
+public interface PhotoClickListener {
+    void onPhotoClick(Photo photo, int position);
 }

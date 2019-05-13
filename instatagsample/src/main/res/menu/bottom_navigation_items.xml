@@ -28,9 +28,4 @@
         android:id="@+id/tab_search"
         android:icon="@drawable/selector_search"
         android:title="@string/search" />
-    <item
-        android:id="@+id/tab_my_profile"
-        android:icon="@drawable/selector_account_cirlce"
-        android:title="@string/my_profile" />
-
 </menu>

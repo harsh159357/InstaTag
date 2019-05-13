@@ -32,27 +32,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
-import com.harsh.instatagsample.adapters.TaggedPhotoAdapter;
-import com.harsh.instatagsample.interfaces.TaggedPhotoClickListener;
-import com.harsh.instatagsample.models.TaggedPhoto;
+import com.harsh.instatagsample.adapters.PhotoAdapter;
+import com.harsh.instatagsample.interfaces.AppConstants;
+import com.harsh.instatagsample.interfaces.PhotoClickListener;
+import com.harsh.instatagsample.models.Photo;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements TaggedPhotoClickListener {
+public class HomeFragment extends Fragment implements PhotoClickListener, AppConstants {
 
-    public static final String NEW_PHOTO_IS_TAGGED = "NEW_PHOTO_IS_TAGGED";
-    public static final int ADD_TAG_DELAY_MILLIS = 2000;
-    public static final String PROGRESS_MSG = "Saving Tag";
+    private IntentFilter newPhotoTaggedIntentFilter = new IntentFilter(Events.NEW_PHOTO_IS_TAGGED);
 
-    private final ArrayList<TaggedPhoto> taggedPhotos = new ArrayList<>();
-    private RecyclerView recyclerViewTaggedPhotos;
-    private TaggedPhotoAdapter taggedPhotoAdapter;
+    private final ArrayList<Photo> photos = new ArrayList<>();
+    private RecyclerView recyclerViewPhotos;
     private LinearLayout emptyContainer;
-
-    private IntentFilter newPhotoTaggedIntentFilter = new IntentFilter(NEW_PHOTO_IS_TAGGED);
+    private PhotoAdapter photoAdapter;
 
     private Handler handler;
     private ProgressDialog progressDialog;
@@ -71,20 +69,23 @@ public class HomeFragment extends Fragment implements TaggedPhotoClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         handler = new Handler();
+
         emptyContainer = rootView.findViewById(R.id.empty_container);
-        taggedPhotos.addAll(InstaTagApplication.getInstance().getTaggedPhotos());
-        recyclerViewTaggedPhotos = rootView.findViewById(R.id.rv_tagged_photos);
-        taggedPhotoAdapter = new TaggedPhotoAdapter(taggedPhotos,
-                getContext(), this);
-        recyclerViewTaggedPhotos.setAdapter(taggedPhotoAdapter);
-        recyclerViewTaggedPhotos.setLayoutManager(new LinearLayoutManager(getContext()));
+        photos.addAll(InstaTagApplication.getInstance().getPhotos());
+        recyclerViewPhotos = rootView.findViewById(R.id.rv_photos);
+
+        photoAdapter = new PhotoAdapter(photos, getContext(), this);
+        recyclerViewPhotos.setAdapter(photoAdapter);
+        recyclerViewPhotos.setLayoutManager(new LinearLayoutManager(getContext()));
+
         showEmptyContainer();
-        initProgressDialog(PROGRESS_MSG);
+
+        initProgressDialog(ProgressText.PROGRESS_MSG);
         return rootView;
     }
 
     @Override
-    public void onTaggedPhotoClick(TaggedPhoto taggedPhoto, int position) {
+    public void onPhotoClick(Photo photo, int position) {
 
     }
 
@@ -102,27 +103,30 @@ public class HomeFragment extends Fragment implements TaggedPhotoClickListener {
     }
 
     private void showEmptyContainer() {
-        if (InstaTagApplication.getInstance().getTaggedPhotos().isEmpty()) {
-            recyclerViewTaggedPhotos.setVisibility(View.GONE);
+        if (InstaTagApplication.getInstance().getPhotos().isEmpty()) {
+            recyclerViewPhotos.setVisibility(View.GONE);
             emptyContainer.setVisibility(View.VISIBLE);
         } else {
-            recyclerViewTaggedPhotos.setVisibility(View.VISIBLE);
+            recyclerViewPhotos.setVisibility(View.VISIBLE);
             emptyContainer.setVisibility(View.GONE);
         }
     }
 
     private BroadcastReceiver newPhotoIsTagged = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            showProgress(PROGRESS_MSG);
+        public void onReceive(Context context, final Intent intent) {
+            showProgress(ProgressText.PROGRESS_MSG);
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    taggedPhotos.clear();
-                    taggedPhotos.addAll(InstaTagApplication.getInstance().getTaggedPhotos());
-                    taggedPhotoAdapter.notifyDataSetChanged();
+                    photos.clear();
+                    photos.addAll(InstaTagApplication.getInstance().getPhotos());
+                    photoAdapter.notifyDataSetChanged();
                     showEmptyContainer();
                     dismissProgress();
+                    recyclerViewPhotos.scrollToPosition(photos.size() - 1);
+                    Toast.makeText(getActivity(), ToastText.PHOTO_TAGGED_SUCCESSFULLY
+                            , Toast.LENGTH_SHORT).show();
                 }
             }, ADD_TAG_DELAY_MILLIS);
         }

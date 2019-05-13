@@ -25,8 +25,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.TARGET_SDK_VERSION
-        versionCode rootProject.ext.VERSION_CODE
-        versionName rootProject.ext.VERSION_NAME
+        versionCode rootProject.ext.LIB_VERSION_CODE
+        versionName rootProject.ext.LIB_VERSION_NAME
     }
     buildTypes {
         release {
