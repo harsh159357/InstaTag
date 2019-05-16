@@ -26,24 +26,10 @@
         <!--Used for changing background color for tag background-->
         <attr name="carrotTopColor" format="color" />
         <!--Used for changing top carrot color-->
-        <attr name="carrotLeftColor" format="color" />
-        <!--Used for changing left carrot color-->
-        <attr name="carrotRightColor" format="color" />
-        <!--Used for changing right carrot color-->
-        <attr name="carrotBottomColor" format="color" />
-        <!--Used for changing bottom carrot color-->
-        <attr name="showAllCarrots" format="boolean" />
-        <!--Used for showing all the carrots or show carrots based upon tags position-->
         <attr name="tagTextBackground" format="reference" />
         <!--Used for changing tag background-->
-        <attr name="carrotLeftBackground" format="reference" />
-        <!--Used for replacing left carrot background with custom background-->
-        <attr name="carrotRightBackground" format="reference" />
-        <!--Used for replacing right carrot background with custom background-->
         <attr name="carrotTopBackground" format="reference" />
         <!--Used for replacing top carrot background with custom background-->
-        <attr name="carrotBottomBackground" format="reference" />
-        <!--Used for replacing bottom carrot background with custom background-->
         <attr name="hideAnimation" format="reference" />
         <!--Used for animating tag while hiding-->
         <attr name="showAnimation" format="reference" />

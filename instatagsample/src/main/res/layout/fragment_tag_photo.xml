@@ -101,12 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:canWeAddTags="true"
-            app:carrotBottomColor="@color/vermilion"
-            app:carrotLeftColor="@color/yellow"
-            app:carrotRightColor="@color/vanilla"
-            app:carrotTopColor="@color/blue"
-            app:instaTextColor="@android:color/white"
-            app:showAllCarrots="true" />
+            app:instaTextColor="@android:color/white" />
 
         <TextView
             android:id="@+id/tap_photo_to_tag_someone"

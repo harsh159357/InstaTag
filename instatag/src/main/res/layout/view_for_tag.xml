@@ -22,71 +22,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingStart="@dimen/dp12"
+        android:paddingLeft="@dimen/dp12"
+        android:paddingEnd="@dimen/dp12"
+        android:paddingRight="@dimen/dp12">
 
         <LinearLayout
-            android:id="@+id/carrot_left"
+            android:id="@+id/carrot_top"
             android:layout_width="@dimen/dp22"
             android:layout_height="@dimen/dp20"
-            android:background="@drawable/tag_shape_carrot_left"
+            android:layout_gravity="center"
+            android:background="@drawable/tag_shape_carrot_top"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="invisible" />
+            android:orientation="horizontal" />
 
         <LinearLayout
+            android:id="@+id/tag_text_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/carrot_top"
-                android:layout_width="@dimen/dp22"
-                android:layout_height="@dimen/dp20"
-                android:layout_gravity="center"
-                android:background="@drawable/tag_shape_carrot_top"
-                android:gravity="center"
-                android:orientation="horizontal" />
-
-            <LinearLayout
-                android:id="@+id/tag_text_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/tag_shape_tag_text"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/tag_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/tagging_is_my_life"
-                    android:textColor="#FFF"
-                    android:textSize="@dimen/sp14" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/carrot_bottom"
-                android:layout_width="@dimen/dp22"
-                android:layout_height="@dimen/dp20"
-                android:layout_gravity="center"
-                android:background="@drawable/tag_shape_carrot_bottom"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="invisible" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/carrot_right"
-            android:layout_width="@dimen/dp22"
-            android:layout_height="@dimen/dp20"
-            android:background="@drawable/tag_shape_carrot_right"
+            android:background="@drawable/tag_shape_tag_text"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="invisible" />
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tag_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/tagging_is_my_life"
+                android:textColor="#FFF"
+                android:textSize="@dimen/sp14" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -95,9 +64,6 @@
         android:layout_width="@dimen/dp18"
         android:layout_height="@dimen/dp18"
         android:layout_gravity="center_vertical|end"
-        android:layout_marginBottom="@dimen/dp15"
-        android:layout_marginRight="@dimen/dp12"
-        android:layout_marginEnd="@dimen/dp12"
         android:background="@drawable/ic_remove_tag"
         android:visibility="gone" />
 </FrameLayout>

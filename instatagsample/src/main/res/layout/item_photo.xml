@@ -21,22 +21,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.harsh.instatag.InstaTag xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.harsh.instatag.InstaTag
         android:id="@+id/insta_tag_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:canWeAddTags="false"
-        app:carrotBottomColor="@color/vermilion"
-        app:carrotLeftColor="@color/yellow"
-        app:carrotRightColor="@color/vanilla"
-        app:carrotTopColor="@color/blue"
-        app:hideAnimation="@anim/bounce_up"
-        app:instaBackgroundColor="@color/gray"
         app:instaTextColor="@android:color/white"
-        app:showAllCarrots="false"
         app:likeColor="@android:color/white"
-        app:likeSize="@dimen/dp256"
-        app:showAnimation="@anim/bounce_down" />
+        app:likeSize="@dimen/dp256" />
 
 
     <ImageView
