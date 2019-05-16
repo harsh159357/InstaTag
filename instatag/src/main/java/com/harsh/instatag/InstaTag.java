@@ -352,12 +352,12 @@ public class InstaTag extends RelativeLayout {
         mRoot.setLayoutParams(params);
     }
 
-    private int getXCoOrdForTag(Double x) {
-        return (mRootWidth * x.intValue()) / 100;
+    private float getXCoOrdForTag(float x) {
+        return (mRootWidth * x) / 100;
     }
 
-    private int getYCoOrdForTag(Double y) {
-        return (mRootHeight * y.intValue()) / 100;
+    private float getYCoOrdForTag(float y) {
+        return (mRootHeight * y) / 100;
     }
 
     public void addTag(int x, int y, String tagText) {
@@ -432,12 +432,43 @@ public class InstaTag extends RelativeLayout {
     public void addTagViewFromTags(ArrayList<Tag> tags) {
         if (!tagsAreAdded) {
             for (Tag tag : tags) {
-                addTag(getXCoOrdForTag(tag.getX_co_ord()),
-                        getYCoOrdForTag(tag.getY_co_ord()),
-                        tag.getUnique_tag_id());
+                addTag(tag);
             }
             tagsAreAdded = true;
         }
+    }
+
+    private void addTag(Tag tag) {
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+
+        float x = getXCoOrdForTag(tag.getX_co_ord());
+        float y = getYCoOrdForTag(tag.getY_co_ord());
+
+        final View tagView = layoutInflater.
+                inflate(R.layout.view_for_tag, mRoot, false);
+        final TextView tagTextView = tagView.findViewById(R.id.tag_text_view);
+
+        final LinearLayout carrotTopContainer =
+                tagView.findViewById(R.id.carrot_top);
+
+        final LinearLayout textContainer =
+                tagView.findViewById(R.id.tag_text_container);
+
+        if (mTagTextDrawable != null) {
+            ViewCompat.setBackground(textContainer, mTagTextDrawable);
+        }
+        if (mCarrotTopDrawable != null) {
+            ViewCompat.setBackground(carrotTopContainer, mCarrotTopDrawable);
+        }
+
+        tagTextView.setText(tag.getUnique_tag_id());
+        setColorForTag(tagView);
+
+        tagView.setX(x);
+        tagView.setY(y);
+
+        mTagList.add(tagView);
+        mRoot.addView(tagView);
     }
 
     public TagImageView getTagImageView() {
@@ -449,9 +480,9 @@ public class InstaTag extends RelativeLayout {
         if (!mTagList.isEmpty()) {
             for (int i = 0; i < mTagList.size(); i++) {
                 View view = mTagList.get(i);
-                double x = view.getX();
+                float x = view.getX();
                 x = (x / mRootWidth) * 100;
-                double y = view.getY();
+                float y = view.getY();
                 y = (y / mRootHeight) * 100;
                 tags.
                         add(new Tag(((TextView) view.
