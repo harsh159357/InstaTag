@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
+import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
 import com.harsh.instatagsample.fragments.DashBoardFragment;
+import com.harsh.instatagsample.fragments.bottomsheet.ConfigurationBottomSheet;
 import com.harsh.instatagsample.fragments.dashboard.ViewPagerFragmentForDashBoard;
+import com.harsh.instatagsample.interfaces.AppConstants;
 
 public class DashBoardActivity extends AppCompatActivity {
+
+    private ConfigurationBottomSheet configurationBottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,5 +52,23 @@ public class DashBoardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void showConfigurationBottomSheet() {
+        if (!InstaTagApplication.getInstance().getPhotos().isEmpty()) {
+            configurationBottomSheet = new ConfigurationBottomSheet();
+            configurationBottomSheet.show(getSupportFragmentManager(),
+                    ConfigurationBottomSheet.class.getSimpleName());
+        } else {
+            Toast.makeText(this, getString(R.string.no_posts_yet), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (configurationBottomSheet != null && configurationBottomSheet.isVisible()) {
+            configurationBottomSheet.dismiss();
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.harsh.instatagsample;
@@ -35,6 +36,15 @@ public class InstaTagApplication extends Application implements AppConstants {
     private static InstaTagApplication instaTagApplication;
     private static AppPreferences appPreferences;
 
+    private int tagShowAnimation,
+            tagHideAnimation,
+            likeAnimation;
+
+    private int carrotTopColor,
+            tagBackgroundColor,
+            tagTextColor,
+            likeColor;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,6 +54,13 @@ public class InstaTagApplication extends Application implements AppConstants {
                         RawJsonToStringUtil.rawJsonToString(instaTagApplication.getResources(),
                                 R.raw.users)));
 
+        tagShowAnimation = R.anim.zoom_in;
+        tagHideAnimation = R.anim.zoom_out;
+
+        carrotTopColor = instaTagApplication.getResources().getColor(R.color.colorPrimaryDark);
+        tagBackgroundColor = instaTagApplication.getResources().getColor(R.color.colorPrimaryDark);
+        tagTextColor = instaTagApplication.getResources().getColor(android.R.color.white);
+        likeColor = instaTagApplication.getResources().getColor(android.R.color.white);
     }
 
     public InstaTagApplication() {
@@ -76,5 +93,61 @@ public class InstaTagApplication extends Application implements AppConstants {
                 AppConstants.PreferenceKeys.TAGGED_PHOTOS,
                 JsonUtil.toJson(photoArrayList
                 ));
+    }
+
+    public int getTagShowAnimation() {
+        return tagShowAnimation;
+    }
+
+    public int getTagHideAnimation() {
+        return tagHideAnimation;
+    }
+
+    public int getLikeAnimation() {
+        return likeAnimation;
+    }
+
+    public int getCarrotTopColor() {
+        return carrotTopColor;
+    }
+
+    public int getTagTextColor() {
+        return tagTextColor;
+    }
+
+    public int getLikeColor() {
+        return likeColor;
+    }
+
+    public void setTagShowAnimation(int tagShowAnimation) {
+        this.tagShowAnimation = tagShowAnimation;
+    }
+
+    public void setTagHideAnimation(int tagHideAnimation) {
+        this.tagHideAnimation = tagHideAnimation;
+    }
+
+    public void setLikeAnimation(int likeAnimation) {
+        this.likeAnimation = likeAnimation;
+    }
+
+    public void setCarrotTopColor(int carrotTopColor) {
+        this.carrotTopColor = carrotTopColor;
+    }
+
+    public void setTagTextColor(int tagTextColor) {
+        this.tagTextColor = tagTextColor;
+    }
+
+    public void setLikeColor(int likeColor) {
+        this.likeColor = likeColor;
+    }
+
+    public int getTagBackgroundColor() {
+        return tagBackgroundColor;
+    }
+
+    public void setTagBackgroundColor(int tagBackgroundColor) {
+        this.tagBackgroundColor = tagBackgroundColor;
     }
 }

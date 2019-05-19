@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.harsh.instatag;
@@ -79,7 +80,7 @@ public class InstaTag extends RelativeLayout {
 
     private ViewGroup mRoot;
     private ImageView mLikeImage;
-    private TagImageView mTagImageView;
+    private SquareImageView mSquareImageView;
     private final ArrayList<View> mTagList = new ArrayList<>();
 
     private final Runnable mSetRootHeightWidth = new Runnable() {
@@ -90,14 +91,14 @@ public class InstaTag extends RelativeLayout {
         }
     };
 
-    private final OnTouchListener mTagOnTouchListener = new OnTouchListener() {
+    private final OnTouchListener mOnTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             return mGestureDetector.onTouchEvent(event);
         }
     };
 
-    private final TagGestureListener mTagGestureListener = new TagGestureListener() {
+    private final GestureListener mGestureListener = new GestureListener() {
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
@@ -207,7 +208,7 @@ public class InstaTag extends RelativeLayout {
         inflater.inflate(R.layout.tag_root, this);
 
         mRoot = findViewById(R.id.tag_root);
-        mTagImageView = findViewById(R.id.tag_image_view);
+        mSquareImageView = findViewById(R.id.tag_image_view);
         mLikeImage = new ImageView(context);
 
         int likeColor, likeSrc, likeSize;
@@ -218,11 +219,11 @@ public class InstaTag extends RelativeLayout {
                     R.drawable.ic_like);
             likeSize = obtainStyledAttributes
                     .getDimensionPixelSize(R.styleable.InstaTag_likeSize,
-                            getResources().getDimensionPixelSize(R.dimen.dp256));
+                            getResources().getDimensionPixelSize(R.dimen.dp150));
         } else {
             likeColor = ContextCompat.getColor(context, R.color.colorAccent);
             likeSrc = R.drawable.ic_like;
-            likeSize = getResources().getDimensionPixelSize(R.dimen.dp256);
+            likeSize = getResources().getDimensionPixelSize(R.dimen.dp150);
         }
         LayoutParams heartParams = new LayoutParams(likeSize, likeSize);
         heartParams.addRule(CENTER_IN_PARENT, TRUE);
@@ -234,8 +235,8 @@ public class InstaTag extends RelativeLayout {
 
         setRootLayoutParams(mContext);
         mRoot.post(mSetRootHeightWidth);
-        mRoot.setOnTouchListener(mTagOnTouchListener);
-        mGestureDetector = new GestureDetector(mRoot.getContext(), mTagGestureListener);
+        mRoot.setOnTouchListener(mOnTouchListener);
+        mGestureDetector = new GestureDetector(mRoot.getContext(), mGestureListener);
     }
 
     private void initView(AttributeSet attrs, Context context) {
@@ -292,6 +293,23 @@ public class InstaTag extends RelativeLayout {
         }
     }
 
+    private void setColor(Drawable drawable, int color) {
+        if (drawable instanceof ShapeDrawable) {
+            ((ShapeDrawable) drawable).getPaint().setColor(color);
+        } else if (drawable instanceof GradientDrawable) {
+            ((GradientDrawable) drawable).setColor(color);
+        } else if (drawable instanceof ColorDrawable) {
+            ((ColorDrawable) drawable).setColor(color);
+        } else if (drawable instanceof LayerDrawable) {
+            LayerDrawable layerDrawable = (LayerDrawable) drawable;
+            RotateDrawable rotateDrawable =
+                    (RotateDrawable) layerDrawable.findDrawableByLayerId(R.id.carrot_shape_top);
+            setColor(rotateDrawable.getDrawable(), color);
+        } else if (drawable instanceof RotateDrawable) {
+            setColor(((RotateDrawable) drawable).getDrawable(), color);
+        }
+    }
+
     private void hideRemoveButtonFromAllTagView() {
         if (!mTagList.isEmpty()) {
             for (View view : mTagList) {
@@ -317,23 +335,6 @@ public class InstaTag extends RelativeLayout {
         return tagFound;
     }
 
-    private void setColor(Drawable drawable, int color) {
-        if (drawable instanceof ShapeDrawable) {
-            ((ShapeDrawable) drawable).getPaint().setColor(color);
-        } else if (drawable instanceof GradientDrawable) {
-            ((GradientDrawable) drawable).setColor(color);
-        } else if (drawable instanceof ColorDrawable) {
-            ((ColorDrawable) drawable).setColor(color);
-        } else if (drawable instanceof LayerDrawable) {
-            LayerDrawable layerDrawable = (LayerDrawable) drawable;
-            RotateDrawable rotateDrawable =
-                    (RotateDrawable) layerDrawable.findDrawableByLayerId(R.id.carrot_shape_top);
-            setColor(rotateDrawable.getDrawable(), color);
-        } else if (drawable instanceof RotateDrawable) {
-            setColor(((RotateDrawable) drawable).getDrawable(), color);
-        }
-    }
-
     private void setRootLayoutParams(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
@@ -350,14 +351,6 @@ public class InstaTag extends RelativeLayout {
         params.width = rootLayoutHeightWidth;
 
         mRoot.setLayoutParams(params);
-    }
-
-    private float getXCoOrdForTag(float x) {
-        return (mRootWidth * x) / 100;
-    }
-
-    private float getYCoOrdForTag(float y) {
-        return (mRootHeight * y) / 100;
     }
 
     public void addTag(int x, int y, String tagText) {
@@ -471,10 +464,6 @@ public class InstaTag extends RelativeLayout {
         mRoot.addView(tagView);
     }
 
-    public TagImageView getTagImageView() {
-        return mTagImageView;
-    }
-
     public ArrayList<Tag> getTags() {
         ArrayList<Tag> tags = new ArrayList<>();
         if (!mTagList.isEmpty()) {
@@ -490,12 +479,6 @@ public class InstaTag extends RelativeLayout {
             }
         }
         return tags;
-    }
-
-    public void setTaggedPhotoEvent(PhotoEvent photoEvent) {
-        if (this.mPhotoEvent == null) {
-            this.mPhotoEvent = photoEvent;
-        }
     }
 
     public void showTags() {
@@ -573,6 +556,32 @@ public class InstaTag extends RelativeLayout {
         animatorSet.start();
     }
 
+    public SquareImageView getTagImageView() {
+        return mSquareImageView;
+    }
+
+    private float getXCoOrdForTag(float x) {
+        return (mRootWidth * x) / 100;
+    }
+
+    private float getYCoOrdForTag(float y) {
+        return (mRootHeight * y) / 100;
+    }
+
+    public void setTaggedPhotoEvent(PhotoEvent photoEvent) {
+        if (this.mPhotoEvent == null) {
+            this.mPhotoEvent = photoEvent;
+        }
+    }
+
+    public void setTagShowAnimation(Animation mShowAnimation) {
+        this.mShowAnimation = mShowAnimation;
+    }
+
+    public void setTagHideAnimation(Animation mHideAnimation) {
+        this.mHideAnimation = mHideAnimation;
+    }
+
     public int getRootWidth() {
         return mRootWidth;
     }
@@ -629,5 +638,16 @@ public class InstaTag extends RelativeLayout {
         mLikeImage.setColorFilter(color);
     }
 
+    public void setTagTextColor(int mTagTextColor) {
+        this.mTagTextColor = mTagTextColor;
+    }
+
+    public void setTagBackgroundColor(int mTagBackgroundColor) {
+        this.mTagBackgroundColor = mTagBackgroundColor;
+    }
+
+    public void setCarrotTopBackGroundColor(int mCarrotTopBackGroundColor) {
+        this.mCarrotTopBackGroundColor = mCarrotTopBackGroundColor;
+    }
 }
 

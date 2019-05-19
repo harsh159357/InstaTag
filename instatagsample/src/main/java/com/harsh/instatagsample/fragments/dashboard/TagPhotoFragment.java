@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.harsh.instatag.InstaTag;
-import com.harsh.instatag.TagImageView;
+import com.harsh.instatag.SquareImageView;
 import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
 import com.harsh.instatagsample.adapters.UserAdapter;
@@ -91,8 +91,8 @@ public class TagPhotoFragment extends Fragment implements UserClickListener, Vie
         instaTag.setTaggedPhotoEvent(photoEvent);
 
         final TextView cancelTextView = rootView.findViewById(R.id.cancel);
-        final TagImageView doneImageView = rootView.findViewById(R.id.done);
-        final TagImageView backImageView = rootView.findViewById(R.id.get_back);
+        final SquareImageView doneImageView = rootView.findViewById(R.id.done);
+        final SquareImageView backImageView = rootView.findViewById(R.id.get_back);
 
         recyclerViewUsers = rootView.findViewById(R.id.rv_some_one_to_be_tagged);
         tapPhotoToTagUser = rootView.findViewById(R.id.tap_photo_to_tag_someone);

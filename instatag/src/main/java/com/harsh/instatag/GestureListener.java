@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.harsh.instatag;
@@ -19,7 +20,7 @@ package com.harsh.instatag;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-public interface TagGestureListener extends GestureDetector.OnGestureListener,
+public interface GestureListener extends GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
 
     boolean onDown(MotionEvent e);

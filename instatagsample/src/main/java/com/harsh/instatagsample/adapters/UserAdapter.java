@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,13 +32,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.harsh.instatagsample.R;
+import com.harsh.instatagsample.interfaces.AppConstants;
 import com.harsh.instatagsample.interfaces.UserClickListener;
 import com.harsh.instatagsample.models.User;
 
 import java.util.List;
 
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> implements AppConstants {
 
     private final Context context;
     private final List<User> userList;
@@ -107,7 +108,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.root_user) {
+            if (v.getId() == R.id.root_user && !user.getUserName().equals(AppConstants.NO_USER_FOUND)) {
                 userClickListener.onUserClick(user, getAdapterPosition());
             }
         }

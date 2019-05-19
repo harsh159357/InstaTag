@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2017 Harsh Sharma
+  ~ Copyright 2019 Harsh Sharma
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
+  ~
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,9 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:canWeAddTags="false"
+        app:hideAnimation="@anim/bounce_up"
         app:instaTextColor="@android:color/white"
         app:likeColor="@android:color/white"
-        app:likeSize="@dimen/dp256" />
+        app:likeSize="@dimen/dp150"
+        app:showAnimation="@anim/bounce_down" />
 
 
     <ImageView
@@ -38,15 +41,17 @@
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/dp25"
         android:background="@drawable/ic_tag_badge"
+        android:scaleType="fitXY"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/tag_heart"
-        android:layout_width="@dimen/dp40"
-        android:layout_height="@dimen/dp40"
+        android:layout_width="@dimen/dp50"
+        android:layout_height="@dimen/dp50"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/dp25"
         android:background="@drawable/ic_like"
+        android:scaleType="fitXY"
         tools:ignore="ContentDescription" />
 
 </FrameLayout>

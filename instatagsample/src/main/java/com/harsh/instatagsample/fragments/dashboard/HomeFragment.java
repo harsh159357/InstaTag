@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.harsh.instatag.SquareImageView;
 import com.harsh.instatagsample.InstaTagApplication;
 import com.harsh.instatagsample.R;
+import com.harsh.instatagsample.activities.DashBoardActivity;
 import com.harsh.instatagsample.adapters.PhotoAdapter;
 import com.harsh.instatagsample.interfaces.AppConstants;
 import com.harsh.instatagsample.interfaces.PhotoClickListener;
@@ -43,9 +45,10 @@ import com.harsh.instatagsample.models.Photo;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements PhotoClickListener, AppConstants {
+public class HomeFragment extends Fragment implements PhotoClickListener, AppConstants, View.OnClickListener {
 
     private IntentFilter newPhotoTaggedIntentFilter = new IntentFilter(Events.NEW_PHOTO_IS_TAGGED);
+    private IntentFilter newConfigurationSavedIntentFilter = new IntentFilter(Events.NEW_CONFIGURATION_SAVED);
 
     private ArrayList<Photo> photos = new ArrayList<>();
     private RecyclerView recyclerViewPhotos;
@@ -54,6 +57,8 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
 
     private Handler handler;
     private ProgressDialog progressDialog;
+
+    SquareImageView configuration;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -70,6 +75,8 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         handler = new Handler();
 
+        configuration = rootView.findViewById(R.id.iv_configuration);
+        configuration.setOnClickListener(this);
         emptyContainer = rootView.findViewById(R.id.empty_container);
         photos.addAll(InstaTagApplication.getInstance().getPhotos());
         recyclerViewPhotos = rootView.findViewById(R.id.rv_photos);
@@ -94,12 +101,15 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
         super.onResume();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(newPhotoIsTagged,
                 newPhotoTaggedIntentFilter);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(newConfigurationSaved,
+                newConfigurationSavedIntentFilter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(newPhotoIsTagged);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(newConfigurationSaved);
     }
 
     private void showEmptyContainer() {
@@ -134,6 +144,31 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
         }
     };
 
+    private BroadcastReceiver newConfigurationSaved = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            showProgress(ProgressText.RELOADING);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    photoAdapter = new PhotoAdapter(photos, getContext(),
+                            HomeFragment.this,
+                            InstaTagApplication.getInstance().getTagShowAnimation(),
+                            InstaTagApplication.getInstance().getTagHideAnimation(),
+                            InstaTagApplication.getInstance().getCarrotTopColor(),
+                            InstaTagApplication.getInstance().getTagBackgroundColor(),
+                            InstaTagApplication.getInstance().getTagTextColor(),
+                            InstaTagApplication.getInstance().getLikeColor()
+                    );
+                    recyclerViewPhotos.setAdapter(photoAdapter);
+                    showEmptyContainer();
+                    dismissProgress();
+                    recyclerViewPhotos.scrollToPosition(photos.size() - 1);
+                }
+            }, CONFIGURATION_DELAY_MILLIS);
+        }
+    };
+
     private void initProgressDialog(String msg) {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setIndeterminate(true);
@@ -150,4 +185,12 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
         progressDialog.dismiss();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_configuration:
+                ((DashBoardActivity) getActivity()).showConfigurationBottomSheet();
+                break;
+        }
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.harsh.instatag;
@@ -20,16 +21,16 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
-public class TagImageView extends AppCompatImageView {
-    public TagImageView(Context context) {
+public class SquareImageView extends AppCompatImageView {
+    public SquareImageView(Context context) {
         super(context);
     }
 
-    public TagImageView(Context context, AttributeSet attrs) {
+    public SquareImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TagImageView(Context context, AttributeSet attrs, int defStyle) {
+    public SquareImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

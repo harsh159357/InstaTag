@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Harsh Sharma
+ * Copyright 2019 Harsh Sharma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +46,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final ArrayList<Photo> photos;
     private final HashSet<String> tagsShowHideHelper;
     private final PhotoClickListener photoClickListener;
+    private Animation tagShowAnimation, tagHideAnimation;
+    private int carrotTopColor, tagBackgroundColor, tagTextColor, likeColor;
 
     private RequestOptions requestOptions =
             new RequestOptions()
@@ -59,6 +63,21 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.context = context;
         this.photoClickListener = photoClickListener;
         this.tagsShowHideHelper = new HashSet<>();
+    }
+
+    public PhotoAdapter(ArrayList<Photo> photos, Context context, PhotoClickListener photoClickListener,
+                        int showAnim, int hideAnim,
+                        int carrotTopColor, int tagBackgroundColor, int tagTextColor, int likeColor) {
+        this.photos = photos;
+        this.context = context;
+        this.photoClickListener = photoClickListener;
+        this.tagsShowHideHelper = new HashSet<>();
+        this.tagShowAnimation = AnimationUtils.loadAnimation(context, showAnim);
+        this.tagHideAnimation = AnimationUtils.loadAnimation(context, hideAnim);
+        this.carrotTopColor = carrotTopColor;
+        this.tagBackgroundColor = tagBackgroundColor;
+        this.tagTextColor = tagTextColor;
+        this.likeColor = likeColor;
     }
 
     @NonNull
@@ -99,6 +118,30 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 .load(Uri.parse(photo.getImageUri()))
                 .apply(requestOptions)
                 .into(taggedPhotoViewHolder.instaTag.getTagImageView());
+
+        if (tagShowAnimation != null) {
+            taggedPhotoViewHolder.instaTag.setTagShowAnimation(tagShowAnimation);
+        }
+
+        if (tagHideAnimation != null) {
+            taggedPhotoViewHolder.instaTag.setTagHideAnimation(tagHideAnimation);
+        }
+
+        if (carrotTopColor != 0) {
+            taggedPhotoViewHolder.instaTag.setCarrotTopBackGroundColor(carrotTopColor);
+        }
+
+        if (tagBackgroundColor != 0) {
+            taggedPhotoViewHolder.instaTag.setTagBackgroundColor(tagBackgroundColor);
+        }
+
+        if (tagTextColor != 0) {
+            taggedPhotoViewHolder.instaTag.setTagTextColor(tagTextColor);
+        }
+
+        if (likeColor != 0) {
+            taggedPhotoViewHolder.instaTag.setLikeColor(likeColor);
+        }
 
         taggedPhotoViewHolder.instaTag.
                 addTagViewFromTags(photo.getTags());

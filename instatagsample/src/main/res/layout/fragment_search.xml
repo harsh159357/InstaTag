@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2017 Harsh Sharma
+  ~ Copyright 2019 Harsh Sharma
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@
             android:inputType="text"
             android:padding="10dp"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/sp18" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
