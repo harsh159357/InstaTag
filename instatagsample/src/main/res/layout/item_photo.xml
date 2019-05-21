@@ -27,11 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:canWeAddTags="false"
-        app:hideAnimation="@anim/bounce_up"
+        app:hideAnimation="@anim/zoom_out"
         app:instaTextColor="@android:color/white"
         app:likeColor="@android:color/white"
         app:likeSize="@dimen/dp150"
-        app:showAnimation="@anim/bounce_down" />
+        app:showAnimation="@anim/zoom_in" />
 
 
     <ImageView

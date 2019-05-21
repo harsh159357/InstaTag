@@ -192,7 +192,6 @@ public class ConfigurationBottomSheet extends BottomSheetDialogFragment implemen
                 .setTitle(getString(R.string.carrot_top_color))
                 .initialColor(getResources().getColor(R.color.colorPrimaryDark))
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-                .density(12)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -218,7 +217,6 @@ public class ConfigurationBottomSheet extends BottomSheetDialogFragment implemen
                 .setTitle(getString(R.string.tag_background_color))
                 .initialColor(getResources().getColor(R.color.colorPrimaryDark))
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-                .density(12)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -245,7 +243,6 @@ public class ConfigurationBottomSheet extends BottomSheetDialogFragment implemen
                 .setTitle(getString(R.string.tag_text_color))
                 .initialColor(getResources().getColor(android.R.color.white))
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-                .density(12)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -271,7 +268,6 @@ public class ConfigurationBottomSheet extends BottomSheetDialogFragment implemen
                 .setTitle(getString(R.string.like_color))
                 .initialColor(getResources().getColor(android.R.color.white))
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-                .density(12)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {

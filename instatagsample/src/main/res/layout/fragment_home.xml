@@ -41,11 +41,22 @@
             android:id="@+id/tv_insta_tag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="8"
             android:gravity="center"
             android:text="@string/app_name"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/sp22" />
+
+        <com.harsh.instatag.SquareImageView
+            android:id="@+id/iv_delete_all_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="20"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_delete_forever" />
 
         <com.harsh.instatag.SquareImageView
             android:id="@+id/iv_configuration"
@@ -54,6 +65,7 @@
             android:layout_gravity="center"
             android:layout_weight="20"
             android:clickable="true"
+            android:focusable="true"
             android:padding="5dp"
             android:src="@drawable/ic_settings_blue" />
 

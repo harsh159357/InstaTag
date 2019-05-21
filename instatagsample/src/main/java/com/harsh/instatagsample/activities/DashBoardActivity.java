@@ -55,13 +55,9 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void showConfigurationBottomSheet() {
-        if (!InstaTagApplication.getInstance().getPhotos().isEmpty()) {
-            configurationBottomSheet = new ConfigurationBottomSheet();
-            configurationBottomSheet.show(getSupportFragmentManager(),
-                    ConfigurationBottomSheet.class.getSimpleName());
-        } else {
-            Toast.makeText(this, getString(R.string.no_posts_yet), Toast.LENGTH_SHORT).show();
-        }
+        configurationBottomSheet = new ConfigurationBottomSheet();
+        configurationBottomSheet.show(getSupportFragmentManager(),
+                ConfigurationBottomSheet.class.getSimpleName());
     }
 
     @Override

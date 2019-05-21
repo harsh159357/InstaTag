@@ -20,12 +20,14 @@ package com.harsh.instatagsample.fragments.dashboard;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,6 +80,7 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
         configuration = rootView.findViewById(R.id.iv_configuration);
         configuration.setOnClickListener(this);
         emptyContainer = rootView.findViewById(R.id.empty_container);
+        rootView.findViewById(R.id.iv_delete_all_photos).setOnClickListener(this);
         photos.addAll(InstaTagApplication.getInstance().getPhotos());
         recyclerViewPhotos = rootView.findViewById(R.id.rv_photos);
 
@@ -163,7 +166,6 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
                     recyclerViewPhotos.setAdapter(photoAdapter);
                     showEmptyContainer();
                     dismissProgress();
-                    recyclerViewPhotos.scrollToPosition(photos.size() - 1);
                 }
             }, CONFIGURATION_DELAY_MILLIS);
         }
@@ -187,10 +189,34 @@ public class HomeFragment extends Fragment implements PhotoClickListener, AppCon
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_configuration:
-                ((DashBoardActivity) getActivity()).showConfigurationBottomSheet();
-                break;
+        if (!InstaTagApplication.getInstance().getPhotos().isEmpty()) {
+            switch (view.getId()) {
+                case R.id.iv_configuration:
+                    ((DashBoardActivity) getActivity()).showConfigurationBottomSheet();
+                    break;
+                case R.id.iv_delete_all_photos:
+                    showDeleteAllPhotosAlertDialog();
+                    break;
+            }
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.no_posts_yet), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void showDeleteAllPhotosAlertDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle(getString(R.string.remove_all_tagged_posts));
+        alert.setMessage(getString(R.string.are_you_sure_you_want_to_delete_all_posts));
+        alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                InstaTagApplication.getInstance().savePhotos(new ArrayList<Photo>());
+                photos.clear();
+                photoAdapter.notifyDataSetChanged();
+                showEmptyContainer();
+            }
+        });
+        alert.setNegativeButton(getString(R.string.cancel), null);
+        alert.show();
     }
 }

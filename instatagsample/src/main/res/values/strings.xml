@@ -40,4 +40,6 @@
     <string name="tag_background_color">Tag Background Color</string>
     <string name="configuration">Configuration</string>
     <string name="like_color">Like Color</string>
+    <string name="are_you_sure_you_want_to_delete_all_posts">Are you sure you want to remove all tagged posts ?</string>
+    <string name="remove_all_tagged_posts">Remove all tagged posts</string>
 </resources>
