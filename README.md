@@ -1,6 +1,6 @@
 # InstaTag (Tag & Like Photos Like Instagram)
 
-<img src="screenshots/InstaTag_Feature_Graphic.png" alt="InstaTag" width="600" height"300">
+<img src="screenshots/InstaTag_Feature_Graphic.png" alt="InstaTag" width="600" height="300">
 <br/>
 ### [Library in Action](https://youtu.be/-cPl9iPBIWE)
 
