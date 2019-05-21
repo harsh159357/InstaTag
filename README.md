@@ -1,7 +1,8 @@
 # InstaTag (Tag & Like Photos Like Instagram)
 
 <img src="screenshots/InstaTag_Feature_Graphic.png" alt="InstaTag" width="600" height="300">
-<br/>
+
+
 # [Library in Action](https://youtu.be/-cPl9iPBIWE)
 
 ## Screenshots
@@ -25,7 +26,7 @@
 <br/>
 
 
-### Overview of InstaTag
+## Overview of InstaTag
 * We can add tags to a photo like Instagram.
 * Tags can be dragged over photo to any position within photo bounds.
 * Tags can be customized in following : Text Color, Top Carrot and Tag Background or Tag Color.
@@ -36,11 +37,11 @@
 * A Sample implementation of the Library is included in [instatagsample module](https://github.com/harsh159357/InstaTag/tree/master/instatagsample)
 
 
-## Using InstaTag Library in your Android application
+## Using InstaTag Library in our Android application
 
 Library Setup
-* Import [instatag module](https://github.com/harsh159357/InstaTag/tree/master/instatag) in your project.
-* Or Use [instatag module](https://github.com/harsh159357/InstaTag/tree/master/instatag) files as per your need by copy pasting.
+* Import [instatag module](https://github.com/harsh159357/InstaTag/tree/master/instatag) in our project.
+* Or Use [instatag module](https://github.com/harsh159357/InstaTag/tree/master/instatag) files as per our need by copy pasting.
 
 After Downloading [instatag module](https://github.com/harsh159357/InstaTag/tree/master/instatag) [build.gradle](https://github.com/harsh159357/InstaTag/blob/master/instatagsample/build.gradle)
 ```groovy
@@ -49,8 +50,10 @@ After Downloading [instatag module](https://github.com/harsh159357/InstaTag/tree
 
 ### Using InstaTag While Tagging a Photo
 
-In layout file of your activity or fragment use it like this [fragment_tag_photo.xml](https://github.com/harsh159357/InstaTag/blob/a1bcb27767705b473747397142a152482dcf02ba/instatagsample/src/main/res/layout/fragment_tag_photo.xml#L100)
+In layout file of our activity or fragment use InstaTag like this [fragment_tag_photo.xml](https://github.com/harsh159357/InstaTag/blob/a1bcb27767705b473747397142a152482dcf02ba/instatagsample/src/main/res/layout/fragment_tag_photo.xml#L100)
 ```xml
+        <!-- ( Make sure canWeAddTags="true" as we are tagging photos) -->
+
         <com.harsh.instatag.InstaTag
             android:id="@+id/insta_tag"
             android:layout_width="match_parent"
@@ -61,8 +64,8 @@ In layout file of your activity or fragment use it like this [fragment_tag_photo
 Following things are customizable for InstaTag in Layout (Available Attributes) [attrs.xml](https://github.com/harsh159357/InstaTag/blob/master/instatag/src/main/res/values/attrs.xml)
 ```xml
         <attr name="canWeAddTags" format="boolean" />
-        <!--Used for restricting tag movement when you are not tagging photos.
-        (For example you are using InstaTag inside RecyclerView you have to provide false -->
+        <!--Used for restricting tag movement when we are not tagging photos.
+        (For example we are using InstaTag inside RecyclerView we have to provide false -->
         <attr name="overrideDefaultColor" format="color" />
         <!--Used to change Default Color being used for Tag Background & Tag Top Carrot-->
         <attr name="instaTextColor" format="color" />
@@ -87,7 +90,7 @@ Following things are customizable for InstaTag in Layout (Available Attributes) 
         <!--Used for setting source for like-->
 ```
 
-While using InstaTag for Tagging Photos make sure to Implement [PhotoEvent Interface](https://github.com/harsh159357/InstaTag/blob/a1bcb27767705b473747397142a152482dcf02ba/instatag/src/main/java/com/harsh/instatag/InstaTag.java#L179) in your activity or fragment
+While using InstaTag for Tagging Photos make sure to Implement [PhotoEvent Interface](https://github.com/harsh159357/InstaTag/blob/a1bcb27767705b473747397142a152482dcf02ba/instatag/src/main/java/com/harsh/instatag/InstaTag.java#L179) in our activity or fragment
 <br/>& [TagPhotoFragment.java](https://github.com/harsh159357/InstaTag/blob/master/instatagsample/src/main/java/com/harsh/instatagsample/fragments/dashboard/TagPhotoFragment.java)
 ```java
 //Referencing from Layout
@@ -99,9 +102,9 @@ instaTag.setTaggedPhotoEvent(photoEvent);
     private final InstaTag.PhotoEvent photoEvent = new InstaTag.PhotoEvent() {
 
         /*
-        Following method is called when you have tapped on anywhere inside the photo which you are tagging
-        You will be returned with x and y coordinates of the point where you tapped
-        make sure to save these coordinates temporarily as they will be used when you are done with choosing
+        Following method is called when we have tapped on anywhere inside the photo which we are tagging
+        You will be returned with x and y coordinates of the point where we tapped
+        make sure to save these coordinates temporarily as they will be used when we are done with choosing
         a user to be tagged in photo
         */
         @Override
@@ -151,8 +154,9 @@ After Initializing InstTag with PhotoEvent Listener and Capturing x & y coordina
                 KeyBoardUtil.hideKeyboard(getActivity());
 
                 /*
-                 Use addTag(x,y,uniqueId) method of InstaTag you can also see that we have
-                 used temporarily saved coordinates in from PhotoEvent overridden method
+                 Use addTag(x,y,uniqueId) method of InstaTag to add tag.
+                 You can also see that we have used temporarily saved coordinates
+                 in from PhotoEvent overridden method
                 */
                 instaTag.addTag(addTagInX, addTagInY, user.getUserName());
 
@@ -165,12 +169,91 @@ After Initializing InstTag with PhotoEvent Listener and Capturing x & y coordina
     }
 ```
 
-### :heart: Found this project useful?
+### Using InstaTag While Showing/Hiding of Tags and Using Like feature to Like Photos like Instagram
+
+Mostly when we are using the above feature we must be using some sort of list in which we show
+<br/>all the tagged photos to the user like instagram. Here is a code snippet from an Adapter[item_photo.xml](https://github.com/harsh159357/InstaTag/blob/f8757cd0aae86601ea61913c6faf29272e16203e/instatagsample/src/main/res/layout/item_photo.xml#L25)
+```xml
+
+    <!-- ( Make sure canWeAddTags="false" as we are not tagging photo or adding Tags) -->
+
+    <com.harsh.instatag.InstaTag
+        android:id="@+id/insta_tag_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:canWeAddTags="false"
+        app:hideAnimation="@anim/zoom_out"
+        app:instaTextColor="@android:color/white"
+        app:likeColor="@android:color/white"
+        app:likeSize="@dimen/dp150"
+        app:showAnimation="@anim/zoom_in" />
+
+    <!--
+        Above you can see that we have defined custom animations for tag showing and hiding.
+        Also customized likeColor and likeSize for Like feature.
+```
+
+As we have defined the InstaTag as an Item in Adapter. You can see how [PhotoAdapter.java](https://github.com/harsh159357/InstaTag/blob/master/instatagsample/src/main/java/com/harsh/instatagsample/adapters/PhotoAdapter.java)
+<br/> is showing/hiding and liking photos
+```java
+
+       /*
+            Before hiding showing make sure we have addedTags inside InstaTag
+       */
+
+       // To show tags
+       instatag.showTags();
+
+       // To hide tags
+       instatag.hideTags();
+
+       // To animate Like
+       instatag.animateLike();
+```
+
+
+While adding Tags we have used [PhotoEvent Interface](https://github.com/harsh159357/InstaTag/blob/a1bcb27767705b473747397142a152482dcf02ba/instatag/src/main/java/com/harsh/instatag/InstaTag.java#L179) in our activity or fragment & [TagPhotoFragment.java](https://github.com/harsh159357/InstaTag/blob/master/instatagsample/src/main/java/com/harsh/instatagsample/fragments/dashboard/TagPhotoFragment.java)
+<br/> same PhotoEvent Interface can be used inside adapter for like feature
+<br/> by which we can call (animateLike()) on DoubleTap and On Long Press on InstaTag
+```java
+
+//Implemented PhotoEvent
+        private InstaTag.PhotoEvent photoEvent = new InstaTag.PhotoEvent() {
+            @Override
+            public void singleTapConfirmedAndRootIsInTouch(int x, int y) {
+                // While adding tags we used this now we don't need this
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                instaTag.animateLike();
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                instaTag.animateLike();
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                instaTag.animateLike();
+            }
+        };
+```
+
+### InstaTag Tags properties and like properties can be modified at runtime too. [ConfigurationBottomSheet.java](https://github.com/harsh159357/InstaTag/blob/master/instatagsample/src/main/java/com/harsh/instatagsample/fragments/bottomsheet/ConfigurationBottomSheet.java)
+
+Make sure to check the above file in sample module for runtime properties changes.
+<br/>
+
+## :heart: Found this project useful?
 If you found this project useful, then please consider giving it a :star: on Github and sharing it with your friends via social media.
 
-### Last But not Least
-There are still some things which are pending in this project make a pull request to improve this project or suggest an idea
-to improve this project further by raising issues.
+## Last But not Least
+InstaTag is still in starting phase as it can be improved further So make a pull request to improve this linrary or suggest an idea
+to improve it further by raising issues.
 
 ### Project Maintained By
 
