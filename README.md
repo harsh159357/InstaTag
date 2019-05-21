@@ -5,6 +5,8 @@
 
 # [Library in Action](https://youtu.be/-cPl9iPBIWE)
 
+# [InstaTag Sample Apk](insta_tag_sample.apk)
+
 ## Screenshots
 
 <div id="images" style="#images {
