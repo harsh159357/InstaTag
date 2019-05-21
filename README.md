@@ -2,25 +2,25 @@
 
 <img src="screenshots/InstaTag_Feature_Graphic.png" alt="InstaTag" width="600" height="300">
 <br/>
-### [Library in Action](https://youtu.be/-cPl9iPBIWE)
+# [Library in Action](https://youtu.be/-cPl9iPBIWE)
 
 ## Screenshots
 
 <div id="images" style="#images {
     white-space: nowrap;
 }">
-<img src="screenshots/home_tab.png" alt="Home Tab" width="300" height="300">
-<img src="screenshots/tag_photo_tab.png" alt="Tag Photo Tab" width="300" height="300">
-<img src="screenshots/search_user_tab.png" alt="Search User Tab" width="300" height="300">
+<img src="screenshots/home_tab.png" alt="Home Tab" width="200" height="300">
+<img src="screenshots/tag_photo_tab.png" alt="Tag Photo Tab" width="200" height="300">
+<img src="screenshots/search_user_tab.png" alt="Search User Tab" width="200" height="300">
 </div>
 <br/>
 
 <div id="images" style="#images {
     white-space: nowrap;
 }">
-<img src="screenshots/photo_with_tags.png" alt="Photo With Tags" width="300" height="300">
-<img src="screenshots/photo_with_like.png" alt="Photo With Like" width="300" height="300">
-<img src="screenshots/configuration.png" alt="Configuration" width="300" height="300">
+<img src="screenshots/photo_with_tags.png" alt="Photo With Tags" width="200" height="300">
+<img src="screenshots/photo_with_like.png" alt="Photo With Like" width="200" height="300">
+<img src="screenshots/configuration.png" alt="Configuration" width="200" height="300">
 </div>
 <br/>
 
