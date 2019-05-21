@@ -18,17 +18,18 @@
 <resources>
     <declare-styleable name="InstaTag">
         <attr name="canWeAddTags" format="boolean" />
-        <!--Used for restricting tag movement inside RecyclerView-->
+        <!--Used for restricting tag movement when you are not tagging photos.
+        (For example you are using InstaTag inside RecyclerView you have to provide false -->
         <attr name="overrideDefaultColor" format="color" />
-        <!--Used for changing default color for tag backGround and carrots-->
+        <!--Used to change Default Color being used for Tag Background & Tag Top Carrot-->
         <attr name="instaTextColor" format="color" />
-        <!--Used for changing InstaTag text Color-->
+        <!--Used for changing Tag text Color-->
         <attr name="instaBackgroundColor" format="color" />
-        <!--Used for changing background color for tag background-->
+        <!--Used for changing background color for Tag background-->
         <attr name="carrotTopColor" format="color" />
-        <!--Used for changing top carrot color-->
+        <!--Used for changing Top Carrot color-->
         <attr name="tagTextBackground" format="reference" />
-        <!--Used for changing tag background-->
+        <!--Used for changing tag background with custom background -->
         <attr name="carrotTopBackground" format="reference" />
         <!--Used for replacing top carrot background with custom background-->
         <attr name="hideAnimation" format="reference" />
