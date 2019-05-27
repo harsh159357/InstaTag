@@ -8,7 +8,7 @@
 # [InstaTag Sample Apk](insta_tag_sample.apk)
 
 
-	[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-InstaTag-blue.svg?style=flat)](https://android-arsenal.com/details/1/7689) [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-InstaTag-blue.svg?style=flat)](https://android-arsenal.com/details/1/7689) [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
 
 ## Screenshots
 
